@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Rohe Shapefiles (zu groß / lizenzrechtlich)
+EuropeanBorders_WWII/
+SSCampDataset/
+stanford_monthly/
+*.shp
+*.dbf
+*.shx
+*.prj
+*.sbn
+*.sbx
+*.cpg
+*.qpj
+
+# Persönliche Dokumente (Bundesarchiv, privat)
+*.pdf
+
+# Alte/veraltete Dateien
+stanford_borders_all.geojson.bak

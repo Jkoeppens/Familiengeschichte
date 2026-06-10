@@ -1,0 +1,31 @@
+{
+  "quelle": "Tessin, Georg: Verbände und Truppen der deutschen Wehrmacht und Waffen-SS 1939–1945, Bd. 4, S. 133–146",
+  "einheit": "20. Infanterie-Division (mot.) / 20. Panzergrenadier-Division (ab 23.06.1943)",
+  "anmerkung": "Diese Tabelle beschreibt Einheitsstandorte, nicht individuelle Standorte Koppermanns. Koordinaten sind Zentroide des jeweiligen Operationsgebiets.",
+  "unterstellungen": [
+    { "datum": "1939-09", "korps": "XIX. AK",      "armee": "4. Armee",    "hgr": "Nord",          "ort": "Polen (Narew-Überschreitung)",            "lat": 52.8,  "lon": 21.5  },
+    { "datum": "1939-10", "korps": "XVI. AK",       "armee": "6. Armee",    "hgr": "B",             "ort": "Westen, Eifel (Wartestellung)",           "lat": 50.3,  "lon": 6.5   },
+    { "datum": "1940-05", "korps": "XXXXL. AK",     "armee": "12. Armee",   "hgr": "A",             "ort": "Belgien / Dyle-Stellung (Fall Gelb)",     "lat": 50.85, "lon": 4.35  },
+    { "datum": "1940-06", "korps": "XXXXL. AK",     "armee": "12. Armee",   "hgr": "A",             "ort": "Frankreich (Fall Rot, Champagne)",        "lat": 49.0,  "lon": 4.5   },
+    { "datum": "1940-07", "korps": "XIV. AK",        "armee": "2. Armee",    "hgr": "C",             "ort": "Frankreich (Besatzungstruppe)",           "lat": 47.5,  "lon": 1.5   },
+    { "datum": "1941-06", "korps": "XXXIX. AK",     "armee": "3. Pz.Gruppe", "hgr": "Mitte",        "ort": "Osten, Białystok / Minsk (Barbarossa)",  "lat": 53.9,  "lon": 27.6  },
+    { "datum": "1941-08", "korps": "XXXIX. AK",     "armee": "16. Armee",   "hgr": "Nord",          "ort": "Osten, Ladogasee / Tichwin",             "lat": 59.6,  "lon": 33.5  },
+    { "datum": "1941-10", "korps": "I. AK",          "armee": "18. Armee",   "hgr": "Nord",          "ort": "Osten, Wolchow / Tschudowo",             "lat": 59.1,  "lon": 31.7  },
+    { "datum": "1942-07", "korps": "I. AK",          "armee": "16. Armee",   "hgr": "Nord",          "ort": "Osten, Staraja Russa",                    "lat": 57.98, "lon": 31.35 },
+    { "datum": "1942-09", "korps": "XXXVII. AK",    "armee": "18. Armee",   "hgr": "Nord",          "ort": "Osten, Wolchow",                          "lat": 59.1,  "lon": 31.7  },
+    { "datum": "1942-12", "korps": "LIX. AK",        "armee": "3. Pz.Armee", "hgr": "Mitte",        "ort": "Osten, Welish (Westliche Dwina)",         "lat": 55.6,  "lon": 31.2  },
+    { "datum": "1943-06", "korps": "XXXXII. AK",    "armee": "3. Pz.Armee", "hgr": "Mitte",        "ort": "Osten, Welish",                           "lat": 55.6,  "lon": 31.2  },
+    { "datum": "1943-07", "korps": "LIII. AK",       "armee": "2. Pz.Armee", "hgr": "Mitte",        "ort": "Osten, Orel (Nordflügel Kursker Bogen)", "lat": 52.97, "lon": 36.07 },
+    { "datum": "1943-09", "korps": "XII. AK",        "armee": "9. Armee",    "hgr": "Mitte",        "ort": "Osten, Brjansk (Rückzug)",                "lat": 53.25, "lon": 34.4  },
+    { "datum": "1943-10", "korps": "XXXXVIII. Pz.AK","armee": "8. Armee",   "hgr": "Süd",           "ort": "Osten, Dnjepr",                           "lat": 49.0,  "lon": 32.0  },
+    { "datum": "1943-11", "korps": "VII. AK",        "armee": "4. Pz.Armee", "hgr": "Süd",          "ort": "Osten, Dnjepr / Kiew",                    "lat": 50.0,  "lon": 30.5  },
+    { "datum": "1943-12", "korps": "XXXXII. AK",    "armee": "4. Pz.Armee", "hgr": "Süd",          "ort": "Osten, Shitomir",                         "lat": 50.25, "lon": 28.67 },
+    { "datum": "1944-01", "korps": "XXIV. Pz.AK",   "armee": "4. Pz.Armee", "hgr": "Süd",          "ort": "Osten, Winniza",                          "lat": 49.23, "lon": 28.47 },
+    { "datum": "1944-03", "korps": "XXIV. Pz.AK",   "armee": "1. Pz.Armee", "hgr": "Süd",          "ort": "Osten, Kamenez-Podolsk (Hube-Kessel)",   "lat": 48.68, "lon": 26.58 },
+    { "datum": "1944-04", "korps": "LIX. AK",        "armee": "1. Pz.Armee", "hgr": "Nordukraine",  "ort": "Osten, Kamenez-Podolsk",                  "lat": 48.68, "lon": 26.58 },
+    { "datum": "1944-05", "korps": "z.Vfg.",          "armee": "1. Pz.Armee", "hgr": "Nordukraine",  "ort": "Osten, Brody / Lemberg (OKH-Reserve)",   "lat": 49.84, "lon": 24.03 },
+    { "datum": "1944-08", "korps": "III. AK",         "armee": "4. Pz.Armee", "hgr": "Nordukraine",  "ort": "Osten, Baranow / Weichsel",               "lat": 50.5,  "lon": 21.52 },
+    { "datum": "1944-09", "korps": "XXXXVIII. Pz.AK","armee": "4. Pz.Armee", "hgr": "Nordukraine/A","ort": "Osten, Baranow / Weichsel",               "lat": 50.5,  "lon": 21.52 },
+    { "datum": "1944-12", "korps": "z.Vfg.",          "armee": null,           "hgr": "A",             "ort": "Osten, Kielce / Weichselbogen",           "lat": 50.87, "lon": 20.63 }
+  ]
+}

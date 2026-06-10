@@ -1,0 +1,157 @@
+{
+  "person": {
+    "name": "Koppermann, Hans-Jürgen",
+    "geboren": "1917-09-02",
+    "geburtsort": "Hannover"
+  },
+  "einheitsmeldungen": [
+    {
+      "quelle": "Bundesarchiv PA 2 2021/G-12837",
+      "einheit": "1. Kompanie Nachrichten-Abteilung 20",
+      "signatur": "B 563/40425",
+      "jahr": 1939,
+      "ort_bekannt": false
+    },
+    {
+      "quelle": "Bundesarchiv PA 2 2021/G-12837",
+      "einheit": "1. Kompanie Nachrichten-Abteilung 20",
+      "signatur": "B 563/40425",
+      "jahr": 1942,
+      "ort_bekannt": false
+    },
+    {
+      "quelle": "Bundesarchiv PA 2 2021/G-12837",
+      "einheit": "Stamm-Kompanie Nachrichten-Ersatz-Abteilung 20",
+      "signatur": "B 563/40291",
+      "jahr": 1942,
+      "ort_bekannt": true,
+      "ort": "Hamburg",
+      "lat": 53.57,
+      "lon": 10.0,
+      "anmerkung": "N.E.A. 20 = Ersatztruppe, Heimatstandort Hamburg WK X"
+    },
+    {
+      "quelle": "Bundesarchiv PA 2 2021/G-12837",
+      "einheit": "Genesenden-Kompanie Nachrichten-Ersatz-Abteilung 20",
+      "signatur": "B 563/40300",
+      "jahr": 1942,
+      "ort_bekannt": true,
+      "ort": "Hamburg",
+      "lat": 53.57,
+      "lon": 10.0,
+      "anmerkung": "Genesenden-Kompanie = nach Lazarett, noch nicht frontfähig. Mindestens zwei aufeinanderfolgende Genesenden-Einheiten in 1942 deuten auf längere Rekonvaleszenz hin."
+    },
+    {
+      "quelle": "Bundesarchiv PA 2 2021/G-12837",
+      "einheit": "1. Genesenden-Kompanie Nachrichten-Ersatz-Abteilung 20",
+      "signatur": "B 563/40302",
+      "jahr": 1942,
+      "ort_bekannt": true,
+      "ort": "Hamburg",
+      "lat": 53.57,
+      "lon": 10.0
+    },
+    {
+      "quelle": "Bundesarchiv PA 2 2021/G-12837",
+      "einheit": "11. Kompanie Infanterie-Regiment 90",
+      "signatur": "B 563/72634",
+      "jahr": 1943,
+      "ort_bekannt": false,
+      "anmerkung": "I.R. 90 gehört zur 20. Inf.Div.(mot.), ab 23.06.1943 Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div."
+    },
+    {
+      "quelle": "Bundesarchiv PA 2 2021/G-12837",
+      "einheit": "1. Marsch-Kompanie Grenadier-Ersatz-Bataillon 76",
+      "signatur": "B 563/61533",
+      "jahr": 1943,
+      "ort_bekannt": true,
+      "ort": "Hamburg-Rahlstedt",
+      "lat": 53.6,
+      "lon": 10.13,
+      "anmerkung": "Marsch-Kompanie = Transport zur Front, kein Kampfeinsatz"
+    },
+    {
+      "quelle": "Bundesarchiv PA 2 2021/G-12837",
+      "einheit": "Marsch-Kompanie Grenadier-Ersatz-Bataillon (mot.) 90",
+      "signatur": "B 563/61771",
+      "jahr": 1943,
+      "ort_bekannt": true,
+      "ort": "Hamburg-Wandsbek",
+      "lat": 53.57,
+      "lon": 10.08,
+      "anmerkung": "Ersatztruppenstandort für Pz.Gren.Rgt. 90"
+    }
+  ],
+  "wast_ereignisse": [
+    {
+      "quelle": "WASt-Karte I, B 563-1 KARTEI/K-1458/033",
+      "typ": "verwundung",
+      "datum": "1943-08-28",
+      "ort": "Gorki, ca. 35 km südöstlich Ilija, Oblast Minsk",
+      "lat": 54.02,
+      "lon": 27.1,
+      "diagnose": "Granatsplitter-Verwundung Hals und rechtes Ohr",
+      "einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "beleg": "Meldung I (eingeg. 20.04.1944): 'Gorki etwa 35 km südostw. Illüja — leicht verw.: A.G. re. Ohr'"
+    },
+    {
+      "quelle": "WASt-Karte I, Meldungen 1–4",
+      "typ": "lazarett",
+      "datum_von": "1943-08-29",
+      "datum_bis": "1943-09-07",
+      "ort": "Kriegslazarett 3/605 / Radom (Polen)",
+      "lat": 51.4,
+      "lon": 21.15,
+      "einheit": null,
+      "beleg": "Meldungen 1–4 (eingeg. 27.03.1944): Krgsz. 3/605, Lkb. 3567; Rela. Radom, Lkb. 23787. Verlegt mit Lazarettzug 06.09.1943."
+    },
+    {
+      "quelle": "WASt-Karte I, Meldungen 5–8",
+      "typ": "lazarett",
+      "datum_von": "1943-10-21",
+      "datum_bis": "1943-11-20",
+      "ort": "Bürgerhospital / Reserve-Lazarett I Trier",
+      "lat": 49.75,
+      "lon": 6.64,
+      "einheit": null,
+      "beleg": "Meldungen 6–8 (eingeg. 27.03.1944): Rela. Trier, Bürgerhospital, Lkb. 377. Zweifache Relazarettierung in Trier."
+    },
+    {
+      "quelle": "WASt-Karte I, Meldung II",
+      "typ": "lazarett",
+      "datum_von": "1943-11-21",
+      "datum_bis": "1944-03-15",
+      "ort": "Reserve-Lazarett III Marburg/Lahn, Ohrenklinik",
+      "lat": 50.81,
+      "lon": 8.77,
+      "einheit": null,
+      "beleg": "Meldung II (eingeg. 24.10.1944): 'Res. Laz. III Marburg/Lahn, Ohrenklinik, Lkb. 364'. Zugang von Res.Laz. I Trier."
+    },
+    {
+      "quelle": "WASt-Karte I, Meldung II",
+      "typ": "entlassung",
+      "datum": "1944-03-15",
+      "ort": "Hamburg-Wandsbek — Grenadier-Ersatz-Bataillon 90",
+      "lat": 53.57,
+      "lon": 10.08,
+      "einheit": "Grenadier-Ersatz-Bataillon 90",
+      "beleg": "Meldung II: 'Abg. a. 15.3.44, Abg. Gren.Ers.Btl. 90, Hamburg-Wandsbek'"
+    },
+    {
+      "quelle": "WASt-Karte II, Eintrag 25.07.1986",
+      "typ": "vermisst",
+      "datum": "1945-01-13",
+      "ort": "Weichselbogen, Raum Kielce (Polen)",
+      "lat": 50.87,
+      "lon": 20.63,
+      "einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "beleg": "Karte II: 'Ausw.: 13.1.45 vermisst.' Lt. Vorl.-Meldg. Bd. A 620, eingesandt 19.07.1984 vom B.R./Z.N.S.",
+      "anmerkung": "Sowjetische Weichsel-Oder-Offensive beginnt 12.01.1945. Familienüberlieferung: Schussverletzung, Lafettentransport, Wundbrand, Beinverlust."
+    }
+  ],
+  "dienstgrad": [
+    { "grad": "Zugführer", "abk": "Zgf.", "datum": null },
+    { "grad": "Unteroffizier", "abk": "Uffz.", "datum": null },
+    { "grad": "Leutnant der Reserve", "abk": "Lt. d.R.", "datum": "1944-11-09", "beleg": "B.D.R. = Beförderungsdatum der Reserve" }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "person": "Koppermann, Hans-Jürgen, geb. 02.09.1917",
+  "quellen": [
+    "Bundesarchiv B 563-1 KARTEI/K-1458/033 (WASt-Karteikarten I und II)",
+    "Bundesarchiv-Auskunftsschreiben PA 2 2021/G-12837, 12.04.2023",
+    "Georg Tessin: Verbände und Truppen der deutschen Wehrmacht und Waffen-SS 1939–1945, Bd. 4, S. 133–135 und 144–146"
+  ],
+
+  "einheiten": [
+
+    {
+      "id": "NA20",
+      "bezeichnung": "Nachrichten-Abteilung 20 (1. Kompanie)",
+      "typ": "Divisionstruppe, Nachrichtentruppe (Heer)",
+      "zugehörigkeit": "20. Infanterie-Division (mot.)",
+      "heimatgarnison": "Hamburg-Wandsbek",
+      "quelle_tessin": "Bd. 4, S. 155: 'Nachrichten-Abt. 20, 15.10.1935, FStO Hamburg-Wandsbek, WK X. U: 20. Inf.Div.(mot.), 20. Pz.Gren.Div. E: 20 Hamburg, WK X'",
+      "koppermann_dabei": "1939 und 1942",
+      "funktion_allgemein": "Sicherstellung der Führungskommunikation der Division: Feldtelefon, Funk, Fernschreiber. Operierte im Divisionsstab-Bereich, hinter der Frontlinie aber in Reichweite von Artilleriefeuer.",
+      "einsatzgebiete_nach_tessin": {
+        "1939": "Pommern, Polen (XIX. AK, 4. Armee, Hgr. Nord)",
+        "1940": "Eifel, Belgien, Frankreich (Champagne, dann Besatzung)",
+        "1941_sommer": "Białystok, Minsk (XXXIX. AK, 3. Pz.Gruppe, Hgr. Mitte)",
+        "1941_herbst_winter": "Nordrussland: Tichwin, Wolchow (XXXIX. AK, 16. Armee, Hgr. Nord)",
+        "1942": "Wolchow (I. AK, 18. Armee), dann Staraja Russa, dann Welish (Hgr. Mitte)"
+      }
+    },
+
+    {
+      "id": "NEA20_Stamm",
+      "bezeichnung": "Stamm-Kompanie, Nachrichten-Ersatz-Abteilung 20",
+      "typ": "Ersatztruppe, Heimat",
+      "zugehörigkeit": "Wehrkreis X, Hamburg",
+      "quelle_tessin": "Bd. 4, S. 155: 'Nachrichten-Ers.Abt. 20, * 26.8.1939 in Hamburg, WK X; 1.10.1942 geteilt in Ers.Abt. und Ausb.Abt., beide in Hamburg. U: Div. 160; 10.6.1940 Kdr. d. Nachrichtentruppen X'",
+      "koppermann_dabei": "1942",
+      "funktion_allgemein": "Heimatstandort: Ausbildung, Ersatzgestellung, Verwaltung. Kein Fronteinsatz.",
+      "standort": "Hamburg"
+    },
+
+    {
+      "id": "NEA20_Genes",
+      "bezeichnung": "Genesenden-Kompanie / 1. Genesenden-Kompanie, Nachrichten-Ersatz-Abteilung 20",
+      "typ": "Genesenden-Einheit, Heimat",
+      "zugehörigkeit": "Wehrkreis X, Hamburg",
+      "koppermann_dabei": "1942",
+      "funktion_allgemein": "Auffanglager für Verwundete und Erkrankte nach Lazarettentlassung, noch nicht frontfähig. Kein Fronteinsatz.",
+      "standort": "Hamburg",
+      "anmerkung": "Zwei aufeinanderfolgende Genesenden-Einheiten 1942 deuten auf längere Rekonvaleszenz hin — mögliche erste undokumentierte Verwundung oder schwere Erkrankung vor der belegten Ohr-Verwundung 1943"
+    },
+
+    {
+      "id": "IR90_PGR90",
+      "bezeichnung": "11. Kompanie, Infanterie-Regiment 90 (ab 23.06.1943: Panzergrenadier-Regiment 90)",
+      "typ": "Kampftruppe, Infanterie / Panzergrenadier (Heer)",
+      "zugehörigkeit": "20. Infanterie-Division (mot.) → ab 23.06.1943: 20. Panzergrenadier-Division",
+      "heimatgarnison": "Hamburg-Wentorf",
+      "quelle_tessin": "Bd. 4, S. 145: 'Inf.Rgt.(mot.) 90, Hamburg-Wentorf, I.–III.' / 'Am 23. Juli 1943 wurde die 20. Inf.Div.(mot.) in 20. Pz.Gren.Div. umbenannt [...] Am 1.12.1944 erhielten die beiden Gren.Rgt.(mot.) die Bezeichnung Pz.Gren.Rgt.: Pz.Gren.Rgt. 76 [...] Pz.Gren.Rgt. 90'",
+      "koppermann_dabei": "1943",
+      "funktion_allgemein": "Kernkampfeinheit der Division. Panzergrenadiere kämpften als motorisierte Infanterie in direkter Zusammenarbeit mit Panzern. 11. Kompanie = III. Bataillon (Kp. 10–12).",
+      "einsatzgebiete_nach_tessin": {
+        "1943_juni_juli": "Welish (XXXXII. AK, 3. Pz.Armee, Hgr. Mitte)",
+        "1943_august": "Orel (LIII. AK, 2. Pz.Armee, Hgr. Mitte) — Koppermann verwundet 28.08.1943 bei Gorki, ca. 35 km südöstlich Ilija",
+        "1943_september": "Brjansk (XII. AK, 9. Armee, Hgr. Mitte)",
+        "1943_oktober": "Dnjepr (XXXXVIII. AK, 8. Armee, Hgr. Süd)",
+        "1943_november": "Dnjepr (VII. AK, 4. Pz.Armee, Hgr. Süd)",
+        "1943_dezember": "Shitomir (XXXXII. AK, 4. Pz.Armee, Hgr. Süd)"
+      }
+    },
+
+    {
+      "id": "GEB76",
+      "bezeichnung": "1. Marsch-Kompanie, Grenadier-Ersatz-Bataillon 76",
+      "typ": "Ersatz/Marscheinheit, Heimat",
+      "zugehörigkeit": "Wehrkreis X — Ersatztruppenkörper für Pz.Gren.Rgt. 76 / 20. Pz.Gren.Div.",
+      "quelle_tessin": "Bd. 4, S. 146: 'G: 1943: GAB (mot.) mit GEB 76 Hbg.-Rahlstedt, 90 Hbg.-Wandsbek'",
+      "koppermann_dabei": "1943 (nach Lazarettentlassung)",
+      "funktion_allgemein": "Marsch-Kompanien transportierten Ersatzmannschaften von der Heimat zur Front. Kein eigenständiger Kampfeinsatz.",
+      "standort": "Hamburg-Rahlstedt"
+    },
+
+    {
+      "id": "GEB90_mot",
+      "bezeichnung": "Marsch-Kompanie, Grenadier-Ersatz-Bataillon (motorisiert) 90",
+      "typ": "Ersatz/Marscheinheit, Heimat",
+      "zugehörigkeit": "Wehrkreis X — Ersatztruppenkörper für Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "quelle_tessin": "Bd. 4, S. 146: 'GEB [...] 90 Hbg.-Wandsbek'",
+      "koppermann_dabei": "1943–1944",
+      "funktion_allgemein": "Motorisierte Marscheinheit für Frontersatz. Ersatztruppenkörper für sein eigenes Regiment (PGR 90).",
+      "standort": "Hamburg-Wandsbek",
+      "anmerkung": "Laut Karte I wird Koppermann am 15.03.1944 aus dem Res.Laz. III Marburg entlassen und dem Gren.Ers.Btl. 90, Hamburg-Wandsbek übergeben"
+    },
+
+    {
+      "id": "PGR90_20PGD_1944_45",
+      "bezeichnung": "Panzergrenadier-Regiment 90 / 20. Panzergrenadier-Division (1944–1945)",
+      "typ": "Kampftruppe, Panzergrenadier (Heer)",
+      "zugehörigkeit": "20. Panzergrenadier-Division",
+      "quelle_tessin": "Bd. 4, S. 145–146",
+      "koppermann_dabei": "Frühjahr 1944 bis 13.01.1945 (als vermisst gemeldet)",
+      "einsatzgebiete_nach_tessin": {
+        "1944_januar_februar": "Winniza (XXIV. Pz.AK, 4. Pz.Armee, Hgr. Süd)",
+        "1944_maerz": "Kamenez-Podolsk — Hube-Kessel (XXIV. Pz.AK, 1. Pz.Armee, Hgr. Süd)",
+        "1944_april": "Kamenez-Podolsk (LIX. AK, 1. Pz.Armee, Hgr. Nordukraine)",
+        "1944_mai_juli": "Brody — Auffrischung (z.Vfg., 1. Pz.Armee, Hgr. Nordukraine)",
+        "1944_august_november": "Baranow / Weichsel (III. AK bzw. XXXXVIII. Pz.AK, 4. Pz.Armee, Hgr. Nordukraine / A)",
+        "1944_dezember": "Baranow / Weichsel, Auffrischung bei Kielce (z.Vfg., Hgr. A)",
+        "1945_januar": "Weichselbogen — Verteidigung Kielce (z.Vfg., Hgr. A) — Sowjetische Weichsel-Oder-Offensive beginnt 12.01.1945. Koppermann am 13.01.1945 als vermisst gemeldet.",
+        "1945_februar_maerz": "Schlesien (GD-Korps, 4. Pz.Armee, Hgr. Mitte)",
+        "1945_april": "Oder (XI. SS-AK, 9. Armee, Hgr. Mitte)"
+      },
+      "anmerkung": "Koppermann war mit hoher Wahrscheinlichkeit bei der Verteidigung des Weichselbogens (Raum Kielce/Baranow) als die sowjetische Weichsel-Oder-Offensive am 12.01.1945 begann. Die Familienüberlieferung 'am Weichselbogen' deckt sich exakt mit Tessin."
+    }
+
+  ],
+
+  "hohenstaufen_fehler": {
+    "status": "GEKLÄRT — Transkriptionsfehler in WASt-Karte II",
+    "eintrag_original": "15.11.60: 'In 44. Pz.Gren.Rgt. 19 / 4. 44-Pz.-Div. Hohenstaufen — keine Verl.-Meldg. — Abt.-Formbl. (POW) liegt nicht vor'",
+    "rekonstruktion_lesefehler": "WASt-Sachbearbeiter (1960) las 'Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.' aus einer unleserlichen Vorlage. Die '20' wurde als '44' fehlgelesen (Verwechslung der Ziffer 2 mit 4 in alter Handschrift), die '90' blieb als Rgt.-Nr. zunächst stehen, wurde aber durch die falsche Divisionsnummer inkonsistent. Der Sachbearbeiter suchte dann nach einer Division mit einem Pz.Gren.Rgt. Nr. 19 und landete bei der 9. SS-Panzerdivision 'Hohenstaufen', deren SS-Pz.Gren.Rgt. tatsächlich die Nr. 19 trägt.",
+    "widerlegung_durch_tessin": "Tessin Bd. 4, S. 146: Die 20. Pz.Gren.Div. stand im Januar 1945 am 'Weichselbogen' (Hgr. A). Die 9. SS-Pz.Div. 'Hohenstaufen' war zu diesem Zeitpunkt in den Ardennen/Belgien (Ardennenoffensive, abgezogen 24.01.1945). Koppermann wird am 13.01.1945 als vermisst gemeldet — zeitlich und geographisch nur mit der 20. Pz.Gren.Div. vereinbar.",
+    "übereinstimmung_familienüberlieferung": "Die Familiengeschichte 'Weichselbogen' stimmt exakt mit dem Tessin-Eintrag für die 20. Pz.Gren.Div. im Januar 1945 überein und widerlegt die Hohenstaufen-Zuordnung zusätzlich."
+  },
+
+  "gesamtbild_biografie": {
+    "1939": "Polenfeldzug als Nachrichtensoldat der 20. Inf.Div.(mot.), Hamburg-Wandsbek",
+    "1940": "Westfeldzug: Eifel, Belgien, Frankreich (Champagne); danach Besatzungstruppe",
+    "1941": "Russlandfeldzug: Białystok, Minsk, dann Hgr. Nord: Tichwin, Wolchow",
+    "1942": "Wolchow-Front, Staraja Russa, Welish; zwischenzeitlich Heimat (Genesenden-Kompanie Hamburg) — mögliche erste Verwundung/Erkrankung",
+    "1943_fruehjahr_sommer": "Zurück an der Front mit IR/PGR 90 bei Welish, dann Orel (Kursk-Umfeld)",
+    "1943_august_28": "Verwundet bei Gorki (ca. 35 km südöstlich Ilija, Oblast Minsk): Granatsplitter Hals und rechtes Ohr",
+    "1943_herbst_winter": "Lazarettreise: Kriegslazarett → Radom → Trier (Bürgerhospital, Res.Laz.I) → Marburg (Res.Laz.III, Ohrenklinik)",
+    "1944_maerz_15": "Entlassung aus Res.Laz. III Marburg, übergeben an Gren.Ers.Btl. 90, Hamburg-Wandsbek",
+    "1944_fruehjahr_herbst": "Rückkehr zur 20. Pz.Gren.Div. / PGR 90: Kamenez-Podolsk (Hube-Kessel), Rückzug, Weichsel/Baranow",
+    "1945_januar_12_13": "Sowjetische Weichsel-Oder-Offensive beginnt 12.01.1945. Koppermann am 13.01.1945 als vermisst gemeldet. Ort: Weichselbogen (Raum Kielce). Familienüberlieferung: Schussverletzung, Lafettentransport, Wundbrand, Beinverlust.",
+    "beinverlust": "Nicht in WASt-Karten dokumentiert. Krankenbuchlager nicht durchsucht (Bundesarchiv PA). Zeitlich: 13.01.1945 oder unmittelbar danach, Weichselbogen."
+  }
+}

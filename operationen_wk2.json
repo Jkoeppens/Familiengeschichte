@@ -1,0 +1,475 @@
+{
+  "meta": {
+    "beschreibung": "Operationen und Schlachten des Zweiten Weltkriegs, relevant für den Kriegsweg Hans-Jürgen Koppermanns. Koordinaten sind Zentroide des jeweiligen Kampfgebiets, nicht exakte Frontlinien.",
+    "koppermann_einheiten": [
+      "N.A. 20 / 20. Inf.Div.(mot.) — 1939–1942",
+      "I.R. 90 / Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div. — 1943–1945"
+    ],
+    "quellen": [
+      "Tessin, Verbände und Truppen, Bd. 4",
+      "Wikipedia: Deutsch-Sowjetischer Krieg — Bedeutende Operationen",
+      "Lexikon der Wehrmacht",
+      "WASt-Karteikarten B 563-1 KARTEI/K-1458/033"
+    ],
+    "legende_koppermann": {
+      "ja": "Koppermanns Einheit war nachweislich in diesem Kampfraum",
+      "nahe": "Koppermanns Einheit war in der Region, direkte Beteiligung an dieser Operation unsicher",
+      "nein": "Koppermann nicht dabei — Kontext/Parallelgeschehen",
+      "lazarett": "Koppermann war zu diesem Zeitpunkt im Lazarett"
+    }
+  },
+  "operationen": [
+
+    {
+      "id": "POL-1939",
+      "name": "Polenfeldzug (Fall Weiß)",
+      "datum_von": "1939-09-01",
+      "datum_bis": "1939-10-06",
+      "ort": "Polen",
+      "zentroid": { "lat": 52.2, "lon": 20.0 },
+      "beschreibung": "Deutscher Angriff auf Polen. Beginn des Zweiten Weltkriegs. Schneller Zusammenbruch der polnischen Verteidigung durch koordinierte Panzerstöße aus Norden, Westen und Süden.",
+      "koppermann": "ja",
+      "koppermann_einheit": "N.A. 20 / 20. Inf.Div.(mot.)",
+      "koppermann_detail": "Die 20. Inf.Div.(mot.) ist Teil des XIX. AK, 4. Armee, Hgr. Nord. Überschreitung des Narew. Koppermann als Nachrichtensoldat der N.A. 20.",
+      "typ": "feldzug"
+    },
+
+    {
+      "id": "WEST-BELGIEN-1940",
+      "name": "Westfeldzug — Belgien / Dyle-Stellung (Fall Gelb)",
+      "datum_von": "1940-05-10",
+      "datum_bis": "1940-05-28",
+      "ort": "Belgien, Niederlande",
+      "zentroid": { "lat": 50.85, "lon": 4.35 },
+      "beschreibung": "Deutscher Durchbruch durch die Ardennen und Umgehung der alliierten Hauptkräfte. Die 20. Inf.Div.(mot.) durchbricht die Dyle-Stellung.",
+      "koppermann": "ja",
+      "koppermann_einheit": "N.A. 20 / 20. Inf.Div.(mot.)",
+      "koppermann_detail": "Division im XXXXL AK, 12. Armee, Hgr. A. Durchbruch Dyle-Stellung.",
+      "typ": "feldzug"
+    },
+
+    {
+      "id": "WEST-FLANDERN-1940",
+      "name": "Flandern / Dünkirchen",
+      "datum_von": "1940-05-26",
+      "datum_bis": "1940-06-04",
+      "ort": "Nordfrankreich, belgische Küste",
+      "zentroid": { "lat": 51.03, "lon": 2.37 },
+      "beschreibung": "Einkreisung der alliierten Truppen in Flandern. Britische Evakuierung bei Dünkirchen (Operation Dynamo). 338.000 alliierte Soldaten entkommen.",
+      "koppermann": "ja",
+      "koppermann_einheit": "N.A. 20 / 20. Inf.Div.(mot.)",
+      "koppermann_detail": "Division kämpft in der Flandern-Einschließung.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "WEST-FRANKREICH-1940",
+      "name": "Westfeldzug — Frankreich (Fall Rot)",
+      "datum_von": "1940-06-05",
+      "datum_bis": "1940-06-22",
+      "ort": "Nordfrankreich",
+      "zentroid": { "lat": 49.5, "lon": 3.5 },
+      "beschreibung": "Durchbruch der Aisnefront, Vorstoß bis in die Champagne und zur Mosel. Frankreich kapituliert am 22. Juni 1940.",
+      "koppermann": "ja",
+      "koppermann_einheit": "N.A. 20 / 20. Inf.Div.(mot.)",
+      "koppermann_detail": "Division stößt durch die Aisnefront bis an die Mosel vor. Danach Besatzungstruppe in Frankreich bis April 1941.",
+      "typ": "feldzug"
+    },
+
+    {
+      "id": "BARB-BIALYSTOK-MINSK-1941",
+      "name": "Kesselschlacht Białystok–Minsk",
+      "datum_von": "1941-06-22",
+      "datum_bis": "1941-07-09",
+      "ort": "Weißrussland",
+      "zentroid": { "lat": 53.9, "lon": 27.6 },
+      "beschreibung": "Erste große Kesselschlacht des Ostfeldzugs. 324.000 Gefangene, drei sowjetische Armeen zerschlagen. Beginn von Barbarossa.",
+      "koppermann": "ja",
+      "koppermann_einheit": "N.A. 20 / 20. Inf.Div.(mot.)",
+      "koppermann_detail": "Division im XXXIX. AK, 3. Pz.Gruppe, Hgr. Mitte. Operationen bei Białystok und Minsk.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "BARB-SMOLENSK-1941",
+      "name": "Kesselschlacht Smolensk",
+      "datum_von": "1941-07-10",
+      "datum_bis": "1941-09-10",
+      "ort": "Oblast Smolensk, Russland",
+      "zentroid": { "lat": 54.78, "lon": 32.05 },
+      "beschreibung": "Zweite große Kesselschlacht. 310.000 Gefangene. Erster ernsthafter sowjetischer Widerstand verzögert den Vormarsch auf Moskau um Wochen.",
+      "koppermann": "nahe",
+      "koppermann_einheit": "N.A. 20 / 20. Inf.Div.(mot.)",
+      "koppermann_detail": "Division wird nach Smolensk nach Norden (Hgr. Nord) verlegt — ob sie noch in der Smolensker Phase dabei ist, ist aus Tessin nicht eindeutig; Juli 1941 Verlegung Richtung Leningrad.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "BARB-KIEW-1941",
+      "name": "Kesselschlacht Kiew",
+      "datum_von": "1941-08-23",
+      "datum_bis": "1941-09-26",
+      "ort": "Ukraine, Raum Kiew",
+      "zentroid": { "lat": 50.45, "lon": 31.5 },
+      "beschreibung": "Größte Kesselschlacht der Geschichte: 665.000 Gefangene. Vier sowjetische Armeen vernichtet. Kiew fällt am 19. September 1941.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermanns Division ist zu diesem Zeitpunkt im Nordabschnitt (Ladogasee/Leningrad).",
+      "typ": "operation"
+    },
+
+    {
+      "id": "LENINGRAD-VORMARSCH-1941",
+      "name": "Vormarsch auf Leningrad / Ladogasee",
+      "datum_von": "1941-07-15",
+      "datum_bis": "1941-09-15",
+      "ort": "Oblast Leningrad, Ladogasee",
+      "zentroid": { "lat": 59.95, "lon": 30.32 },
+      "beschreibung": "Vormarsch der Hgr. Nord auf Leningrad. Schlüsselburg fällt am 8. September 1941, Leningrad ist eingeschlossen. Beginn der 872-tägigen Blockade.",
+      "koppermann": "ja",
+      "koppermann_einheit": "N.A. 20 / 20. Inf.Div.(mot.)",
+      "koppermann_detail": "Division im Nordabschnitt, XXXIX. AK, 16. Armee (Tichwin), später 18. Armee. Kämpfe südlich des Ladogasees, Versuch der Einnahme Schlüsselburgs.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "LENINGRAD-BLOCKADE-1941-44",
+      "name": "Belagerung Leningrad",
+      "datum_von": "1941-09-08",
+      "datum_bis": "1944-01-27",
+      "ort": "Leningrad (St. Petersburg)",
+      "zentroid": { "lat": 59.93, "lon": 30.32 },
+      "beschreibung": "872 Tage andauernde Belagerung. Über eine Million Zivilisten sterben an Hunger, Kälte und Bombardement.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Division ist in der Region aber nicht in der Belagerung direkt — kämpft am Wolchow.",
+      "typ": "stellungskrieg"
+    },
+
+    {
+      "id": "BARB-MOSKAU-1941",
+      "name": "Unternehmen Taifun — Angriff auf Moskau",
+      "datum_von": "1941-10-02",
+      "datum_bis": "1941-12-05",
+      "ort": "Oblast Moskau",
+      "zentroid": { "lat": 55.75, "lon": 37.62 },
+      "beschreibung": "Letzter großer Vorstoß auf Moskau. Scheitert im Dezember 1941 vor den Toren der Stadt. Erste große deutsche Niederlage des Ostfeldzugs.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Division ist im Nordabschnitt (Tichwin/Wolchow), nicht bei Hgr. Mitte.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "WOLCHOW-TICHWIN-1941-42",
+      "name": "Wolchow-Front / Tichwin — Stellungskrieg",
+      "datum_von": "1941-10-01",
+      "datum_bis": "1942-07-31",
+      "ort": "Oblast Leningrad, Wolchow-Fluss",
+      "zentroid": { "lat": 59.2, "lon": 32.5 },
+      "beschreibung": "Monatelanger Stellungskrieg am Wolchow. Beide Seiten versuchen die Initiative zu gewinnen. Harsche Winterbedingungen. Sowjetische Wolchow-Offensive Januar–Juni 1942 scheitert (2. Schockarmee eingekesselt).",
+      "koppermann": "ja",
+      "koppermann_einheit": "N.A. 20 / 20. Inf.Div.(mot.)",
+      "koppermann_detail": "Division im I. AK, 18. Armee (Wolchow), Feb.–Jun. 1942. Schwere Stellungskämpfe. Koppermann taucht 1942 in Genesenden-Kompanien in Hamburg auf — mögliche Verwundung/Erkrankung in dieser Phase.",
+      "typ": "stellungskrieg"
+    },
+
+    {
+      "id": "RSCHEW-1942",
+      "name": "Rschew-Wyasma — Stellungsbogen",
+      "datum_von": "1942-01-08",
+      "datum_bis": "1943-03-22",
+      "ort": "Oblast Twer, Russland",
+      "zentroid": { "lat": 56.25, "lon": 34.32 },
+      "beschreibung": "14 Monate Ringen um den Rschewer Frontbogen. Für beide Seiten extrem verlustreiche Abnutzungskämpfe. Deutsche räumen den Bogen im März 1943 freiwillig.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermanns Division kämpft zu dieser Zeit bei Welish, etwas nördlicher.",
+      "typ": "stellungskrieg"
+    },
+
+    {
+      "id": "STALINGRAD-1942-43",
+      "name": "Schlacht um Stalingrad",
+      "datum_von": "1942-07-17",
+      "datum_bis": "1943-02-02",
+      "ort": "Stalingrad (Wolgograd), Russland",
+      "zentroid": { "lat": 48.7, "lon": 44.52 },
+      "beschreibung": "Wendepunkt des Krieges. 6. Armee unter Paulus eingekesselt (Operation Uranus, Nov. 1942). 300.000 Soldaten sterben oder geraten in Gefangenschaft. Deutschland verliert die strategische Initiative.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermanns Division ist bei Welish, Hgr. Mitte — weit entfernt von Stalingrad (Hgr. B, Südfront).",
+      "typ": "operation"
+    },
+
+    {
+      "id": "WELISH-STELLUNGSKRIEG-1942-43",
+      "name": "Stellungskämpfe Welish — Hgr. Mitte",
+      "datum_von": "1942-12-01",
+      "datum_bis": "1943-06-30",
+      "ort": "Welish, Oblast Smolensk",
+      "zentroid": { "lat": 55.6, "lon": 31.2 },
+      "beschreibung": "Monatelange Stellungskämpfe im Mittelabschnitt. Welish ist ein kleiner Frontbogen an der Westlichen Dwina, der von der deutschen 3. Pz.Armee gehalten wird.",
+      "koppermann": "ja",
+      "koppermann_einheit": "N.A. 20 → I.R. 90 / 20. Inf.Div.(mot.) → 20. Pz.Gren.Div.",
+      "koppermann_detail": "Division steht Dez. 1942 – Mai 1943 bei Welish (LIX. AK bzw. XXXXII. AK, 3. Pz.Armee, Hgr. Mitte). Koppermann wechselt in dieser Phase von der N.A. 20 zum I.R. 90.",
+      "typ": "stellungskrieg"
+    },
+
+    {
+      "id": "KURSK-ZITADELLE-1943",
+      "name": "Unternehmen Zitadelle — Kursk",
+      "datum_von": "1943-07-05",
+      "datum_bis": "1943-07-23",
+      "ort": "Kursker Bogen, Oblast Kursk",
+      "zentroid": { "lat": 51.73, "lon": 36.19 },
+      "beschreibung": "Letzte große deutsche Offensive im Osten. Scheitert nach wenigen Tagen. Größte Panzerschlacht der Geschichte. Danach übernimmt die Rote Armee die Initiative dauerhaft.",
+      "koppermann": "nahe",
+      "koppermann_einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "koppermann_detail": "Division ist zunächst OKH-Reserve, wird dann nördlich Kursk (LIII. AK, 2. Pz.Armee) eingesetzt — am Nordflügel des Kursker Bogens, Raum Orel, nicht im Hauptstoßkeil.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "OREL-RUECKZUG-1943",
+      "name": "Abwehrkämpfe Orel / Rückzug auf Brjansk",
+      "datum_von": "1943-07-12",
+      "datum_bis": "1943-09-18",
+      "ort": "Orel, Brjansk, Russland",
+      "zentroid": { "lat": 52.97, "lon": 36.07 },
+      "beschreibung": "Nach Abbruch von Zitadelle: sowjetische Gegenoffensiven (Operation Kutusow). Deutsche räumen den Oreler Bogen. Schwere Rückzugskämpfe.",
+      "koppermann": "ja",
+      "koppermann_einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "koppermann_detail": "Division in schweren Abwehrkämpfen um und nordwestlich Orel (LIII. AK, 2. Pz.Armee). September: Brjansk (XII. AK, 9. Armee).",
+      "typ": "operation"
+    },
+
+    {
+      "id": "VERWUNDUNG-GORKI-1943",
+      "name": "⚑ Verwundung Koppermann — Gorki bei Ilija",
+      "datum_von": "1943-08-28",
+      "datum_bis": "1943-08-28",
+      "ort": "Gorki, ca. 35 km südöstlich Ilija, Oblast Minsk",
+      "zentroid": { "lat": 54.02, "lon": 27.1 },
+      "beschreibung": "Hans-Jürgen Koppermann wird durch Granatsplitter an Hals und rechtem Ohr verwundet. Erste Versorgung am Hauptverbandsplatz der 20. Pz.Gren.Div. Beginn der Lazarettreise.",
+      "koppermann": "ja",
+      "koppermann_einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "koppermann_detail": "Quelle: WASt-Karte I, Eintrag 20.04.1944 (Meldung I): 'Gorki etwa 35 km südostw. Illüja — leicht verw.: A.G. re. Ohr'. Hauptverbandsplatz 20. Pz.Gren.Div.",
+      "typ": "biographisch",
+      "biographisch": true
+    },
+
+    {
+      "id": "SMOLENSK-OP-1943",
+      "name": "Smolensker Operation (sowj. Gegenoffensive)",
+      "datum_von": "1943-08-07",
+      "datum_bis": "1943-10-02",
+      "ort": "Oblast Smolensk",
+      "zentroid": { "lat": 54.78, "lon": 32.05 },
+      "beschreibung": "Sowjetische Offensive zur Befreiung Smolensks. Entlastet den Kursker Bogen. Smolensk wird am 25. September 1943 befreit.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermann ist ab 28.08.1943 im Lazarett.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "LAZARETT-ROUTE-1943-44",
+      "name": "⚑ Lazarettreise Koppermann",
+      "datum_von": "1943-08-29",
+      "datum_bis": "1944-03-15",
+      "ort": "Front → Radom → Trier → Marburg",
+      "zentroid": { "lat": 50.8, "lon": 8.77 },
+      "beschreibung": "Kriegslazarett (Ostfront) → Relazarettierung Radom (Polen) → Bürgerhospital Trier → Res.Laz.I Trier → Res.Laz.III Marburg/Lahn (Ohrenklinik). Entlassung 15.03.1944.",
+      "koppermann": "lazarett",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Quelle: WASt-Karte I, Meldungen 1–9 und Meldung II. Mehrfache Relazarettierungen dokumentiert.",
+      "typ": "biographisch",
+      "biographisch": true
+    },
+
+    {
+      "id": "DNEPR-KIEW-1943",
+      "name": "Dnjepr-Übergang / Kiew — Rückzug",
+      "datum_von": "1943-09-15",
+      "datum_bis": "1943-12-31",
+      "ort": "Dnjepr, Ukraine, Kiew",
+      "zentroid": { "lat": 50.45, "lon": 30.52 },
+      "beschreibung": "Sowjetische Herbstoffensive erzwingt deutschen Rückzug hinter den Dnjepr. Kiew fällt am 6. November 1943. Rückzugskämpfe durch die Ukraine.",
+      "koppermann": "lazarett",
+      "koppermann_einheit": "20. Pz.Gren.Div. (ohne Koppermann)",
+      "koppermann_detail": "Koppermanns Division kämpft am Dnjepr (XXXXVIII. AK, 8. Armee, dann VII. AK, 4. Pz.Armee) — aber Koppermann ist im Lazarett.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "KORSUN-TSCHERKASSY-1944",
+      "name": "Kessel von Korsun-Tscherkassy",
+      "datum_von": "1944-01-24",
+      "datum_bis": "1944-02-17",
+      "ort": "Korsun-Schewtschenkiwskyj, Ukraine",
+      "zentroid": { "lat": 49.42, "lon": 31.27 },
+      "beschreibung": "60.000 deutsche Soldaten eingekesselt. Ausbruch gelingt teilweise — 35.000 entkommen, 20.000 kommen um. Schwere Verluste.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermanns Division ist zu weit südwestlich (Winniza). Koppermann selbst noch im Lazarett.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "WINNIZA-1944",
+      "name": "Rückzugskämpfe Winniza / Ukraine",
+      "datum_von": "1944-01-01",
+      "datum_bis": "1944-03-31",
+      "ort": "Winniza, Ukraine",
+      "zentroid": { "lat": 49.23, "lon": 28.47 },
+      "beschreibung": "Schwere Rückzugskämpfe der Hgr. Süd. Division in 'Gruppe Jauer' zur Abwehr am 'Balkon von Kasatin'.",
+      "koppermann": "lazarett",
+      "koppermann_einheit": "20. Pz.Gren.Div. (ohne Koppermann)",
+      "koppermann_detail": "Division (XXIV. Pz.AK, 4. Pz.Armee) kämpft bei Winniza. Koppermann wird am 15.03.1944 aus Marburg entlassen.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "HUBE-KESSEL-1944",
+      "name": "Hube-Kessel — Kamenez-Podolsk",
+      "datum_von": "1944-03-25",
+      "datum_bis": "1944-04-17",
+      "ort": "Kamenez-Podolsk, Westukraine",
+      "zentroid": { "lat": 48.68, "lon": 26.58 },
+      "beschreibung": "220.000 deutsche Soldaten der 1. Panzerarmee eingekesselt. Durchbruch nach Westen am 28. März. Einer der wenigen erfolgreichen deutschen Ausbrüche. Alle Verwundeten mitgenommen.",
+      "koppermann": "ja",
+      "koppermann_einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "koppermann_detail": "Division (XXIV. Pz.AK, 1. Pz.Armee, Hgr. Süd) ist Teil des Kessels und des Ausbruchs. Koppermann ist seit 15.03.1944 wieder bei der Einheit.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "LEMBERG-BRODY-1944",
+      "name": "Lwiw-Sandomierz-Operation / Lemberg–Brody",
+      "datum_von": "1944-07-13",
+      "datum_bis": "1944-08-29",
+      "ort": "Lemberg / Lwiw, Brody, Ukraine",
+      "zentroid": { "lat": 49.84, "lon": 24.03 },
+      "beschreibung": "Sowjetische Sommeroffensive in der Ukraine. Kessel von Brody (8 deutsche Divisionen vernichtet). Lemberg fällt am 27. Juli 1944.",
+      "koppermann": "nahe",
+      "koppermann_einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "koppermann_detail": "Division ist Mai–Juli 1944 OKH-Reserve hinter dem Südflügel der 4. Pz.Armee bei Brody, dann Gegenangriff südlich Lemberg (III. AK, 4. Pz.Armee). Division wird bei Kamionka Strumilowa eingeschlossen, bricht nach 5 Tagen aus.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "BAGRATION-1944",
+      "name": "Operation Bagration — Zusammenbruch Hgr. Mitte",
+      "datum_von": "1944-06-23",
+      "datum_bis": "1944-08-19",
+      "ort": "Weißrussland",
+      "zentroid": { "lat": 53.9, "lon": 27.6 },
+      "beschreibung": "Vernichtung der Heeresgruppe Mitte. Größte Niederlage der deutschen Geschichte: 28 Divisionen zerschlagen, 350.000 Verluste. Rote Armee stößt bis nach Polen vor.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermanns Division ist in der Ukraine (Hgr. Nordukraine), nicht bei Hgr. Mitte.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "WEICHSEL-BARANOW-1944",
+      "name": "Weichsel-Brückenkopf Baranow (Sandomierz)",
+      "datum_von": "1944-08-01",
+      "datum_bis": "1945-01-11",
+      "ort": "Baranow Sandomierski, Polen / Weichsel",
+      "zentroid": { "lat": 50.5, "lon": 21.52 },
+      "beschreibung": "Sowjetischer Brückenkopf westlich der Weichsel bei Sandomierz/Baranow. Deutsche Versuche ihn zu beseitigen scheitern. Ausgangspunkt für die Weichsel-Oder-Offensive.",
+      "koppermann": "ja",
+      "koppermann_einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "koppermann_detail": "Division (III. AK / XXXXVIII. Pz.AK, 4. Pz.Armee, Hgr. Nordukraine / A) hält den Abschnitt um Baranow/Weichsel Aug.–Nov. 1944. Dezember: Auffrischung bei Kielce.",
+      "typ": "stellungskrieg"
+    },
+
+    {
+      "id": "WARSCHAUER-AUFSTAND-1944",
+      "name": "Warschauer Aufstand",
+      "datum_von": "1944-08-01",
+      "datum_bis": "1944-10-02",
+      "ort": "Warschau, Polen",
+      "zentroid": { "lat": 52.23, "lon": 21.01 },
+      "beschreibung": "Aufstand der polnischen Heimatarmee (AK) gegen die deutsche Besatzung. Nach 63 Tagen brutal niedergeschlagen. 200.000 Zivilisten getötet, Warschau systematisch zerstört.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermanns Division ist südlich bei Baranow/Weichsel, nicht in Warschau.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "WEICHSEL-ODER-OFFENSIVE-1945",
+      "name": "Weichsel-Oder-Offensive",
+      "datum_von": "1945-01-12",
+      "datum_bis": "1945-02-03",
+      "ort": "Polen — Weichsel bis Oder",
+      "zentroid": { "lat": 51.5, "lon": 20.5 },
+      "beschreibung": "Massiver sowjetischer Winterangriff. 5:1 Überlegenheit an Infanterie, 10:1 bei Panzern. Deutsche Front bricht sofort zusammen. Rote Armee stößt 500 km bis zur Oder vor. Schnellste Offensive des Krieges.",
+      "koppermann": "ja",
+      "koppermann_einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "koppermann_detail": "Division verteidigt Kielce (Weichselbogen). Koppermann wird am 13.01.1945 — einen Tag nach Angriffsbeginn — als vermisst gemeldet. Familienüberlieferung: Schussverletzung, Lafettentransport, Wundbrand, Beinverlust.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "VERMISST-KIELCE-1945",
+      "name": "⚑ Koppermann vermisst — Weichselbogen",
+      "datum_von": "1945-01-13",
+      "datum_bis": "1945-01-13",
+      "ort": "Weichselbogen, Raum Kielce, Polen",
+      "zentroid": { "lat": 50.87, "lon": 20.63 },
+      "beschreibung": "Hans-Jürgen Koppermann wird am 13. Januar 1945 als vermisst gemeldet. Erster Tag nach Beginn der sowjetischen Weichsel-Oder-Offensive. Die 20. Pz.Gren.Div. verteidigt Kielce.",
+      "koppermann": "ja",
+      "koppermann_einheit": "Pz.Gren.Rgt. 90 / 20. Pz.Gren.Div.",
+      "koppermann_detail": "Quelle: WASt-Karte II, Eintrag 25.07.1986: 'Ausw.: 13.1.45 vermisst'. Lt. Vorl.-Meldg. Bd. A 620, eingesandt 19.07.1984 vom B.R./Z.N.S.",
+      "typ": "biographisch",
+      "biographisch": true
+    },
+
+    {
+      "id": "OSTPREUSSEN-1945",
+      "name": "Ostpreußen-Offensive",
+      "datum_von": "1945-01-13",
+      "datum_bis": "1945-04-25",
+      "ort": "Ostpreußen",
+      "zentroid": { "lat": 54.71, "lon": 20.45 },
+      "beschreibung": "Gleichzeitig mit der Weichsel-Oder-Offensive. Einschließung und Vernichtung der deutschen Kräfte in Ostpreußen. Massenflucht der Zivilbevölkerung.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermanns Division ist südlicher (Weichselbogen/Schlesien).",
+      "typ": "operation"
+    },
+
+    {
+      "id": "BERLIN-1945",
+      "name": "Berliner Operation",
+      "datum_von": "1945-04-16",
+      "datum_bis": "1945-05-02",
+      "ort": "Berlin, Deutschland",
+      "zentroid": { "lat": 52.52, "lon": 13.40 },
+      "beschreibung": "Sowjetischer Angriff auf Berlin. Hitler stirbt am 30. April. Berlin kapituliert am 2. Mai. Ende des Krieges in Europa am 8. Mai 1945.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": "Koppermann ist seit Januar 1945 als vermisst gemeldet. Die 20. Pz.Gren.Div. kämpft zwar im Berliner Raum (April 1945), aber Koppermann selbst ist nicht mehr Teil davon.",
+      "typ": "operation"
+    },
+
+    {
+      "id": "KAPITULATION-1945",
+      "name": "Kapitulation der Wehrmacht",
+      "datum_von": "1945-05-08",
+      "datum_bis": "1945-05-08",
+      "ort": "Reims / Berlin-Karlshorst",
+      "zentroid": { "lat": 52.46, "lon": 13.54 },
+      "beschreibung": "Bedingungslose Kapitulation der Wehrmacht. Ende des Zweiten Weltkriegs in Europa. Die 20. Pz.Gren.Div. kapituliert am 5. Mai bei Tangermünde vor der US-Armee.",
+      "koppermann": "nein",
+      "koppermann_einheit": null,
+      "koppermann_detail": null,
+      "typ": "politisch"
+    }
+
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "quelle": "Bundesarchiv Berlin-Lichterfelde, Abteilung PA",
+  "schreiben_datum": "2023-04-12",
+  "aktenzeichen": "PA 2 2021/G-12837",
+  "bearbeitung": "Frau Peters",
+  "person": {
+    "familienname": "Koppermann",
+    "vorname": "Hans-Jürgen",
+    "schreibweise_in_verzeichnissen": "Hans Koppermann",
+    "geboren_am": "1917-09-02"
+  },
+  "quellen_typ": "Erkennungsmarkenverzeichnisse und Veränderungsmeldungen der Wehrmacht",
+  "anmerkung": "Detaillierte Angaben sind den elektronischen Findmitteln nicht zu entnehmen. Erkennungsmarkenverzeichnisse werden sukzessive digitalisiert, persönliche Benutzung derzeit nicht möglich.",
+  "einheiten": [
+    {
+      "nr": 1,
+      "einheit": "1. Kompanie, Nachrichten-Abteilung 20",
+      "abkuerzung": "1. Kp. N.A. 20",
+      "einheit_aufgeloest": {
+        "kompanie": "1. Kompanie",
+        "verband": "Nachrichten-Abteilung 20",
+        "typ": "Heer, Nachrichtentruppe"
+      },
+      "jahr": 1939,
+      "signatur": "B 563/40425"
+    },
+    {
+      "nr": 2,
+      "einheit": "1. Kompanie, Nachrichten-Abteilung 20",
+      "abkuerzung": "1. Kp. N.A. 20",
+      "einheit_aufgeloest": {
+        "kompanie": "1. Kompanie",
+        "verband": "Nachrichten-Abteilung 20",
+        "typ": "Heer, Nachrichtentruppe"
+      },
+      "jahr": 1942,
+      "signatur": "B 563/40425",
+      "anmerkung": "Gleiche Einheit wie 1939, gleiche Signatur — möglicherweise durchgehender Dienst"
+    },
+    {
+      "nr": 3,
+      "einheit": "Stamm-Kompanie, Nachrichten-Ersatz-Abteilung 20",
+      "abkuerzung": "Stmkp. N.E.A. 20",
+      "einheit_aufgeloest": {
+        "kompanie": "Stamm-Kompanie",
+        "verband": "Nachrichten-Ersatz-Abteilung 20",
+        "typ": "Heer, Ersatztruppe / Ausbildung"
+      },
+      "jahr": 1942,
+      "signatur": "B 563/40291",
+      "anmerkung": "Ersatzabteilung = Heimatstandort, Ausbildung und Ersatzgestellung"
+    },
+    {
+      "nr": 4,
+      "einheit": "Genesenden-Kompanie, Nachrichten-Ersatz-Abteilung 20",
+      "abkuerzung": "Genes.Kp. N.E.A. 20",
+      "einheit_aufgeloest": {
+        "kompanie": "Genesenden-Kompanie",
+        "verband": "Nachrichten-Ersatz-Abteilung 20",
+        "typ": "Heer, Genesende nach Verwundung oder Krankheit"
+      },
+      "jahr": 1942,
+      "signatur": "B 563/40300",
+      "anmerkung": "Genesenden-Kompanie = Verwundete/Kranke nach Lazarett, noch nicht frontfähig"
+    },
+    {
+      "nr": 5,
+      "einheit": "1. Genesenden-Kompanie, Nachrichten-Ersatz-Abteilung 20",
+      "abkuerzung": "1. Genes.Kp. N.E.A. 20",
+      "einheit_aufgeloest": {
+        "kompanie": "1. Genesenden-Kompanie",
+        "verband": "Nachrichten-Ersatz-Abteilung 20",
+        "typ": "Heer, Genesende"
+      },
+      "jahr": 1942,
+      "signatur": "B 563/40302",
+      "anmerkung": "Direkt aufeinanderfolgend mit Nr. 4 — innere Umgliederung der Genesenden-Einheit"
+    },
+    {
+      "nr": 6,
+      "einheit": "11. Kompanie, Infanterie-Regiment 90",
+      "abkuerzung": "11. Kp. I.R. 90",
+      "einheit_aufgeloest": {
+        "kompanie": "11. Kompanie",
+        "verband": "Infanterie-Regiment 90",
+        "typ": "Heer, Infanterie",
+        "uebergeordnet": "20. Infanterie-Division (mot.) / später 20. Panzergrenadier-Division"
+      },
+      "jahr": 1943,
+      "signatur": "B 563/72634",
+      "anmerkung": "Wechsel von Nachrichten- zu Infanterietruppe — vermutlich Versetzung wegen Personalmangel"
+    },
+    {
+      "nr": 7,
+      "einheit": "1. Marsch-Kompanie, Grenadier-Ersatz-Bataillon 76",
+      "abkuerzung": "1. Marschkp. G.E.B. 76",
+      "einheit_aufgeloest": {
+        "kompanie": "1. Marsch-Kompanie",
+        "verband": "Grenadier-Ersatz-Bataillon 76",
+        "typ": "Heer, Ersatz/Marschkompanie (Fronttransport)"
+      },
+      "jahr": 1943,
+      "signatur": "B 563/61533",
+      "anmerkung": "Marsch-Kompanie = Einheit zum Transport von Ersatzmannschaften an die Front"
+    },
+    {
+      "nr": 8,
+      "einheit": "Marsch-Kompanie, Grenadier-Ersatz-Bataillon (motorisiert) 90",
+      "abkuerzung": "Marschkp. G.E.B.(mot.) 90",
+      "einheit_aufgeloest": {
+        "kompanie": "Marsch-Kompanie",
+        "verband": "Grenadier-Ersatz-Bataillon 90 (motorisiert)",
+        "typ": "Heer, Ersatz/Marschkompanie motorisiert"
+      },
+      "jahr": 1943,
+      "signatur": "B 563/61771",
+      "anmerkung": "Motorisiertes Ersatzbataillon 90 — gehört zum Verbandsbereich der 20. Pz.Gren.Div."
+    }
+  ],
+  "empfohlene_weitere_recherche": {
+    "krankenbuchlager": {
+      "behoerde": "Bundesarchiv, Abteilung PA, Berlin-Lichterfelde",
+      "anmerkung": "Noch nicht durchsucht, gebührenpflichtig, könnte Amputationsdokumentation enthalten"
+    },
+    "militaerarchiv": {
+      "behoerde": "Bundesarchiv, Abteilung MA",
+      "adresse": "Wiesentalstraße 10, 79115 Freiburg",
+      "email": "militaerarchiv@bundesarchiv.de",
+      "anmerkung": "Bei Anfrage mitteilen, dass bereits Auskunft von Abt. PA vorliegt"
+    }
+  }
+}

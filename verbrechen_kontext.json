@@ -1,0 +1,463 @@
+{
+  "meta": {
+    "beschreibung": "Verbrechen an der Zivilbevölkerung, Massenerschießungen, Holocaust-Stätten und Repressalien im zeitlichen und geographischen Umfeld des Kriegswegs Hans-Jürgen Koppermanns.",
+    "kategorien": {
+      "massaker": "Einzelne Massaker / Massenerschießungen an einem Ort",
+      "vernichtungslager": "NS-Vernichtungs- und Konzentrationslager",
+      "ghetto": "Jüdische Ghettos und deren Liquidierung",
+      "repressalie": "Vergeltungsaktionen gegen Zivilbevölkerung / Partisanenbekämpfung",
+      "strukturell": "Systematische Gewalt / Hungerpolitik / Kriegsgefangene"
+    },
+    "naehe_legende": {
+      "direkt": "Im nachweislichen Operationsgebiet von Koppermanns Einheit zum selben Zeitpunkt",
+      "region": "In der gleichen Region, zeitgleich — räumliche Nähe ohne direkte Zuordnung",
+      "zeitgleich": "Zeitgleich, aber geographisch weit entfernt — Parallelgeschehen",
+      "kontext": "Vor oder nach Koppermanns Präsenz in der Region, oder anderer Schauplatz"
+    },
+    "methodische_anmerkung": "Koordinaten sind Standorte der Tatorte, keine Frontlinien. Die Einschätzung 'direkt' bedeutet nicht individuelle Beteiligung Koppermanns — sie bedeutet, dass seine Einheit im selben Raum operierte und er von diesen Ereignissen gewusst haben muss oder kann. Individuelle Schuld ist historisch nicht feststellbar und wird hier nicht behauptet.",
+    "quellen": [
+      "USHMM Holocaust Encyclopedia (encyclopedia.ushmm.org)",
+      "Yad Vashem",
+      "Deutsche Digitale Bibliothek / LeMO",
+      "Wikipedia: Verbrechen der Wehrmacht, Einsatzgruppen, einzelne Massaker",
+      "Christian Gerlach: Kalkulierte Morde (1999)",
+      "Jochen Böhler: Auftakt zum Vernichtungskrieg (2006)"
+    ]
+  },
+
+  "verbrechen": [
+
+    {
+      "id": "POL-INTELLIGENZ-1939",
+      "name": "AB-Aktion — Ermordung der polnischen Intelligenz",
+      "kategorie": "strukturell",
+      "datum_von": "1939-09-01",
+      "datum_bis": "1940-06-30",
+      "ort": "Ganz Polen",
+      "zentroid": { "lat": 52.0, "lon": 19.5 },
+      "opfer_zahl": "ca. 60.000",
+      "opfer_gruppe": "Polnische Intelligenz, Geistliche, Lehrer, Ärzte, Juristen — nach vorbereiteten Fahndungslisten (Sonderfahndungsbuch Polen)",
+      "taeter": "Einsatzgruppen I–VI, SS, Teile der Wehrmacht",
+      "beschreibung": "Systematische Ermordung der polnischen Führungsschicht zur Vernichtung des nationalen Widerstands. Einsatzgruppen folgten der Wehrmacht und erschossen nach vorgefertigten Listen.",
+      "naehe_koppermann": "region",
+      "naehe_detail": "Koppermanns Division operiert im September 1939 in Polen (Narew-Überschreitung). Die Einsatzgruppen folgen der Wehrmacht unmittelbar."
+    },
+
+    {
+      "id": "BROMBERG-VERGELTUNG-1939",
+      "name": "Vergeltungserschießungen Bromberg (Bydgoszcz)",
+      "kategorie": "repressalie",
+      "datum_von": "1939-09-07",
+      "datum_bis": "1939-09-12",
+      "ort": "Bromberg (Bydgoszcz), Polen",
+      "zentroid": { "lat": 53.12, "lon": 18.0 },
+      "opfer_zahl": "ca. 1.300",
+      "opfer_gruppe": "Polnische Zivilisten, Geistliche, Juden, Frauen, Jugendliche",
+      "taeter": "Einsatzgruppe IV, Teile der Wehrmacht",
+      "beschreibung": "Als Vergeltung für den sog. 'Bromberger Blutsonntag' (bei dem polnische Zivilisten ca. 300–500 Volksdeutsche töteten) ermordete die Einsatzgruppe IV über 1.300 Polen — ein Verhältnis von ca. 1:4.",
+      "naehe_koppermann": "region",
+      "naehe_detail": "Koppermanns Division ist in der Polenfeldzug-Phase in Nordpolen aktiv. Bromberg liegt im Operationsgebiet der Hgr. Nord."
+    },
+
+    {
+      "id": "PONARY-1941-44",
+      "name": "Massaker von Ponary (Paneriai)",
+      "kategorie": "massaker",
+      "datum_von": "1941-07-01",
+      "datum_bis": "1944-07-01",
+      "ort": "Ponary (Paneriai), bei Vilnius, Litauen",
+      "zentroid": { "lat": 54.63, "lon": 25.12 },
+      "opfer_zahl": "ca. 100.000",
+      "opfer_gruppe": "Juden (70.000+), Polen, Russen, Roma, sowjetische Kriegsgefangene",
+      "taeter": "Einsatzkommando 3 (Einsatzgruppe A), litauische Kollaborateure",
+      "beschreibung": "Drittgrößtes einzelnes Massaker des Holocaust. Sowjetische Gruben wurden als Massengräber genutzt. Mordaktionen über drei Jahre.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermanns Division operiert 1941 in Hgr. Mitte/Nord, geographisch östlicher. Ponary liegt im Operationsgebiet der Hgr. Nord."
+    },
+
+    {
+      "id": "KAUNAS-FORT9-1941",
+      "name": "Fort IX Kaunas — Massenerschießungen",
+      "kategorie": "massaker",
+      "datum_von": "1941-06-25",
+      "datum_bis": "1943-11-01",
+      "ort": "Kaunas (Kowno), Litauen",
+      "zentroid": { "lat": 54.9, "lon": 23.9 },
+      "opfer_zahl": "ca. 50.000",
+      "opfer_gruppe": "Litauische Juden, später deportierte Juden aus Deutschland und Westeuropa",
+      "taeter": "Einsatzkommando 3, litauische Hilfspolizei",
+      "beschreibung": "Fort IX war die Haupttötungsstätte für die jüdische Bevölkerung Litauens. Bereits am 25./26. Juni 1941, drei Tage nach Barbarossa-Beginn, Massaker durch litauische Nationalisten. Ab Juli systematische Vernichtung durch EK 3.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermann ist im Sommer 1941 in Weißrussland/Russland. Litauen liegt im Operationsgebiet der Einsatzgruppe A."
+    },
+
+    {
+      "id": "MINSK-GHETTO-1941-43",
+      "name": "Ghetto Minsk — Errichtung und Massaker",
+      "kategorie": "ghetto",
+      "datum_von": "1941-07-20",
+      "datum_bis": "1943-10-21",
+      "ort": "Minsk, Weißrussland",
+      "zentroid": { "lat": 53.9, "lon": 27.56 },
+      "opfer_zahl": "70.000–100.000",
+      "opfer_gruppe": "Weißrussische Juden, deportierte Juden aus Deutschland, Österreich, Tschechien, Niederlanden",
+      "taeter": "Einsatzgruppe B (SK 7a), SS- und Polizeiführer Weißrussland",
+      "beschreibung": "Eines der größten Ghettos in der besetzten Sowjetunion. Errichtet Juli 1941. Große Massaker: November 1941 (ca. 12.000), März 1942 (ca. 5.000), Juli 1942 (ca. 25.000 — 'Große Aktion'). Maly Trostinez als Haupttötungsstätte.",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Koppermanns Division (20. Inf.Div. mot.) operiert Juni/Juli 1941 bei Białystok und Minsk (XXXIX. AK, 3. Pz.Gruppe, Hgr. Mitte). Der Einmarsch in Minsk am 28. Juni 1941 und die Einrichtung des Ghettos am 20. Juli fallen in den Zeitraum, in dem seine Division in der Region ist."
+    },
+
+    {
+      "id": "MALY-TROSTINEZ-1942-44",
+      "name": "Vernichtungsstätte Maly Trostinez",
+      "kategorie": "massaker",
+      "datum_von": "1942-05-01",
+      "datum_bis": "1944-06-30",
+      "ort": "Maly Trostinez, bei Minsk, Weißrussland",
+      "zentroid": { "lat": 53.82, "lon": 27.72 },
+      "opfer_zahl": "ca. 60.000",
+      "opfer_gruppe": "Juden aus dem Ghetto Minsk, Deportierte aus Deutschland, Österreich, Tschechien, Niederlanden; sowjetische Kriegsgefangene",
+      "taeter": "SS, Einsatzgruppe B",
+      "beschreibung": "Größte Tötungsstätte auf dem Gebiet der heutigen Republik Belarus. Erschießungen und Gaswagen. Ab Mai 1942 auch direkte Deportationen aus Westeuropa.",
+      "naehe_koppermann": "region",
+      "naehe_detail": "Die Division kehrt 1942/43 in die Region Hgr. Mitte zurück (Welish). Maly Trostinez ist ca. 200 km vom Frontabschnitt Welish entfernt."
+    },
+
+    {
+      "id": "BABI-JAR-1941",
+      "name": "Massaker Babi Jar (Babyn Jar)",
+      "kategorie": "massaker",
+      "datum_von": "1941-09-29",
+      "datum_bis": "1941-09-30",
+      "ort": "Babi Jar, Kiew, Ukraine",
+      "zentroid": { "lat": 50.47, "lon": 30.45 },
+      "opfer_zahl": "33.771 (in 2 Tagen); Gesamtopfer bis 1943: ca. 100.000",
+      "opfer_gruppe": "Jüdische Bevölkerung Kiews, später Sinti und Roma, sowjetische Kriegsgefangene, ukrainische Nationalisten",
+      "taeter": "Sonderkommando 4a (Einsatzgruppe C), Ordnungspolizei, Wehrmacht (logistische Unterstützung)",
+      "beschreibung": "Größtes einzelnes Massaker an Juden im gesamten Holocaust. Die Wehrmacht stellte Absperrungen und transportierte die Opfer. Ortskommandant und SD koordinierten gemeinsam.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermanns Division ist zu diesem Zeitpunkt im Nordabschnitt (Ladogasee/Tschudowo). Babi Jar findet im Operationsgebiet der Hgr. Süd statt."
+    },
+
+    {
+      "id": "WANNSEE-1942",
+      "name": "Wannsee-Konferenz — Beschluss der 'Endlösung'",
+      "kategorie": "strukturell",
+      "datum_von": "1942-01-20",
+      "datum_bis": "1942-01-20",
+      "ort": "Wannsee, Berlin",
+      "zentroid": { "lat": 52.43, "lon": 13.16 },
+      "opfer_zahl": "Entscheidung über 11 Millionen europäische Juden",
+      "opfer_gruppe": "Alle Juden im deutschen Herrschaftsbereich",
+      "taeter": "SS-Führung, Staatssekretäre aller Ministerien",
+      "beschreibung": "Koordinierungstreffen zur Umsetzung der bereits begonnenen Massenvernichtung. Keine Entscheidung, sondern Koordinierung der bereits laufenden Mordmaschinerie.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermann ist zu diesem Zeitpunkt an der Wolchow-Front. Die Konferenz findet in Berlin statt."
+    },
+
+    {
+      "id": "CHELMNO-1941-45",
+      "name": "Vernichtungslager Chelmno (Kulmhof)",
+      "kategorie": "vernichtungslager",
+      "datum_von": "1941-12-08",
+      "datum_bis": "1945-01-17",
+      "ort": "Chelmno nad Nerem, Polen",
+      "zentroid": { "lat": 52.14, "lon": 18.48 },
+      "opfer_zahl": "ca. 150.000–340.000",
+      "opfer_gruppe": "Juden aus dem Ghetto Lodz und Umgebung, Sinti und Roma",
+      "taeter": "SS-Sonderkommando Kulmhof",
+      "beschreibung": "Erstes stationäres Vernichtungslager auf polnischem Boden. Mord durch Gaswagen.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermann ist an der Wolchow-Front. Chelmno liegt im Warthegau, weit vom Frontgeschehen entfernt."
+    },
+
+    {
+      "id": "BELZEC-1942-43",
+      "name": "Vernichtungslager Belzec — Aktion Reinhard",
+      "kategorie": "vernichtungslager",
+      "datum_von": "1942-03-17",
+      "datum_bis": "1943-06-30",
+      "ort": "Belzec, Ostpolen",
+      "zentroid": { "lat": 50.37, "lon": 23.45 },
+      "opfer_zahl": "430.000–500.000",
+      "opfer_gruppe": "Polnische Juden (hauptsächlich aus Galizien und Distrikt Lublin)",
+      "taeter": "SS, T4-Personal (Aktion Reinhard)",
+      "beschreibung": "Erstes der drei Reinhard-Lager. Mord durch Kohlenmonoxid, dann Dieselmotorabgase. Nur 3 bekannte Überlebende.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermann ist 1942 an der Wolchow-Front / in Heimat-Genesenden-Kompanie."
+    },
+
+    {
+      "id": "SOBIBOR-1942-43",
+      "name": "Vernichtungslager Sobibor — Aktion Reinhard",
+      "kategorie": "vernichtungslager",
+      "datum_von": "1942-04-01",
+      "datum_bis": "1943-10-14",
+      "ort": "Sobibor, Ostpolen",
+      "zentroid": { "lat": 51.45, "lon": 23.58 },
+      "opfer_zahl": "170.000–250.000",
+      "opfer_gruppe": "Juden aus Polen, den Niederlanden, Frankreich, Deutschland, der Sowjetunion",
+      "taeter": "SS (Aktion Reinhard)",
+      "beschreibung": "Aufstand der Häftlinge am 14. Oktober 1943. Danach Lager geschlossen und dem Erdboden gleichgemacht.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermann ist 1942 an der Wolchow-Front, 1943 im Raum Orel/Brjansk."
+    },
+
+    {
+      "id": "TREBLINKA-1942-43",
+      "name": "Vernichtungslager Treblinka — Aktion Reinhard",
+      "kategorie": "vernichtungslager",
+      "datum_von": "1942-07-23",
+      "datum_bis": "1943-08-02",
+      "ort": "Treblinka, Polen",
+      "zentroid": { "lat": 52.63, "lon": 22.05 },
+      "opfer_zahl": "700.000–900.000",
+      "opfer_gruppe": "Juden, hauptsächlich aus dem Warschauer Ghetto und anderen polnischen Ghettos",
+      "taeter": "SS (Aktion Reinhard)",
+      "beschreibung": "Zweitgrößtes Vernichtungslager nach Auschwitz. Aufstand der Häftlinge am 2. August 1943. 700 entkamen, die meisten wurden wieder gefangen und erschossen.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermann kämpft 1942/43 im Raum Welish (Hgr. Mitte). Treblinka liegt ca. 350 km westlich, im besetzten Polen."
+    },
+
+    {
+      "id": "WARSCHAUER-GHETTO-AUFSTAND-1943",
+      "name": "Warschauer Ghetto — Liquidierung und Aufstand",
+      "kategorie": "ghetto",
+      "datum_von": "1942-07-22",
+      "datum_bis": "1943-05-16",
+      "ort": "Warschau, Polen",
+      "zentroid": { "lat": 52.25, "lon": 20.99 },
+      "opfer_zahl": "300.000 deportiert und ermordet (1942); 13.000 im Aufstand 1943",
+      "opfer_gruppe": "Warschauer Juden",
+      "taeter": "SS, Polizei, Wehrmacht-Einheiten zur Absperrung",
+      "beschreibung": "Große Aktion Juli–September 1942: 265.000 Juden nach Treblinka deportiert. Aufstand April–Mai 1943: Jüdischer Widerstand, brutal niedergeschlagen von SS-General Stroop. Ghetto gesprengt.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermann ist April/Mai 1943 im Raum Welish, Hgr. Mitte. Warschau liegt ca. 600 km westlich."
+    },
+
+    {
+      "id": "AUSCHWITZ-BIRKENAU-1942-45",
+      "name": "KZ/Vernichtungslager Auschwitz-Birkenau",
+      "kategorie": "vernichtungslager",
+      "datum_von": "1942-03-26",
+      "datum_bis": "1945-01-27",
+      "ort": "Oswiecim (Auschwitz), Südpolen",
+      "zentroid": { "lat": 50.04, "lon": 19.18 },
+      "opfer_zahl": "ca. 1,1 Millionen (davon ~90% Juden)",
+      "opfer_gruppe": "Europäische Juden, sowjetische Kriegsgefangene, Polen, Sinti und Roma, politische Gefangene",
+      "taeter": "SS-Totenkopfverbände",
+      "beschreibung": "Größter Komplex aus Konzentrations- und Vernichtungslager. Industrieller Massenmord durch Gaskammern (Zyklon B). Vier Krematorien. Befreiung durch Rote Armee am 27. Januar 1945.",
+      "naehe_koppermann": "kontext",
+      "naehe_detail": "Geographisch nicht im Operationsgebiet Koppermanns. Auschwitz ist das Symbol des Holocaust und zeitlich den gesamten Kriegsverlauf präsent."
+    },
+
+    {
+      "id": "LENINGRAD-HUNGER-1941-44",
+      "name": "Hungerblockade Leningrad",
+      "kategorie": "strukturell",
+      "datum_von": "1941-09-08",
+      "datum_bis": "1944-01-27",
+      "ort": "Leningrad (St. Petersburg)",
+      "zentroid": { "lat": 59.93, "lon": 30.32 },
+      "opfer_zahl": "ca. 1.100.000 Zivilisten verhungert oder erfroren",
+      "opfer_gruppe": "Zivilbevölkerung Leningrads",
+      "taeter": "Wehrmacht (Hgr. Nord), geplante Aushungerungspolitik",
+      "beschreibung": "Bewusste Politik der Aushungerung. OKH-Dokumente belegen, dass eine Kapitulation Leningrads abgelehnt werden sollte, um keine Verpflichtung zur Ernährung der Bevölkerung zu übernehmen.",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Koppermanns Division (20. Inf.Div. mot.) operiert Juli–September 1941 südlich des Ladogasees im Rahmen der Einschließungsoperationen. Sie ist Teil der Hgr. Nord, die die Blockade durchführt."
+    },
+
+    {
+      "id": "KGF-HUNGERSTERBEN-1941-42",
+      "name": "Massensterben sowjetischer Kriegsgefangener",
+      "kategorie": "strukturell",
+      "datum_von": "1941-06-22",
+      "datum_bis": "1942-12-31",
+      "ort": "Gesamte Ostfront / besetztes Gebiet",
+      "zentroid": { "lat": 52.0, "lon": 28.0 },
+      "opfer_zahl": "ca. 2,8 Millionen (bis Ende 1941/42)",
+      "opfer_gruppe": "Sowjetische Kriegsgefangene",
+      "taeter": "Wehrmacht (OKW-Befehle), SS",
+      "beschreibung": "Bewusste Verhungerungspolitik gegenüber sowjetischen Kriegsgefangenen. Im Winter 1941/42 sterben täglich Tausende. Bis Kriegsende überleben von 5,7 Millionen Gefangenen nur ca. 1,1 Millionen.",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Die Durchgangslager (Dulags) befinden sich unmittelbar hinter der Front, durch die Koppermanns Division operiert. Soldaten sahen die Zustände in diesen Lagern täglich."
+    },
+
+    {
+      "id": "KOMMISSARBEFEHL-1941",
+      "name": "Kommissarbefehl — Erschießung politischer Kommissare",
+      "kategorie": "strukturell",
+      "datum_von": "1941-06-06",
+      "datum_bis": "1942-05-06",
+      "ort": "Gesamte Ostfront",
+      "zentroid": { "lat": 52.0, "lon": 30.0 },
+      "opfer_zahl": "unbekannt (Tausende)",
+      "opfer_gruppe": "Sowjetische politische Offiziere (Kommissare)",
+      "taeter": "Wehrmacht (alle Einheiten)",
+      "beschreibung": "OKW-Befehl vom 6. Juni 1941: Gefangene politische Kommissare der Roten Armee sind sofort zu erschießen. Von regulären Heer-Einheiten umgesetzt. Im Mai 1942 offiziell aufgehoben (aus taktischen, nicht moralischen Gründen).",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Der Befehl gilt für alle Wehrmacht-Einheiten. Koppermanns Division ist ab Juni 1941 an der Ostfront. Ob und in welchem Ausmaß die 20. Inf.Div.(mot.) den Befehl umsetzte, ist nicht individuell dokumentiert."
+    },
+
+    {
+      "id": "WEISSRUSSLAND-PARTISANENBEKAEMPFUNG-1942-44",
+      "name": "Partisanenbekämpfung Weißrussland — Massaker an Zivilisten",
+      "kategorie": "repressalie",
+      "datum_von": "1942-01-01",
+      "datum_bis": "1944-07-01",
+      "ort": "Weißrussland (Belarus)",
+      "zentroid": { "lat": 53.7, "lon": 28.0 },
+      "opfer_zahl": "ca. 345.000 (davon 90% Zivilisten)",
+      "opfer_gruppe": "Weißrussische Zivilbevölkerung, Juden, Dorfgemeinschaften",
+      "taeter": "Wehrmacht (Korück-Einheiten, Sicherungsdivisionen), SS, Ordnungspolizei",
+      "beschreibung": "Unter dem Deckmantel der Partisanenbekämpfung systematische Vernichtung von Dörfern und Erschießung der Bevölkerung. Unternehmen Cottbus (Mai/Juni 1943), Unternehmen Hermann (1943): Tausende Zivilisten erschossen, Dörfer niedergebrannt. 9.200+ Dörfer zerstört.",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Koppermanns Division operiert 1942/43 im Raum Welish (Hgr. Mitte) und August 1943 im Raum Gorki/Ilija (Oblast Minsk). Partisanenbekämpfungsoperationen finden unmittelbar in diesem Gebiet statt. Die 20. Pz.Gren.Div. ist in die Sicherung des rückwärtigen Raums eingebunden."
+    },
+
+    {
+      "id": "CHATYN-1943",
+      "name": "Massaker Chatyn",
+      "kategorie": "repressalie",
+      "datum_von": "1943-03-22",
+      "datum_bis": "1943-03-22",
+      "ort": "Chatyn, Oblast Minsk, Weißrussland",
+      "zentroid": { "lat": 54.32, "lon": 27.9 },
+      "opfer_zahl": "149",
+      "opfer_gruppe": "Gesamte Zivilbevölkerung des Dorfes — Männer, Frauen, Kinder",
+      "taeter": "Schutzmannschafts-Bataillon 118 (ukrainische Kollaborateure), 36. SS-Grenadier-Division Dirlewanger",
+      "beschreibung": "Als Vergeltung für einen Partisanenangriff wird die gesamte Dorfbevölkerung in der Scheune eingesperrt und lebendig verbrannt. Chatyn wurde zum Symbol für die Vernichtung weißrussischer Dörfer.",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Chatyn liegt ca. 50 km nordöstlich von Minsk. Koppermanns Division kämpft März 1943 noch bei Welish (ca. 200 km östlich), aber das Muster dieser Vergeltungsaktionen durchzieht den gesamten Bereich der Hgr. Mitte. Im August 1943 ist Koppermann selbst im Raum Ilija, ca. 30 km von Chatyn entfernt."
+    },
+
+    {
+      "id": "UKRAINE-JUDEN-1941-42",
+      "name": "Massenerschießungen ukrainische Juden — Einsatzgruppe C",
+      "kategorie": "massaker",
+      "datum_von": "1941-07-01",
+      "datum_bis": "1942-12-31",
+      "ort": "Ukraine (Kiew, Charkow, Dnepropetrowsk, Poltawa u.a.)",
+      "zentroid": { "lat": 49.5, "lon": 32.0 },
+      "opfer_zahl": "ca. 500.000",
+      "opfer_gruppe": "Ukrainische Juden",
+      "taeter": "Einsatzgruppe C (SK 4a, 4b, EK 5, 6)",
+      "beschreibung": "Systematische Ermordung der jüdischen Bevölkerung der Ukraine. Beginnend mit dem Einmarsch der Hgr. Süd. Kamjanez-Podilskyj (Aug. 1941: 23.600), Babi Jar (Sept. 1941: 33.771) und hunderte weitere Massaker.",
+      "naehe_koppermann": "kontext",
+      "naehe_detail": "Koppermanns Division ist in Hgr. Mitte und Nord — nicht in der Ukraine. Relevant als paralleles Geschehen, das 1944 dann zu seinem Operationsgebiet wird."
+    },
+
+    {
+      "id": "RADOM-GHETTO-1942",
+      "name": "Liquidierung Ghetto Radom",
+      "kategorie": "ghetto",
+      "datum_von": "1942-08-05",
+      "datum_bis": "1942-08-17",
+      "ort": "Radom, Polen",
+      "zentroid": { "lat": 51.4, "lon": 21.15 },
+      "opfer_zahl": "ca. 33.000",
+      "opfer_gruppe": "Jüdische Bevölkerung Radoms",
+      "taeter": "SS, Ordnungspolizei, Deportation nach Treblinka",
+      "beschreibung": "Radom hatte ein der größten jüdischen Ghettos im Generalgouvernement. Im August 1942 zwei Deportationswellen nach Treblinka.",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Koppermann wird im September 1943 nach Radom ins Kriegslazarett verlegt (Quelle: WASt-Karte I, Meldungen 2 und 4). Die Liquidierung des Ghettos fand ein Jahr vorher statt — Koppermann kommt in eine bereits 'gereinigte' Stadt. Das Wissen um diese Ereignisse war unter den Soldaten verbreitet."
+    },
+
+    {
+      "id": "TRIER-DEPORTATION-1942",
+      "name": "Deportationen aus Trier und Region",
+      "kategorie": "ghetto",
+      "datum_von": "1941-10-01",
+      "datum_bis": "1943-03-01",
+      "ort": "Trier, Deutschland",
+      "zentroid": { "lat": 49.75, "lon": 6.64 },
+      "opfer_zahl": "ca. 1.300",
+      "opfer_gruppe": "Jüdische Bevölkerung von Trier und Umgebung",
+      "taeter": "Gestapo Trier, Deutsche Reichsbahn",
+      "beschreibung": "Aus Trier wurden jüdische Bürger in mehreren Transporten deportiert: nach Lodz (Oktober 1941), nach Theresienstadt (1942) und direkt nach Auschwitz/Sobibor (1942/43).",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Koppermann liegt Oktober–November 1943 im Bürgerhospital Trier und Res.Laz.I Trier zur Behandlung. Die letzten Deportationen aus Trier fanden kurz vor seiner Ankunft statt. Er behandelt sich in einer Stadt, aus der die jüdische Bevölkerung gerade abtransportiert wurde."
+    },
+
+    {
+      "id": "UNGARN-DEPORTATIONEN-1944",
+      "name": "Deportationen ungarischer Juden nach Auschwitz",
+      "kategorie": "massaker",
+      "datum_von": "1944-05-15",
+      "datum_bis": "1944-07-09",
+      "ort": "Ungarn → Auschwitz",
+      "zentroid": { "lat": 47.5, "lon": 19.0 },
+      "opfer_zahl": "437.000 deportiert, ca. 320.000 sofort vergast",
+      "opfer_gruppe": "Ungarische Juden",
+      "taeter": "SS (Eichmann), ungarische Gendarmerie",
+      "beschreibung": "Größte und schnellste einzelne Deportationsaktion des Holocaust. In 56 Tagen werden 437.000 Menschen deportiert. Auschwitz-Birkenau arbeitet auf maximale Kapazität.",
+      "naehe_koppermann": "zeitgleich",
+      "naehe_detail": "Koppermann ist Mai/Juni 1944 mit der 20. Pz.Gren.Div. in der Westukraine (Brody). Ungarn liegt südlich."
+    },
+
+    {
+      "id": "UKRAINE-RUECKZUG-VERBRANNTE-ERDE-1943-44",
+      "name": "Verbrannte Erde — Rückzug durch die Ukraine",
+      "kategorie": "strukturell",
+      "datum_von": "1943-10-01",
+      "datum_bis": "1944-07-01",
+      "ort": "Ukraine (Dnjepr bis Lemberg)",
+      "zentroid": { "lat": 49.5, "lon": 30.0 },
+      "opfer_zahl": "Hunderttausende (Zwangsdeportationen, Erschießungen, Zerstörung)",
+      "opfer_gruppe": "Ukrainische Zivilbevölkerung",
+      "taeter": "Wehrmacht, SS",
+      "beschreibung": "Beim Rückzug durch die Ukraine systematische Zerstörung von Infrastruktur, Zwangsverschleppung der Bevölkerung, Erschießung zurückgebliebener Zivilisten als 'Partisanen'. OKH-Befehle zur 'Evakuierung' (= Deportation zur Zwangsarbeit).",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Koppermanns Division (20. Pz.Gren.Div.) zieht sich 1943–1944 durch die Ukraine zurück: Dnjepr, Shitomir, Winniza, Kamenez-Podolsk. Die Division operiert in Gebieten, in denen diese Politiken umgesetzt werden."
+    },
+
+    {
+      "id": "HUBE-KESSEL-ZIVILISTEN-1944",
+      "name": "Hube-Kessel — Zwangsevakuierung Zivilbevölkerung",
+      "kategorie": "repressalie",
+      "datum_von": "1944-03-25",
+      "datum_bis": "1944-04-17",
+      "ort": "Kamenez-Podolsk, Westukraine",
+      "zentroid": { "lat": 48.68, "lon": 26.58 },
+      "opfer_zahl": "unbekannt (Tausende Zivilisten mitgeschleppt oder zurückgelassen)",
+      "opfer_gruppe": "Ukrainische und polnische Zivilbevölkerung der Region",
+      "taeter": "Wehrmacht (im Kontext der Ausbruchsoperation)",
+      "beschreibung": "Beim Ausbruch aus dem Kessel werden Zivilisten teils als Schutz, teils zwangsweise mitgenommen oder zurückgelassen. Die Region wird verwüstet.",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Koppermanns Division ist Teil des Ausbruchs aus dem Hube-Kessel (März–April 1944)."
+    },
+
+    {
+      "id": "WARSCHAU-VERNICHTUNG-1944",
+      "name": "Zerstörung Warschaus nach dem Aufstand",
+      "kategorie": "repressalie",
+      "datum_von": "1944-10-02",
+      "datum_bis": "1945-01-17",
+      "ort": "Warschau, Polen",
+      "zentroid": { "lat": 52.23, "lon": 21.01 },
+      "opfer_zahl": "ca. 200.000 Zivilisten (Aufstand); danach systematische Sprengung der Stadt",
+      "opfer_gruppe": "Polnische Zivilbevölkerung Warschaus",
+      "taeter": "SS (Einsatz der Einheiten Dirlewanger und RONA), Wehrmacht",
+      "beschreibung": "Nach Niederschlagung des Aufstands Befehl Hitlers zur vollständigen Zerstörung Warschaus. Systematisches Niederbrennen und Sprengen. 85% der Stadt vernichtet.",
+      "naehe_koppermann": "region",
+      "naehe_detail": "Koppermanns Division ist zur Zeit des Aufstands (Aug.–Okt. 1944) am Weichsel-Brückenkopf Baranow, ca. 250 km südlich von Warschau."
+    },
+
+    {
+      "id": "WEICHSELBOGEN-ZIVILBEVOELKERUNG-1945",
+      "name": "Flucht und Zwangsverschleppung Weichsel-Oder 1945",
+      "kategorie": "strukturell",
+      "datum_von": "1945-01-12",
+      "datum_bis": "1945-03-31",
+      "ort": "Polen — Weichsel bis Oder",
+      "zentroid": { "lat": 51.5, "lon": 19.5 },
+      "opfer_zahl": "Millionen auf der Flucht; Zehntausende sterben",
+      "opfer_gruppe": "Deutsche Zivilbevölkerung (Flucht), polnische Bevölkerung (Befreiung/Vertreibung)",
+      "taeter": "Wehrmacht (Verweigerung frühzeitiger Evakuierung), sowjetische Truppen (Kriegsverbrechen bei Vordringen)",
+      "beschreibung": "Die Weigerung der NS-Führung, frühzeitige Evakuierung zu erlauben, kostet Hunderttausende das Leben. Gleichzeitig: Sowjetische Kriegsverbrechen an der deutschen Zivilbevölkerung im Vormarsch.",
+      "naehe_koppermann": "direkt",
+      "naehe_detail": "Koppermann wird am 13.01.1945 im Weichselbogen als vermisst gemeldet — genau in dem Moment als die Offensive beginnt und Millionen Menschen in Bewegung geraten."
+    }
+
+  ]
+}

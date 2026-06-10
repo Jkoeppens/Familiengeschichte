@@ -1,0 +1,349 @@
+{
+  "quelle": "Bundesarchiv, B 563-1 KARTEI/K-1458/033",
+  "auskunft_datum": "2023-04-12",
+  "person": {
+    "familienname": "Koppermann",
+    "vorname": "Hans-Jürgen",
+    "geboren_am": "1917-09-02",
+    "geburtsort": "Hannover",
+    "erkennungsmarke": "-42- / 1/N.20",
+    "anmerkung_schreibweise": "In Erkennungsmarkenverzeichnissen als 'Hans Koppermann' registriert"
+  },
+  "dienstgrad_verlauf": [
+    {
+      "dienstgrad": "Zugführer",
+      "abkuerzung": "Zgf.",
+      "datum": null
+    },
+    {
+      "dienstgrad": "Unteroffizier",
+      "abkuerzung": "Uffz.",
+      "datum": null
+    },
+    {
+      "dienstgrad": "Leutnant der Reserve",
+      "abkuerzung": "Lt. d.R.",
+      "datum": "1944-11-09",
+      "anmerkung": "B.D.R. = Beförderungsdatum der Reserve"
+    }
+  ],
+  "truppenteile_kartei": [
+    {
+      "einheit": "11. Kompanie, Grenadier-Regiment 90",
+      "abkuerzung": "11/ Gr.R. 90",
+      "verband": "9. Kompanie, Panzergrenadier-Bataillon 90 = 20. Panzergrenadier-Division",
+      "abkuerzung_verband": "9./Pz.Gr.B.90 = 20. Pz. Gren. Div."
+    }
+  ],
+  "truppenteile_erkennungsmarkenverzeichnis": [
+    {
+      "einheit": "1. Kompanie, Nachrichten-Abteilung 20",
+      "abkuerzung": "1. Kp. N.A. 20",
+      "jahr": 1939,
+      "signatur": "B 563/40425"
+    },
+    {
+      "einheit": "1. Kompanie, Nachrichten-Abteilung 20",
+      "abkuerzung": "1. Kp. N.A. 20",
+      "jahr": 1942,
+      "signatur": "B 563/40425"
+    },
+    {
+      "einheit": "Stamm-Kompanie, Nachrichten-Ersatz-Abteilung 20",
+      "abkuerzung": "Stmkp. N.E.A. 20",
+      "jahr": 1942,
+      "signatur": "B 563/40291"
+    },
+    {
+      "einheit": "Genesenden-Kompanie, Nachrichten-Ersatz-Abteilung 20",
+      "abkuerzung": "Genes.Kp. N.E.A. 20",
+      "jahr": 1942,
+      "signatur": "B 563/40300"
+    },
+    {
+      "einheit": "1. Genesenden-Kompanie, Nachrichten-Ersatz-Abteilung 20",
+      "abkuerzung": "1. Genes.Kp. N.E.A. 20",
+      "jahr": 1942,
+      "signatur": "B 563/40302"
+    },
+    {
+      "einheit": "11. Kompanie, Infanterie-Regiment 90",
+      "abkuerzung": "11. Kp. I.R. 90",
+      "jahr": 1943,
+      "signatur": "B 563/72634"
+    },
+    {
+      "einheit": "1. Marsch-Kompanie, Grenadier-Ersatz-Bataillon 76",
+      "abkuerzung": "1. Marschkp. G.E.B. 76",
+      "jahr": 1943,
+      "signatur": "B 563/61533"
+    },
+    {
+      "einheit": "Marsch-Kompanie, Grenadier-Ersatz-Bataillon (motorisiert) 90",
+      "abkuerzung": "Marschkp. G.E.B.(mot.) 90",
+      "jahr": 1943,
+      "signatur": "B 563/61771"
+    }
+  ],
+  "karte_I": {
+    "signatur": "B 563-1 KARTEI/K-1458/033, Karte I",
+    "meldungen": [
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 1,
+        "ereignis_datum": "1943-08-28",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "Gr. Spli. Verl. Hals + re. Ohr",
+        "eintrag_aufgeloest": "Granatsplitter-Verwundung an Hals und rechtem Ohr",
+        "ort": null,
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": null,
+        "ereignis_datum": "1943-08-29",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "Krgsz. 3/605 Roslaml(?), Lkb. 3567/[?], 1. Sankp. 20",
+        "eintrag_aufgeloest": "Kriegslazarett 3/605, Ort: Roslaml (unsicher lesbar), Lazarett-Krankenbuch Nr. 3567, 1. Sanitäts-Kompanie 20",
+        "ort": "Roslaml (unsicher)",
+        "einheit": "1. Sanitäts-Kompanie 20"
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": null,
+        "ereignis_datum": "1943-08-30",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "rekw. Lg.",
+        "eintrag_aufgeloest": "Rekonvaleszenz-Lager (Genesungslager)",
+        "ort": null,
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 2,
+        "ereignis_datum": "1943-09-01",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "Rela. [?], Radom, Lkb. 23787, [?] 2. Zg.",
+        "eintrag_aufgeloest": "Relazarettierung nach Radom, Lazarett-Krankenbuch Nr. 23787, 2. Zug (Lazarettzug)",
+        "ort": "Radom (Polen)",
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 3,
+        "ereignis_datum": "1943-09-06",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "verl. m. L. Zg.",
+        "eintrag_aufgeloest": "Verlegt mit Lazarett-Zug (Krankentransportzug)",
+        "ort": null,
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 4,
+        "ereignis_datum": "1943-09-07",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "Rela. [?] Radom, Lkb. 3242/[?], Rela. [?] Reichspl",
+        "eintrag_aufgeloest": "Relazarettierung von Radom, Lazarett-Krankenbuch Nr. 3242, Relazarettierung Reichspost-Lazarett (unsicher)",
+        "ort": "Radom (Polen)",
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 5,
+        "ereignis_datum": "1943-10-16",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "verl. m. L. Zg.",
+        "eintrag_aufgeloest": "Verlegt mit Lazarett-Zug",
+        "ort": null,
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 6,
+        "ereignis_datum": "1943-10-21",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "Rela. Trier [?] Bürgerhospital, Lkb. [?] 377/ u. L. Zg.",
+        "eintrag_aufgeloest": "Relazarettierung nach Trier, Bürgerhospital, Lazarett-Krankenbuch Nr. 377, und (weiter mit) Lazarett-Zug",
+        "ort": "Trier",
+        "einheit": "Bürgerhospital Trier"
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 7,
+        "ereignis_datum": "1943-10-25",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "verl. Rela. [?] Trier",
+        "eintrag_aufgeloest": "Verlegt, Relazarettierung in Trier",
+        "ort": "Trier",
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 8,
+        "ereignis_datum": "1943-10-25",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "Rela. Trier [?] Lkb. [III]/634/ u. Rela. [?] / Trier",
+        "eintrag_aufgeloest": "Relazarettierung Trier, Lazarett-Krankenbuch III/634, und weitere Relazarettierung in Trier",
+        "ort": "Trier",
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-03-27",
+        "meldung_nr": 9,
+        "ereignis_datum": "1943-11-20",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "verl. Rela. Marburg",
+        "eintrag_aufgeloest": "Verlegt, Relazarettierung nach Marburg",
+        "ort": "Marburg",
+        "einheit": null
+      },
+      {
+        "eingang_wast": "1944-04-20",
+        "meldung_nr": "I",
+        "ereignis_datum": "1943-08-28",
+        "meldungstyp": "V1 (Truppenmeldung)",
+        "eintrag_original": "Gorki etwa 35 km südostw. Illüja — leicht verw.: A.G. re. Ohr — abgeg.: [?] V.Pl. 20 Pz. Gren. Div., V.2. 146 Efde. 1602",
+        "eintrag_aufgeloest": "Verwundungsort: Gorki, ca. 35 km südöstlich von Ilija (Weißrussland/Oblast Minsk) — leicht verwundet: Aufnahme-Diagnose rechtes Ohr — abgegangen über: Hauptverbandsplatz der 20. Panzergrenadier-Division, Verlustmeldung Bd. 2, Nr. 146, Einheit 1602",
+        "ort": "Gorki, ca. 35 km südöstlich von Ilija (BY)",
+        "einheit": "20. Panzergrenadier-Division",
+        "koordinaten_ungefaehr": {
+          "beschreibung": "Gorki südöstlich Ilija, Oblast Minsk, Weißrussland",
+          "lat_ungefaehr": 54.0,
+          "lon_ungefaehr": 27.1
+        }
+      },
+      {
+        "eingang_wast": "1944-10-24",
+        "meldung_nr": "II",
+        "ereignis_datum": "1943-11-21",
+        "meldungstyp": "V2 (Lazarettmeldung)",
+        "eintrag_original": "Res. Laz. III Marburg/Lahn, Ohrenklinik, Lkb. 364",
+        "eintrag_aufgeloest": "Reserve-Lazarett III Marburg an der Lahn, Ohrenklinik, Lazarett-Krankenbuch Nr. 364",
+        "ort": "Marburg an der Lahn",
+        "einheit": "Reserve-Lazarett III, Ohrenklinik"
+      },
+      {
+        "eingang_wast": "1944-10-24",
+        "meldung_nr": "II (Folgeeinträge)",
+        "ereignis_datum": "1943-08-28",
+        "meldungstyp": "V2 (Lazarettmeldung, nachgetragen)",
+        "eintrag_original": "Gr. Spl. Verl. re. Ohr. Küng. v. Res. Laz. I Trier. Abg. a. 15.3.44, Abg. Gren. Ers. Btl. 90, Hamburg-Wandsbek.",
+        "eintrag_aufgeloest": "Granatsplitter-Verwundung rechtes Ohr. Zugang von Reserve-Lazarett I Trier. Abgang am 15.03.1944, abgegeben an Grenadier-Ersatz-Bataillon 90, Hamburg-Wandsbek.",
+        "ort": "Trier → Hamburg-Wandsbek",
+        "einheit": "Reserve-Lazarett I Trier → Grenadier-Ersatz-Bataillon 90"
+      }
+    ]
+  },
+  "karte_II": {
+    "signatur": "B 563-1 KARTEI/K-1458/033, Karte II",
+    "anmerkung": "Administrative Nachkriegskarte, Einträge 1960 und 1986",
+    "meldungen": [
+      {
+        "eingang_wast": "1960-11-07",
+        "meldung_nr": null,
+        "meldungstyp": "Verwaltung",
+        "eintrag_original": "Aktion BMA — Archiv zur Prüfung",
+        "eintrag_aufgeloest": "Aktion Bundesministerium für Arbeit (Versorgungsanfrage) — Akte ans Archiv zur Prüfung"
+      },
+      {
+        "eingang_wast": "1960-11-15",
+        "meldung_nr": null,
+        "meldungstyp": "Auskunft",
+        "eintrag_original": "In 44. Pz. Gren. Rgt. 19/4. 44-Pz.-Div. 'Hohenstaufen' — keine Verl.-Meldg. — Abt.-Formbl. (POW) liegt nicht vor",
+        "eintrag_aufgeloest": "Im Panzergrenadier-Regiment 19 der 4. [SS-]Panzerdivision 'Hohenstaufen' (Stand: April 1944) — keine Verlustmeldung vorhanden — Abteilungsformblatt Kriegsgefangenschaft liegt nicht vor",
+        "einheit": "SS-Panzergrenadier-Regiment 19 / 9. SS-Panzerdivision 'Hohenstaufen'"
+      },
+      {
+        "eingang_wast": "1960-11-17",
+        "meldung_nr": null,
+        "meldungstyp": "Auskunft",
+        "eintrag_original": "Vom Pz. Gren. Rgt. 19 keine Verlagerungen (Fmf.)",
+        "eintrag_aufgeloest": "Vom Panzergrenadier-Regiment 19 keine Verlagerungsmeldungen vorhanden (Fernmeldung/Formblatt)",
+        "einheit": "Panzergrenadier-Regiment 19"
+      },
+      {
+        "eingang_wast": "1960-12-06",
+        "meldung_nr": null,
+        "meldungstyp": "Verwaltung",
+        "eintrag_original": "Aktion BMA: VA Hamburg, auf Anfrage v. 10.5.60, Az. 64925: 2 Fotokop. d. ZK u. [...] Keine Aufzeichnungen über Beschädigung [...] auf Schreiben v. [...] verwiesen",
+        "eintrag_aufgeloest": "Aktion BMA: Versorgungsamt Hamburg, auf Anfrage vom 10.05.1960, Aktenzeichen 64925: 2 Fotokopien der Zentralkartei übersandt. Keine Aufzeichnungen über Beschädigung/Verwundung. Auf Schreiben verwiesen.",
+        "anmerkung": "Jemand (vermutlich dein Opa oder ein Angehöriger) hat 1960 beim Versorgungsamt Hamburg einen Antrag gestellt, wohl auf Kriegsversehrtenrente"
+      },
+      {
+        "eingang_wast": "1986-07-25",
+        "meldung_nr": "VII/1",
+        "meldungstyp": "Auskunft / Vermissten-Meldung",
+        "eintrag_original": "Ausw.: 13.1.45 vermisst",
+        "eintrag_aufgeloest": "Auswertung: am 13. Januar 1945 als vermisst gemeldet",
+        "ereignis_datum": "1945-01-13"
+      },
+      {
+        "eingang_wast": "1986-07-25",
+        "meldung_nr": "KG",
+        "meldungstyp": "Kriegsgefangenenhinweis",
+        "eintrag_original": "Lt. Vorl.-Meldg. Bd. A 620, eingesandt am 19.7.84 vom B.R./Z.N.S.",
+        "eintrag_aufgeloest": "Laut Vorlage-Meldung Band A 620, eingesandt am 19.07.1984 vom Bayerischen Roten Kreuz / Zentrales Nachweisbüro für Suchdienste",
+        "anmerkung": "Jemand hat 1984 über das DRK-Suchdienstnetz eine Meldung eingesandt — möglicherweise Klärung des Vermisstenstatuts"
+      }
+    ]
+  },
+  "lazarett_route": [
+    {
+      "datum": "1943-08-28",
+      "ort": "Gorki, ca. 35 km südöstlich Ilija (BY)",
+      "station": "Verwundung an der Front",
+      "lat": 54.02,
+      "lon": 27.08
+    },
+    {
+      "datum": "1943-08-29",
+      "ort": "Kriegslazarett 3/605 (Ort: Roslaml, unsicher)",
+      "station": "Erstes Kriegslazarett / Sanitäts-Kompanie 20",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "datum": "1943-09-01",
+      "ort": "Radom (Polen)",
+      "station": "Relazarettierung",
+      "lat": 51.4,
+      "lon": 21.15
+    },
+    {
+      "datum": "1943-10-21",
+      "ort": "Trier — Bürgerhospital",
+      "station": "Relazarettierung",
+      "lat": 49.75,
+      "lon": 6.64
+    },
+    {
+      "datum": "1943-11-21",
+      "ort": "Marburg an der Lahn — Res. Laz. III, Ohrenklinik",
+      "station": "Reserve-Lazarett",
+      "lat": 50.81,
+      "lon": 8.77
+    },
+    {
+      "datum": "1944-03-15",
+      "ort": "Hamburg-Wandsbek",
+      "station": "Abgang zum Grenadier-Ersatz-Bataillon 90",
+      "lat": 53.57,
+      "lon": 10.13
+    },
+    {
+      "datum": "1945-01-13",
+      "ort": "unbekannt (Ostfront)",
+      "station": "Als vermisst gemeldet",
+      "lat": null,
+      "lon": null
+    }
+  ],
+  "offene_fragen": [
+    "Beinverlust/Amputation ist in diesen Karten nicht dokumentiert — möglicherweise im Krankenbuchlager oder in Versorgungsamtsunterlagen",
+    "Genaues Kriegsgefangenenstatus unklar — KG-Formblatt lag laut Karte II nicht vor",
+    "Einsatzort Januar 1945 bei der Hohenstaufen unbekannt",
+    "Ort 'Roslaml' (29.8.43) unsicher lesbar — könnte Roslav/Roslawl sein (Oblast Smolensk, RU)",
+    "Verhältnis zur 9. SS-Panzerdivision 'Hohenstaufen' klärungsbedürftig — reguläre Wehrmacht oder Waffen-SS-Attachment?"
+  ]
+}
