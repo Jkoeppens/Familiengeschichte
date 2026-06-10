@@ -393,6 +393,9 @@ const _DATA_TESSIN = {
     { "datum": "1940-05", "korps": "XXXXL. AK",     "armee": "12. Armee",   "hgr": "A",             "ort": "Belgien / Dyle-Stellung (Fall Gelb)",     "lat": 50.85, "lon": 4.35  },
     { "datum": "1940-06", "korps": "XXXXL. AK",     "armee": "12. Armee",   "hgr": "A",             "ort": "Frankreich (Fall Rot, Champagne)",        "lat": 49.0,  "lon": 4.5   },
     { "datum": "1940-07", "korps": "XIV. AK",        "armee": "2. Armee",    "hgr": "C",             "ort": "Frankreich (Besatzungstruppe)",           "lat": 47.5,  "lon": 1.5   },
+    { "datum": "1940-11", "korps": "XIV. AK",        "armee": "1. Armee",    "hgr": "D",             "ort": "Frankreich (Besatzungstruppe)",           "lat": 47.5,  "lon": 1.5   },
+    { "datum": "1941-03", "korps": "XXXXL. AK",     "armee": "1. Armee",    "hgr": "A",             "ort": "Frankreich (Besatzungstruppe)",           "lat": 47.5,  "lon": 1.5   },
+    { "datum": "1941-05", "korps": "z.Vfg.",         "armee": null,           "hgr": null,            "ort": "Ostaufmarsch (Mittel-Deutschland)",       "lat": 51.5,  "lon": 10.0  },
     { "datum": "1941-06", "korps": "XXXIX. AK",     "armee": "3. Pz.Gruppe", "hgr": "Mitte",        "ort": "Osten, Białystok / Minsk (Barbarossa)",  "lat": 53.9,  "lon": 27.6  },
     { "datum": "1941-08", "korps": "XXXIX. AK",     "armee": "16. Armee",   "hgr": "Nord",          "ort": "Osten, Ladogasee / Tichwin",             "lat": 59.6,  "lon": 33.5  },
     { "datum": "1941-10", "korps": "I. AK",          "armee": "18. Armee",   "hgr": "Nord",          "ort": "Osten, Wolchow / Tschudowo",             "lat": 59.1,  "lon": 31.7  },
@@ -1491,18 +1494,54 @@ function getKoppermann(ym) {
   };
 }
 
-// Lazarett-Wegpunkte (WASt-Primärquelle)
-const LAZ_GEOJSON = {
-  type:'FeatureCollection',
-  features:[
-    {type:'Feature',geometry:{type:'LineString',coordinates:[[27.08,54.02],[21.15,51.4],[6.64,49.75],[8.77,50.81],[10.08,53.57]]},properties:{role:'line'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[27.08,54.02]},properties:{ort:'Gorki bei Ilija',datum:'28.08.1943',station:'Verwundung — Granatsplitter Hals und rechtes Ohr',quelle:'WASt-Karte I, Meldung I'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[21.15,51.4]}, properties:{ort:'Radom (Polen)',datum:'01.09.1943',station:'Kriegslazarett 3/605 / Relazarettierung',quelle:'WASt-Karte I, Meldungen 1–4'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[6.64,49.75]}, properties:{ort:'Trier',datum:'21.10.1943',station:'Bürgerhospital / Reserve-Lazarett I Trier',quelle:'WASt-Karte I, Meldungen 6–8'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[8.77,50.81]}, properties:{ort:'Marburg/Lahn',datum:'20.11.1943',station:'Reserve-Lazarett III — Ohrenklinik (Lkb. 364)',quelle:'WASt-Karte I, Meldung II'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[10.08,53.57]},properties:{ort:'Hamburg-Wandsbek',datum:'15.03.1944',station:'Entlassung → Grenadier-Ersatz-Bataillon 90',quelle:'WASt-Karte I, Meldung II'}},
-  ]
-};
+// ── Trajektorielinie ─────────────────────────────────────────────────────────
+
+function buildTrajectoryData(upToYm) {
+  const solidSegs = [];   // belegt-Segmente
+  const dashedSegs = [];  // einheit-Segmente
+  let run = [], runType = null;
+
+  for (const ym of MONTHS) {
+    if (ym > upToYm) break;
+    const k = getKoppermann(ym);
+    if (!k.lat || !k.lon) {
+      if (run.length >= 2) (runType === 'belegt' ? solidSegs : dashedSegs).push(run);
+      run = []; runType = null;
+      continue;
+    }
+    const pt = [k.lon, k.lat];
+    const t  = k.sicherheit === 'belegt' ? 'belegt' : 'einheit';
+    if (runType === null) {
+      run = [pt]; runType = t;
+    } else if (t === runType) {
+      run.push(pt);
+    } else {
+      // Übergang: aktuellen Punkt noch ins alte Segment, neues Segment am selben Punkt starten
+      run.push(pt);
+      if (run.length >= 2) (runType === 'belegt' ? solidSegs : dashedSegs).push(run);
+      run = [pt]; runType = t;
+    }
+  }
+  if (run.length >= 2) (runType === 'belegt' ? solidSegs : dashedSegs).push(run);
+
+  const mkGJ = segs => ({
+    type: 'Feature',
+    geometry: { type: 'MultiLineString', coordinates: segs.length ? segs : [] },
+    properties: {}
+  });
+  return { solid: mkGJ(solidSegs), dashed: mkGJ(dashedSegs) };
+}
+
+function updateTrajectory(ym) {
+  const visible = S.fl.bio;
+  ['trajectory-solid','trajectory-dashed'].forEach(id => {
+    if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
+  });
+  if (!visible) return;
+  const { solid, dashed } = buildTrajectoryData(ym);
+  if (map.getSource('trajectory-solid')) map.getSource('trajectory-solid').setData(solid);
+  if (map.getSource('trajectory-dashed')) map.getSource('trajectory-dashed').setData(dashed);
+}
 
 // ═══════════════════════════════════════════════════════════
 //  MAP
@@ -1645,11 +1684,15 @@ function setupLayers(kzGeoJSON) {
     }});
   }
 
-  // Lazarettroute
-  map.addSource('laz',{type:'geojson',data:LAZ_GEOJSON});
-  map.addLayer({id:'laz-line',type:'line',source:'laz',
-    filter:['==',['geometry-type'],'LineString'],
-    paint:{'line-color':'#9b59b6','line-width':2.5,'line-dasharray':[5,4],'line-opacity':0.9},
+  // Trajektorielinie (dynamisch, wächst mit dem Slider)
+  const _emptyML = {type:'Feature',geometry:{type:'MultiLineString',coordinates:[]},properties:{}};
+  map.addSource('trajectory-solid',  {type:'geojson', data: _emptyML});
+  map.addSource('trajectory-dashed', {type:'geojson', data: _emptyML});
+  map.addLayer({id:'trajectory-solid', type:'line', source:'trajectory-solid',
+    paint:{'line-color':'#4a85a0','line-width':2,'line-opacity':0.9},
+    layout:{visibility:'none'}});
+  map.addLayer({id:'trajectory-dashed', type:'line', source:'trajectory-dashed',
+    paint:{'line-color':'#4a85a0','line-width':1.5,'line-opacity':0.45,'line-dasharray':[5,4]},
     layout:{visibility:'none'}});
   // Cursor-Feedback
   ['op-c','cr-c','kz-c'].forEach(id => {
@@ -1834,11 +1877,8 @@ async function goToMonth(idx) {
     map.setFilter('kz-c', f);
   }
 
-  // ── Lazarettroute ──
-  const showLaz = S.fl.bio && ym >= '1943-08' && ym <= '1944-03';
-  if (map.getLayer('laz-line')) {
-    map.setLayoutProperty('laz-line','visibility', showLaz?'visible':'none');
-  }
+  // ── Trajektorielinie ──
+  updateTrajectory(ym);
 
   // ── Koppermann-Marker ──
   updateKoppMarker(ym);
@@ -1858,10 +1898,7 @@ function applyVis() {
   if (map.getLayer('op-c'))  map.setLayoutProperty('op-c','visibility',v(S.fl.mil));
   if (map.getLayer('cr-c'))  { map.setLayoutProperty('cr-c','visibility',v(S.fl.cr)); map.setLayoutProperty('cr-sym','visibility',v(S.fl.cr)); }
   if (map.getLayer('kz-c'))  map.setLayoutProperty('kz-c','visibility',v(S.fl.kz));
-  const showLaz = S.fl.bio && ym >= '1943-08' && ym <= '1944-03';
-  if (map.getLayer('laz-line')) {
-    map.setLayoutProperty('laz-line','visibility',v(showLaz));
-  }
+  updateTrajectory(MONTHS[S.idx]);
   if (S.koppMarker) S.koppMarker.getElement().style.display = S.fl.bio ? '' : 'none';
 }
 
