@@ -62,67 +62,108 @@ def extract_pages(pdf_path: Path) -> list[str]:
 
 # ── 2. chunk detection ────────────────────────────────────────────────────────
 
-# Unit type keywords that appear in entry names
-UNIT_TYPES = (
-    r'Infanterie|Panzer(?:grenadier)?|Artillerie|Pionier(?:e)?|Grenadier|'
-    r'Schützen|Jäger|Kavallerie|Gebirgs|Fallschirm|Luftlande|'
-    r'Feld-Div(?:ision)?|Flak|Nachrichten|Versorgungs|'
-    r'Ersatz|Reserve|Grenzschutz|Festungs|Sturm|Kampf|Schnell|Radfahr|'
-    r'Sicherungs|Heeres|Signal|Eisenbahn|Brücken|Bau|Wach|'
-    r'Generalkommando|Wehrkreis|Korps|Armee|Luftgau'
+# Matches a formation-date after *: "* 26.8.1939", "* Nov. 1944", "* Herbst 1943"
+RE_STAR_DATE = re.compile(
+    r'\*\s*('
+    r'\d{1,2}[\.,]\d{1,2}[\.,]\d{4}|'   # 1.11.1940
+    r'\d{1,2}[\.,]\s*\d{4}|'             # 1.1940
+    r'[A-Z][a-z]{2,}\.?\s*\d{4}|'       # Nov. 1944
+    r'[A-Z][a-z]{4,}\.?\s*19\d{2}|'     # Herbst 1943
+    r'\d{4}\s'                            # 1939 ...
+    r')'
 )
 
-# Pattern: a number followed by a dot, optional spaces, then a unit type word
-# Covers both "20.Infanterie-Division" and "20. Infanterie-Division"
-RE_ENTRY_START = re.compile(
-    rf'^(\d{{1,3}})\.\s*(?:{UNIT_TYPES})',
-    re.MULTILINE | re.IGNORECASE,
+# Fallback for major divisions that have (WK...) but OCR dropped the *
+RE_WK_HEADER = re.compile(r'\(WK\s+[IVX]', re.IGNORECASE)
+
+# Section/chapter lines to skip when looking backwards for a unit name
+RE_SECTION = re.compile(
+    r'^[A-Z]\.\s*(Infanterie|Schnell|Artillerie|Pionier|Nachrichten|Versorgungs|'
+    r'Kraftfahr|Sanität|Feldjäger|Sicherungs|Luftwaffe|Waffen|Verbündete)',
+    re.IGNORECASE,
 )
 
-# Fallback: anything with (WK on same or next line after a heading
-RE_WK = re.compile(r'\(WK\s+[IVX]+', re.IGNORECASE)
+
+def _line_offsets(lines: list[str]) -> list[int]:
+    """Character offset of the start of each line in the joined text."""
+    offs = [0]
+    for ln in lines:
+        offs.append(offs[-1] + len(ln) + 1)
+    return offs
 
 
 def find_chunks(full_text: str) -> list[dict]:
-    """Split full text into unit entry chunks using entry-start patterns.
+    """Star-centric chunk detection.
 
-    A true new entry must have a '*' formation date within 500 chars of the
-    header line.  Sub-headings like '20.Panzergrenadier-Division' (renaming
-    paragraphs inside a larger entry) don't have one, so they're skipped.
+    Primary signal: every Tessin entry has a '*<date>' formation marker.
+    For each such marker we walk back to find where the entry name is, then
+    record that position as a chunk start.
+
+    Fallback: major divisions that have (WK...) but whose * was dropped by OCR.
     """
-    matches = list(RE_ENTRY_START.finditer(full_text))
-    real_starts = []
-    for m in matches:
-        lookahead = full_text[m.start(): m.start() + 500]
-        # Use only the header block (before first blank line) for star check
-        first_blank = lookahead.find('\n\n')
-        header_block = lookahead[:first_blank] if first_blank != -1 else lookahead[:300]
-        # Remove lines that start a new sub-unit (contain "Rgt.", "Btl.", "Abt." + "*")
-        # so that a "*" in a following sub-unit entry doesn't count
-        header_lines = []
-        for ln in header_block.splitlines():
-            if re.match(r'\s*\w+[\.\-]\w+.*\*', ln) and header_lines:
-                break  # stop at any line that looks like a new entry after the first
-            header_lines.append(ln)
-        header_clean = '\n'.join(header_lines)
+    lines = full_text.splitlines()
+    loff = _line_offsets(lines)   # loff[i] = char offset of lines[i]
 
-        has_star = bool(
-            re.search(r'\*\s*\d', header_clean)
-            or re.search(r'\*\s*[A-Z]\w{2}', header_clean)  # "* Okt", "* Jan" etc.
-        )
-        # (WK ...) is also a reliable entry-header marker, within 200 chars
-        has_wk = bool(re.search(r'\(WK\s+[IVX]', lookahead[:200]))
-        # Skip cross-references ("15.Panzer-Grenadier-Division, siehe: ...")
-        is_ref = bool(re.search(r'\bsiehe\b', lookahead[:80], re.IGNORECASE))
-        if (has_star or has_wk) and not is_ref:
-            real_starts.append(m)
+    def is_skip_line(ln: str) -> bool:
+        """Lines that are not unit names: (WK...), section headings, blank."""
+        s = ln.strip()
+        return (not s
+                or s.startswith('(')
+                or RE_SECTION.match(s)
+                or re.match(r'^[A-Z]\.\s+\w', s))   # "A. Kommandobehörden"
 
+    chunk_starts: set[int] = set()   # set of char offsets
+
+    # ── primary pass: star-date lines ────────────────────────────────────────
+    for i, line in enumerate(lines):
+        if not RE_STAR_DATE.search(line):
+            continue
+        stripped = line.strip()
+
+        # Inline case: "UnitName * date…" — * is NOT the first non-space char
+        if not stripped.startswith('*'):
+            star_pos = line.find('*')
+            before = line[:star_pos].strip()
+            if before:
+                chunk_starts.add(loff[i])
+                continue
+
+        # Line-start case: "* date…" — name is on a preceding line
+        for back in range(1, 5):
+            if i - back < 0:
+                break
+            candidate = lines[i - back]
+            if is_skip_line(candidate):
+                continue
+            # Skip lines that are already inside a chunk body (indented continuation)
+            if candidate.startswith('  ') or candidate.startswith('\t'):
+                continue
+            chunk_starts.add(loff[i - back])
+            break
+
+    # ── fallback pass: (WK...) headers without * ────────────────────────────
+    for i, line in enumerate(lines):
+        if not RE_WK_HEADER.search(line):
+            continue
+        # The unit name is the preceding non-skip line
+        for back in range(1, 4):
+            if i - back < 0:
+                break
+            candidate = lines[i - back]
+            if is_skip_line(candidate):
+                continue
+            chunk_starts.add(loff[i - back])
+            break
+
+    sorted_starts = sorted(chunk_starts)
+
+    # ── build raw chunks ─────────────────────────────────────────────────────
     chunks = []
-    for idx, m in enumerate(real_starts):
-        start = m.start()
-        end = real_starts[idx + 1].start() if idx + 1 < len(real_starts) else len(full_text)
+    for idx, start in enumerate(sorted_starts):
+        end = sorted_starts[idx + 1] if idx + 1 < len(sorted_starts) else len(full_text)
         raw = full_text[start:end].strip()
-        chunks.append({'offset': start, 'raw': raw})
+        if raw:
+            chunks.append({'offset': start, 'raw': raw})
     return chunks
 
 
@@ -148,7 +189,7 @@ RE_U = re.compile(r'\bU:\s*(.+?)(?=\nG:|\nE:|\nUnterstellung|\Z)', re.DOTALL)
 RE_E = re.compile(r'\bE:\s*(.+?)(?=\nG:|\nU:|\nUnterstellung|\Z)', re.DOTALL)
 
 RE_USTERZ_BLOCK = re.compile(
-    r'Unterstellung\s*:\s*\n(.*?)(?=\n(?:[A-Z][a-z]+ersatz|Feldersatz|\Z))',
+    r'Unterstellung\s*:\s*\n(.*?)(?=\n[A-Z][a-z]+ersatz|\nFeldersatz|\Z)',
     re.DOTALL,
 )
 
@@ -197,11 +238,20 @@ def parse_chunk(chunk: dict) -> dict:
 
     # Unit name: first line
     first_line = raw.splitlines()[0].strip()
+    # Strip trailing * and everything after it if * is mid-line
+    name_line = re.sub(r'\s*\*.*', '', first_line).strip()
 
-    # Number + name
-    m_hdr = re.match(r'^(\d{1,3})\.\s*(.+)', first_line)
-    nummer = m_hdr.group(1) if m_hdr else ''
-    name_raw = m_hdr.group(2).strip() if m_hdr else first_line
+    # Pattern A: "20.Infanterie-Division" — number leads
+    m_hdr = re.match(r'^(\d{1,3})\.\s*(.+)', name_line)
+    if m_hdr:
+        nummer = m_hdr.group(1)
+        name_raw = m_hdr.group(2).strip()   # strip leading "20." prefix
+    else:
+        # Pattern B: "Feldersatz-Btl.20" — number at end
+        # Extract the last number in range 15-30 as the unit number
+        name_raw = name_line
+        nums = re.findall(r'\b(\d{1,3})\b', name_line)
+        nummer = next((n for n in reversed(nums) if 15 <= int(n) <= 30), '')
 
     # WK + FStO from (WK ...) line
     wehrkreis = ''
