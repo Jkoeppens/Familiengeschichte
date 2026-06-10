@@ -1,0 +1,2176 @@
+[
+  {
+    "nummer": "15",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "2,Okt.1934in Würzburg, Tarnbezeichnung „Artillerieführer V“; 15.10.193515.Inf.",
+    "gliederung": "1939 IEB 81 Frankfurt, 88 Fulda, 106 Aschaffenburg 1940 IEB 81 Frankfurt, 88 Fulda, 367 Hanau 1941 IEB 88 Fulda, 163 Kassel, 451 Gotha, 459 Eisenach",
+    "ueberstellung_kurz": "15. Inf.Div. 15.Panzer-Grenadier-Division, siehe: SchnelleTruppen burg Infanterie-Ers.Rgt. 15 * 26.8.1939 in Hanau, WK IX als Stab für die Ersatzeinheiten der 15.Inf.Div.; 1.12.1940 nach Eisenach verlegt, seit 1.10.1942 Res.Inf.Rgt. 15; Res.Grenadier-Rgt.15 am 7.11.1942 und nach Frankreich verlegt; 9.11.1942 mobil als Ts) Grenadier-Rgt. (B) 15 ;",
+    "ersatz": "15 Kassel, WK IX Ergänzungs-Bitl. Inf.Rgt. 15,FStO. Kassel, WK IX, wird bei Mobilmachung III./Inf.Rgt. 451 der 251.Inf.Div. 4.Welle. Infanterie-Ers.Btl. (mot.) 15 *26.8.1939 in Kassel, WK IX; 1.10.1942 geteilt; Grenadier-Ers. resp. Ausb.Btl. (mot.)15 Kassel am 7.11.1942; 10.4.1943 vereinigt zum Gren. Ers. u.Ausb.Btl. (mot.) 15; 1.8.1943 abermals in Ers. u. Res.Btl. geteilt. Das Ers.Btl. am 31.3.1944 aufgelöst.",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept./Okt.",
+        "detail": "XI 1.Armee ne“ Westen Saarpfalz"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Dez.",
+        "detail": "2.Vfg. 16.Armee «Be Westen Saarpfalz"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan./Mai",
+        "detail": "z. Vfg. 16. Armee A Westen Trier, Luxemburg"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "VI 2.Armee „A“ Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli/",
+        "detail": "Aug. XXVI 12. Armee er Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Sept./Okt.",
+        "detail": "XXVII 1.Armee Aer Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Nov./Dez.",
+        "detail": "XXVI 1.Armee =D: Westen Frankreich"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Jan./Juni",
+        "detail": "XXVI 1.Armee De Westen Frankreich"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juli",
+        "detail": "XXXV z.Vfg. OHK Mitte Osten Minsk, Mogilew"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Sept.",
+        "detail": "IX 4.Armee Mitte Osten Jelnja"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Okt.",
+        "detail": "xx 4.Armee Mitte Osten Wiasma"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Nov./Dez.",
+        "detail": "Xu 4.Armee Mitte Osten Moskau"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Jan.",
+        "detail": "xx 4. Armee Mitte Osten Juchnow"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Febr.",
+        "detail": "xx 4.Pz.Armee Mitte Osten Gshatsk ("
+      },
+      {
+        "jahr": 1942,
+        "monat": "März",
+        "detail": "vn 4. Pz.Armee Mitte Osten Gshatsk"
+      },
+      {
+        "jahr": 1942,
+        "monat": "April",
+        "detail": "V 4.Pz.Armee Mitte Osten Gshatsk"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Mai",
+        "detail": "zuMfe. 7.Armee »D# Westen Frankreich"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Juni/Dez.",
+        "detail": "LXXX 1. Armee AD Westen Frankreich"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Jan./Febr.",
+        "detail": "LXXX 1. Armee „De Westen Frankreich I"
+      },
+      {
+        "jahr": 1943,
+        "monat": "März",
+        "detail": "LVI 4. Pz.Armee Süd Osten Charkow"
+      },
+      {
+        "jahr": 1943,
+        "monat": "ApriVSept.",
+        "detail": "LVI 1.Pz.Armee Süd Osten Donez,Isjum"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Okt./Nov.",
+        "detail": "XXX 1.Pz.Armee Süd Osten Kriwoi Rog"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Dez.",
+        "detail": "LVI 1.Pz. Armee Süd Osten Kriwoi Rog"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan.",
+        "detail": "XXX 6. Armee Süd Osten Kriwoi Rog"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Febr.",
+        "detail": "LVI 6.Armee Süd Osten Kriwoi Rog"
+      },
+      {
+        "jahr": 1944,
+        "monat": "März",
+        "detail": "xXIX 6. Armee „A“ Osten Uman"
+      },
+      {
+        "jahr": 1944,
+        "monat": "April/Juli",
+        "detail": "XXX 6.Armee Südukr. Osten Kischinew"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Aug.",
+        "detail": "unbekannt"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Okt.",
+        "detail": "I. ung. 8.Armee Süd Osten Nordungarn"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Nov.",
+        "detail": "z.Vfg. 8.Armee Süd Osten Nordungarn"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Dez.",
+        "detail": "XXIX 8.Armee Süd Osten Nordungarn"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan./März",
+        "detail": "XXIX 8.Armee Süd Osten Slovakei(Tatra)"
+      },
+      {
+        "jahr": 1945,
+        "monat": "April",
+        "detail": "XXIX 1.Pz.Armee Mitte Osten Sillein"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Mai",
+        "detail": "XXIV 1.Pz.Armee Mitte Osten Mähren"
+      }
+    ],
+    "_raw_len": 7644
+  },
+  {
+    "nummer": "15",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.11.1940 im WK XII ausder 33. Inf.Div. (Darmstadt) bis zum 15.3. 1941: 451 der 15.Schützen-Brigade",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 1691
+  },
+  {
+    "nummer": "15",
+    "einheit": "Panzer-Grenadier-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "14.Mai 1943 als Division Sizilien (zun. Div.Kdo.Obst. Bade)ausdendort",
+    "gliederung": "1939 I.1—3, I. 4-6 eder 1942 I.1-3, I. 4-6, III. 7-9 ber- 1943 ].1-4, 11.5-8 inne U: 5.Panzer-Div.: 1939 Polen, 1940 Frankreich 11. Panzer-Div. (4.9.1940): 1941 Jugoslawien, Mittelrußland (Moskau); 1942 Mittel-, ab Mai Südrußland; 1943desgl. (Charkow,Belgorod); 1944 Südrußland (Tscherkassy),Mai nachWesten (Bordeaux), Belfort, Saarpfalz;1945 Südeifel.",
+    "ueberstellung_kurz": "5.Panzer-Div.: 1939 Polen, 1940 Frankreich 11. Panzer-Div. (4.9.1940): 1941 Jugoslawien, Mittelrußland (Moskau); 1942 Mittel-, ab Mai Südrußland; 1943desgl. (Charkow,Belgorod); 1944 Südrußland (Tscherkassy),Mai nachWesten (Bordeaux), Belfort, Saarpfalz;1945 Südeifel.",
+    "ersatz": "15 Sagan, WK VIII Panzer-Ers.Abt.15 * 26.8.1939 in Sagan, WK VIII, aus den zurückbleibenden Pz.Kp. 3 u. 6/Pz.Rgt.15 und 2 u. 7/Pz.Rgt. 31; 15.10.1940 zur Aufstellung des Panzer-Rgts. 29 ver- wandt; 9.12.1940 aus dem Restkommando wieder aufgestellt; 1.10. 1942 geteilt und 10.4. 1943 vereinigt als Pz.Ers. und Ausb.Abt. 15 Sagan; Teile 1945 in der Kampfgruppe Dett- weiler.",
+    "unterstellungen": [],
+    "_raw_len": 29134
+  },
+  {
+    "nummer": "16",
+    "einheit": "Armee (AOK 16)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "22. 10. 1938 durch Umbenennung des AOK 3 bei Verlegung aus Polen nach dem",
+    "gliederung": "Kd.Flughafenbereich 5/III (Erfurt), 7/II (Grossenhain) und 11/VI Luftgaustab 16 *1939durch UmbenennungdesLuftgaustabs 8; Winter 1941/42 wieder gelöscht. B. Infanterie",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 11238
+  },
+  {
+    "nummer": "16",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "Okt. 1934 in Münster, Tarnbezeichnung „Kommandant vonMünster”; 15.10. 1935 16. Inf.Div.; 25. 8.1939 mobil mit",
+    "gliederung": "",
+    "ueberstellung_kurz": "16. Inf.Div., 16. Panzer-Div.",
+    "ersatz": "",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept.",
+        "detail": "_ 5.Armee .c* Westen Niederrhein"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Okt.",
+        "detail": "VI 6.Armee Be Westen Niederrhein"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Dez.",
+        "detail": "VI 12.Armee IN Westen Eifel"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan./Mai",
+        "detail": "VI 12.Armee EA Westen Eifel,Luxemburg"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "z.Vfg. 16.Armee HAT Westen Westfrankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Aug./Okt.",
+        "detail": "BdE (WK VI) Heimatin Umgliederung"
+      }
+    ],
+    "_raw_len": 1259
+  },
+  {
+    "nummer": "16",
+    "einheit": "Infanterie-Division (mot.)",
+    "wehrkreis": "VI",
+    "heimatgarnison": "156 Wuppertal",
+    "aufgestellt": "6.8.1940 im Sennelager,WK VI,ausdem Stabderaufgel. 228.Inf.Div.(WK I),auf zustellenbis 20.11.1940aus:",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 2280
+  },
+  {
+    "nummer": "16",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "26.8.1939 in Münster, WK VI, als Stab für die Ersatzeinheiten der 16.Inf.Div. (1.Welle); 2.11.1939 nach Danzig und am 22.9.1940 nach Münster in den",
+    "gliederung": "1939 IEB 60 (Lüdenscheid), 64 (Soest),79 (Münster) 1940 IEB 60 (Danzig), 64 (Danzig), 79 (Danzig) 1940 IEB 60 (Arnsberg), 64 (Soest), 79 (Münster) 1942 IEB (mot.) 60 (Rheine), 156 (Lingen)",
+    "ueberstellung_kurz": "Div.Nr. 166; 13.5.1942 Brig.Kdr. d. Schnellen Truppen VI., 25.3.1943 Kdr. d. Panzer- truppen VI Infanterie-Rgt.16*1.1. 1921als16.Inf.Rgt.(Hanseat./Preuß./Oldenb.);1.10.1934Inf. Rgt. Oldenburg; 15.10.1935 Inf.Rgt.16, FStO Oldenburg; ausgebildet als Luftlande(LL)-Rgt.; WK X; 1.2.1941 einIV.Btl.Stab; 33 Grenadier-Rgt. 16 seit 15.10.1942; am 25.3.1945 Stab L, 2. u. 3.Kp. zur Sturmbrig. Rhodos versetztund wiederaufgestellt; von Jan. bis Apr. 1944 bildete das II,das Füs.Btl.Rhodos.",
+    "ersatz": "16 Oldenburg; 1944 E 65 Delmenhorst, WK X Ergänzungs-Bil. Inf.Rgt.16 FStO Oldenburg, WK X; wird bei Mobilmachung 1./Inf. Rgt. 489 der 269.Inf.Div. der 4.Welle. Infanterie-Ers.Btl. 16 *26.8.1939 in Oldenburg, WK X; 1.10.1942 geteilt; Grenadier-Ers. resp. Ausb.Btl. 16 seit 7.11.1942; beide Btl. 9.4.1943 vereinigt zum Gren.Ers, u. Ausb.Bil. 16, Oldenburg; Sept. 1944 auf Alarm Küste mit 3Kp. in die Niederlande ver- legt und im Oktober in die 180.Inf.Div. eingegliedert (1./Gren.Rgt. 1221?); 26.9.1944 in Oldenburg wieder aufgestellt; März 1945 Einsatz an der Weser.",
+    "unterstellungen": [],
+    "_raw_len": 4022
+  },
+  {
+    "nummer": "16",
+    "einheit": "Feld-Division (L)",
+    "wehrkreis": "I",
+    "heimatgarnison": "",
+    "aufgestellt": "Nov. 1943in denNiederlanden, vonder Luftwaffe ins Heerübernommen;im Winter unter Neubildung desJäger-Rgt.46(L) in eine bodenständige Inf.Div.umgebildet.",
+    "gliederung": "1.1-6, II.7—12, II. 13—18, Bttr. 1,2",
+    "ueberstellung_kurz": "16.Feld-Div.(L), Niederlande, Normandie Freijäger-Rgt.16*Sommer1942alsPartisanenjäger-Abt.beimAOK 16in Nordrußland (6 Kp. und Bitr.); 2.10.1942umbenanntin Freijäger-Rgt.16 (ohne Rgt.Stab);bildet dann am 14.1. 1943 die Ost-Btl. 667, 668, 669, die beiden Ost-Bttr. 670 und die Ost- Nachr.Kp. 671.",
+    "ersatz": "39 (Inf.) Düsseldorf; 1942 E 473 Aachen, WK VI Heeres-Unteroffizierschule 16f.Infanterie *Nov. 1944in Stargard / Pommern. C.SchnelleTruppen",
+    "unterstellungen": [
+      {
+        "jahr": 1943,
+        "monat": "Nov./Dez,",
+        "detail": "LXXXVII Niederl. „Dr Westen Niederlande"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan./April",
+        "detail": "LXXXVII Niederl. 3 Westen Niederlande"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Mai/Juni",
+        "detail": "LXXXVII Niederl. „Bas Westen Niederlande"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Juli",
+        "detail": "LXXXVI Pz.Gr. West :- „B“ Westen Frankreich"
+      }
+    ],
+    "_raw_len": 2086
+  },
+  {
+    "nummer": "16",
+    "einheit": "Panzer-Division*)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": ") (WK VL E64 (Schtz.)Wuppertal) * 1.11.1940 im WK VI ausder16.Inf.Div. (Münster) mit 16.Schützen-Brigade.",
+    "gliederung": "I.1-4, II.5-8",
+    "ueberstellung_kurz": "116. Panzer-Div. 1944 Normandie, Niederrhein, Ardennen; 1/16 Sept. 1944 bei 111. Pz.Brig. bei Luneville; 1945 Kleve, Wesel, Ruhrkessel",
+    "ersatz": "11 Bielefeld, WK VI Panzer-Abt.16 * 1945 in Kurland bei der 16.Armee mit einer 1944 im WK I auf- gestelltenBeute-Panzer-Kp.16 alsStamm.",
+    "unterstellungen": [],
+    "_raw_len": 28489
+  },
+  {
+    "nummer": "17",
+    "einheit": "Armee (AOK ı7)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "20.12.1940 durchWK II;Aug./Sept.1942 ArmeegruppeRuoff infolge Unterstellung der3. rum. Armee.NachVernichtung auf der Krim (21.7.1944)aufgefrischt im WK I.",
+    "gliederung": "",
+    "ueberstellung_kurz": "Luftflotte 4, 1.1. 1943 Lw.Befh. Mitte, 27.1.1944 Luftflotte Reich, März 1945 Luftflotte 4 Luftgaustab z.b.V. 17 *26.8.1939 im Luftgau XVII, Anfang 1940 in der FpÜ wieder gelöscht. B. Infanterie",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 17986
+  },
+  {
+    "nummer": "17",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "Okt. 1934 in Nürnberg, Tarnbezeichnung „Infanterieführer VII”; 15. 10. 1935 17. Inf.Div., 26. 8.1939 mobil mit",
+    "gliederung": "1939 IEB 21 Fürth, 55 Würzburg, 95 Coburg 1940 21 Fürth, 215 Erlangen, 480 Nürnberg 1943 RGB 21, 42, 186",
+    "ueberstellung_kurz": "17.Inf.Div. Infanterie-Ers.Rgt.17 * 26.8.1939 in Nürnberg, WK XIII, als Stab für die Ers.Btl. der 17.Inf.Div.; Grenadier-Ers.Rgt. 17 am 7.11.1942; Res.Grenadier-Rgt. 17 am 16.7.1943 und mit der Div. nach Kroatien verlegt; 11.2.1944 in das Protektorat Böhmen-Mähren und zur Aufstellung der Schatten-Division Milowitz verwandt; 1.4.1944 aufgelöst.",
+    "ersatz": "17Braunschweig,WK XI 59 Ergänzungs-Btl. Infanterie-Rgt. 17FStO Braunschwei 8, WK XI; wird bei Mobilmachung I./In£.Rgt. 497 (267.ID) der 4.Welle, Infanterie-Ers.Btl. 17 * 26.8.1939 in Braunsc hweig, WK XI; 1.10.1942 geteilt in Ers. und Res.Btl. Grenadier-Ers.Btl. 17 seit 7.11.1942.",
+    "unterstellungen": [
+      {
+        "jahr": 1943,
+        "monat": "Nov./Dez.",
+        "detail": "LXXXI 15.Armee DB Westen Nordfrankreich"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan./April",
+        "detail": "LXXXI 15. Armee „BD Westen Nordfrankreich"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Mai/Juli",
+        "detail": "LXXXI 15. Armee „Be Westen Nordfrankreich"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Aug./Sept.",
+        "detail": "LXVI 15.Armee Be Westen Nordfrankreich"
+      }
+    ],
+    "_raw_len": 8114
+  },
+  {
+    "nummer": "17",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "XV",
+    "heimatgarnison": "",
+    "aufgestellt": "1.11.1940 im WK VIIausder27.Inf.Div. (Augsburg) bis zum 15.3.1941 e1: 17.Schützen-Brig.",
+    "gliederung": "1943Pz.Ers.(u.Ausb.)Abt.4Wien-Mödling; 33St.Pölten Pz.Jäg.Ers.(u.Ausb.)Abt.17 Freistadt Pz.Gren.Ers.Rgt. 82 Mähr.Weißkirchen (Btl. 2,10, Kradschtz. 2) Radf.Ers.(u.Ausb.)Abt.11Horn",
+    "ueberstellung_kurz": "direkt WK XVII Panzer-Rgt.17. Das Regiment wurde nicht aufgestellt. Die FpÜ verzeichnetnur die Umbenennung der Panzer-Abt. 501 (Tropen) in III./Panzer-Rgt.17 im Winter 1942/43.TatsächlichwurdedieseAbt.jedochIII./Pz.Rgt.7 der10.Pz.Div. Panzer-Ers.Abt. 17 *Herbst 1944in Freising bei München, WK VII, durch Umbildung der Panzerjäger-Ers. u. Ausb.Abt.7; die Pz.Ausb.Abt. 17 wurde April 1945 mobil im Panzer- Ausb.Verband Böhmen in Prag. Panzerabwehr-Abt.17 * 1.10.1934 getarnt als Kraftf.Abt. Würzburg A; 15.10.1935 Pz.Abw.Abt.17 FStO Fürth, WK XIII; bei Mobilmachung vorübergehend die 2./MGK 47als4.dazu; Panzerjäger-Abt.17 seit1.4. 1940; 18.11.1940 Abgabe der2. an Pz.Jäg.Abt.99; wird ersetzt;1943eineFla-Kp.hinzu; derStabwird St.schw.Heeres-Pz.Jäg.AbAt. und neu gebildet, die 2. 1944 auch Sturmgeschütz-Abt. 1017; Jan. 1945 im Weichselbogen vernichtet. U:17.Inf.Div.",
+    "ersatz": "10 Straubing,WK XIII Panzerjäger-Abt.17(L) * 1.11.1943 in Nordfrankreich (Le Havre) durch Übernahme der Pz.Jäg.Abt.derLw.Feld-Div.17 in dasHeer (2 Kp.); Sept.1944 in Nordfrank- reichvernichtet;Dez.gelöscht.",
+    "unterstellungen": [],
+    "_raw_len": 39298
+  },
+  {
+    "nummer": "18",
+    "einheit": "Armee (AOK 18)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "4.11.1939 durch Umbenennung desOberkommandosGrenzabschnitt Mitte (AOK 5) beiWiederverlegung nachdemWesten.",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 18177
+  },
+  {
+    "nummer": "18",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "Okt. 1934 in Liegnitz, Tarnbezeichnung „Infanterieführer II” 7 25.10.1935 18. Inf.Div.; 24. 8. 1939 mobil mit",
+    "gliederung": "1939 IEB 30Görlitz, 51 Liegnitz, 54Glogau 1940 IEB 30,190, 406,sämtl. Görlitz 1941 IEB 190, 406, beide Colmar 1943 RJg.B. 83, RGB 190, 316, 408",
+    "ueberstellung_kurz": "Div. 158; 1.10.1942 158.Res.Div. Infanterie-Ers.Rgt. (mot.)18 * 15.12.1940 in Liegnitz, dann Görlitz, WK VIII, aus dem Inf. Ers.Rgt. 18; wird 1.6.1941 umbenannt in Inf.Ers.Rgt. (mot.)128.",
+    "ersatz": "18 Bielefeld; 1944 E 37 Osnabrück, WK VI Ergänzungs-Bil. Infanterie-Rgt.18, FStOI.und II.Detmold;werdenbeiMobilmachung I.und IL/Inf.Rgt. 454 der254.Inf.Div.der4.Welle. Infanterie-Ers.Btl.18 * 26.8.1939 in Bielefeld, WK VI; 3.11.1939 nach Danzig und 20.8.1940 nach Bielefeld zurückverlegt; 1.10.1942 geteilt in Ers. u. Ausb.Btl.; Grenadier-Ers.Btl. 18 Bielefeld am 7.11.1942.Dez. 1943 in Paderborn; im Walküreaufruf Sept. 1944 auch als Res.Gren.Btl. 18 bezeichnet (nur FpÜ); Okt. 1944 aufgegangen in der 89.Inf. Div. Wieder aufgestellt, vermutlich im März 1945im Gren.Rgt. 416aufgegangen.",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept.",
+        "detail": "XI 10.Armee Süd Osten Kutno, Warschau"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Dez.",
+        "detail": "z.Vfg. 6.Armee „Be Westen -"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan./Mai",
+        "detail": "IV 6.Armee „Br Westen Niederrhein, Ypern"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "OKH Res. Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli/Sept.",
+        "detail": "XXU 2.Armee „c Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Okt.",
+        "detail": "BdE im WK VIII Heimat -"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Nov./Dez.",
+        "detail": "XXXXVI 11. Armee ur Heimat in Aufstellung"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Jan./März",
+        "detail": "XXXXVI 11.Armee sc Heimat in Aufstellung"
+      },
+      {
+        "jahr": 1941,
+        "monat": "April",
+        "detail": "z.Vfg. 11.Armee ne Heimat in Aufstellung"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Mai",
+        "detail": "LVI 3.Pz.Gru. — Heimat -"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juni",
+        "detail": "WK IV 3.Pz.Gru. _ Heimat -"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juli/Aug.",
+        "detail": "LVI 3.Pz.Gru. Mitte Heimat -"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Sept./Okt.",
+        "detail": "I 16.Armee Nord Osten Bialystok,Minsk"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Nov./Dez.",
+        "detail": "XXXIX 16.Armee Nord Osten Wolchow"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Jan.",
+        "detail": "z.Vfg. 16.Armee Nord Osten Tichwin"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Febr./Dez.",
+        "detail": "x 16. Armee Nord Osten Tichwin"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Jan./Mai",
+        "detail": "x 16. Armee Nord Osten Ilmensee"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Juni/Juli",
+        "detail": "z.Vfg. _ Nord Osten Ilmensee"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Aug.",
+        "detail": "z.Vfg. - Mitte Osten Jelnja"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Sept.",
+        "detail": "XXXIX 4.Armee Mitte Osten Jelnja"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Okt./Dez.",
+        "detail": "XXVI 4.Armee Mitte Osten Orscha"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan.",
+        "detail": "XXVI 4. Armee Mitte Osten Orscha"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Febr./Juni",
+        "detail": "Xu 4.Armee Mitte Osten Bobruisk"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Juli",
+        "detail": "Verbleib unbekannt"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Nov.",
+        "detail": "z.Vfg. OKH"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Dez.",
+        "detail": "i. Aufst. 4.Armee Mitte Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan.",
+        "detail": "i. Aufst. 4. Armee Mitte Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Febr/März",
+        "detail": "VI 4. Armee Nord Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "April",
+        "detail": "i. Aufst. Weichsel Osten Norddeutschland"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Sept./Okt.",
+        "detail": "BdEin Aufst. Dänemark"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Nov./Dez.",
+        "detail": "LXVI 7. Armee „B“ Ardennen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan.",
+        "detail": "LXVI 6. Pz. Armee „B” Ardennen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Febr./März",
+        "detail": "LXVI 5.Pz.Armee „B“ Eifel"
+      },
+      {
+        "jahr": 1945,
+        "monat": "April",
+        "detail": "Ob.West in Umgliederung Kassel"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Sept.",
+        "detail": "1944 wurde die Division im Kessel von Mons (Belgien) zerschlagen, die Reste"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Nov./Dez.",
+        "detail": "LXXXIU 15. Armee „D# Westen Kanalküste"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan./April",
+        "detail": "LXXXIU 15. Armee „DE Westen Kanalküste"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Mai/Juli",
+        "detail": "LXXXU 15. Armee Bi Westen Kanalküste"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Aug.",
+        "detail": "155 5. Pz.Armee „B” Westen Normandie"
+      }
+    ],
+    "_raw_len": 9905
+  },
+  {
+    "nummer": "18",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "26.10.1940 im WK IV ausTeilen der4. und 14.Infanterie-Div.(beideWK IV);bis zum 1.5. 1941 zu errichten: 18.Schützen-Brig.(neu)",
+    "gliederung": "1.1-3, II.5-7, dazu 1941 III.9-11",
+    "ueberstellung_kurz": "Heerestruppe(bei18.Pz.Div.) 94 Panzer-Rgt.18 * 6.12.1940im WK V ausdenPz.Abt.A (aufgestelltWK IX aus1.Pz. Div.) und B (aufgestelltWK XVII aus2.Pz.Div.),dazu1.3.1941 als IN.die bish. IL/Pz.Rgt.28 (aufgestelltalsPz.Abt.D ausder4.Pz.Div.,WK VII); 15.5.1942auf- gelöst, Stab wird Stab Pz.Brigade 18, I.zur Pz.Abt. 160, II.zur Pz.Abt. 103, III. bildet selbständigePz.Abt.18.",
+    "ersatz": "7 Böblingen, WK V Panzer-Abt.18 *15.5.1942in Mittelrußland ausStabIII./Pz.Rgt.18und 6.,11.,7.Rgt. alsselbst. Abt. zu 3 Kp.;Dez. 1943umbenanntin Pz.Abt.504 (Tiger).",
+    "unterstellungen": [],
+    "_raw_len": 4889
+  },
+  {
+    "nummer": "18",
+    "einheit": "Schützen-Brigade*26.10.1940im WK IV alsStabfür die Schützen-Rgt.der18.Pz.",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "26.10.1940im WK IV alsStabfür die Schützen-Rgt.der18.Pz.",
+    "gliederung": "",
+    "ueberstellung_kurz": "18.Panzer-Div.,1943Heerestruppe",
+    "ersatz": "101 Leisnig, WK IV Panzer-Grenadier-Btl.18 * Aug. 1944 zu 3 Kp. (aus der Schützen-Abt.88 der18.Art. Div. ?), Einsatz Okt. 1944 bei Reichshof, März 1945 in Oberschlesien? 95 Kradschützen-Bil. 18 * 15.10.1940 im WK IV ausdem seit15.8. (bei der14.Pz.Div.) mot. I./Inf.Rgt. 52; 10. 11. 1941 in verst. Pz.Aufkl.Abt. 88 eingegliedert, diese 21. 12. 1941 wieder in Kradschtz.Btl. 18 umbenannt. Panzer-Aufklärungs-Abt.18 seit 1.4.1943. Bei Auflösung der 18.Pz.Div. Okt. 1943 umgegliedertin Schützen-Abt.88 der 18.Art.Div.",
+    "unterstellungen": [],
+    "_raw_len": 2653
+  },
+  {
+    "nummer": "18",
+    "einheit": "Artillerie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.10.1943 bei der Heeresgruppe Mitte aus dem Stabe und Teilen der aufgelösten 18.Panzer-DivisionalsVersuchsverbandzurBildung vonArtillerie-Schwerpunktendurch",
+    "gliederung": "1939I.1-3, II.4-6, III.7-9 und 1./541-3 1940I.1-3, II.4-6, III.(s)7-9 1944 Abt. 1-3 19441.1-3, II.4-5, sp.4-6 undIII.7-9",
+    "ueberstellung_kurz": "18.Inf.Div.,18.Inf.Div.(mot.),18.Pz.Gren.Div.",
+    "ersatz": "4 (Beob.)Meissen,WK IV Artillerie-Rgt. 18*1.10.1934alsArt.Rgt. Glogau,15.10.1935Art.Rgt.18, FStO Lieg- nitz (l. Bunzlau), WK VII; beiMobilmachung die I./Art.Rgt.54 Glogauals schw. Abt. hinzu; unter Abgabe der I. und III. als 1/85 und III./83 am 15. 11. 1940 in Artillerie-Rgt. (mot.)18 umgewandelt; Stab und II. bleiben, I. aus III./Art.Rgt.160 (60. ID), IH. aus 1./54 und motorisiert; Juni 1944 bei Hgr. Mitte vernichtet. Wiederaufstellung im Okt. zunächst nur einer Art.Abt.18 aus der Pz. Brig. 105,dann im DezemberdesRgts. in Neuhammerund später Ostpreußen,III. erst Jan. 1945. Letzte Wiederaufstellung 13.4.1945 mit derArt.Abt. SchlesienalsI.,Art. Abt.Holstein als II.und Fla-Abt. SchlesienalsIII.(Fla)Abt.",
+    "unterstellungen": [],
+    "_raw_len": 32699
+  },
+  {
+    "nummer": "19",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "XI",
+    "heimatgarnison": "73Hannover",
+    "aufgestellt": "2. Okt.1934 in Hannover, Tarnbezeichnung „Artillerieführer VI“; 15. 10. 1935 19. Inf.Div.; 25. 8.1939 mobil mit",
+    "gliederung": "1940 IEB 59 Hildesheim, 73 Hannover, 74 Hameln 1941 IEB 73 Hannover, 194 Celle, 211 Hannover 1943 RGB 194, 211, 588",
+    "ueberstellung_kurz": "19. Inf.Div., 19. Panzer-Div. 114 19.Grenadier-Division (WKIX,E459Fulda) * 8.8.1944 in Dänemark alsDiv. 30.Welle ausderbei Esbjergseitdem4.7. in Auf- stellung befindlichen Schatten-Div.Jütland (28.Welle) und dem Rahmender 19.Lw. Sturm-Div., der aus Italienzugeführt wurde.Die Regimentererhielten ohne inneren Zusammenhang (auch andere Wehrkreise) die Nummern der 1940 in eine Pz.Div. umgewandelten19.ID. Gren.Rgt.59 III. RahmenausJäg.Rgt.38 (L) Gren.Rgt.73 I1.,II.RahmenausJäg.Rgt.37 (L) Gren.Rgt.74 L,L. Art.Rgt.719 L-IV. (Stabu. II.ausArt.Rgt.19 (L)) Div.Einheiten119 19. Volks-Grenadier-Division Am9.10. 1944wurdedieUmbenennungin19.Volks-Gren.Div.befohlen,am9.11.1944 dasErs.u. Ausb.Btl.463 desWK XII (Walküreeinheit) eingegliedert.",
+    "ersatz": "19München,WK VII Ergänzungs-Btl. Infanterie-Rgt. 19 FStO Freising, WK VII, wird bei Mobilmachung I./Inf. Rgt. 468der 268.Inf.Div. der 4.Welle. Infanterie-Ers.Btl.19 * 26.8.1939 in München, WK VII; 21.9.1942 geteilt in Ers. u. Res. Bil.; Grenadier-Ers.Btl. 19 München am 7.11.1942, am 21.7.1944 Gren.Ers. u. Ausb.Btl. 19.",
+    "unterstellungen": [],
+    "_raw_len": 4888
+  },
+  {
+    "nummer": "19",
+    "einheit": "Feld-Division (L)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.11. 1943in denNiederlandendurchÜbernahmeder19.Lw.Feld-Divisionin dasHeer (behieltin derRegeldieseBezeichnung);im Winter 1943/44unter Errichtung desJäger-",
+    "gliederung": "11-4, II.5-8,II.9-12,13",
+    "ueberstellung_kurz": "19.Feld-Div.(L) Jäger-Rgt.19 (L) * 1.11.1943, vorOranienbaum ausder Luftwaffe in dasHeerüber- nommen;am 3.Februar1944 nachZerschlagung im Kessel vonOranienbaum auf- gelöstund in die170.Inf.Div.eingeteilt(Rgt.399u.401).",
+    "ersatz": "WK VII Festungs-Rgt.Stab19 *Sept.1944im WK V;Nov.1944beimLXIII.AK beiBelfortein- gesetzt,Jan.1945zu denArmeetruppender19.Armeezählend, im April beideraus der805.Div. hervorgegangenen352.IDalsRgt.Stab. Festungs-Stamm-Abt.AOK 19;Herbst 1943umbenanntausderim Sommererrichteten Fest.Stamm-Abt.ArmeegruppeFelber(Stabund 5Kp.); 1943/44auf10Kp. verstärkt; August1944in Südfrankreichvernichtet;Resteim Nov.beiBelfort. schw.Granatwerfer-Bil.19 * 10.5.1943 auf dem Tr.Üb.Platz Wandern, WK III,aus TeilenderGran.Werfer-Btl. Afrika 1 und Glossner (mit3Kp. 12cmGranatwerfern).",
+    "unterstellungen": [],
+    "_raw_len": 2257
+  },
+  {
+    "nummer": "19",
+    "einheit": "Panzer-Division *)",
+    "wehrkreis": "XI",
+    "heimatgarnison": "73 Hannover",
+    "aufgestellt": ") (WK XI, E 73 Hannover) *1,11. 1940imWK XI ausder19.Inf.Div.(Hannover),biszum 15.3.1941umzubilden 19.Schützen-Brigade",
+    "gliederung": "19391.1-3, II.4-6, II. 7-9 und1./551-3 1940I.1-3, I. 5-6, II. (s.)7-9 und (1942)Beob.Bttr.19",
+    "ueberstellung_kurz": "19.Inf.Div.,19.Panzer-Div.",
+    "ersatz": "13 Braunschweig, WK XI Panzerjäger-Abt.19(L) * 1.11.1943 in denNiederlandendurchÜbernahmederPz.Jäg. Abt. der 19. Lw.Feld-Div. in das Heer; Aug. 1944 in Italien aufgelöst, Stab und 3.Fla zur Pz.Jäg.Abt.20 (L) der 20. Feld-Div.(L), 2. wurde Sturmgesch.Abt.1367 der 367.ID.",
+    "unterstellungen": [],
+    "_raw_len": 33011
+  },
+  {
+    "nummer": "20",
+    "einheit": "Infanterie-Division (mot.)",
+    "wehrkreis": "X",
+    "heimatgarnison": "76Hamburg",
+    "aufgestellt": "26.8.1939 im WK X, wird nichtfür die 7.Welle verwandt,sondern bleibt 1940bestehen,1942aufgelöstund dannmehrfachaufgestelltund wiederauf- gelöst;1943etatsmäßigalsKampfschuleder20.Pz.Gren.Div.",
+    "gliederung": "1939: IEB (mot.)69Hamburg-Jenfeld, 76Itzehoe,90 Ratzeburg",
+    "ueberstellung_kurz": "20.Inf.Div.(mot.);20.Pz.Gren.Div. Infanterie-Ers.Rgt. (mot.) 20 * 26.8.1939 in Hamburg- Jenfeld, WK X, als Stab für die Ersatzbataillone der 20.Inf.Div. (mot.); 1.6.1940 nach Dänemark verlegt, 6.8.1940zurück nach Hamburg; wird 18.11.1940 in den WK VI verlegt und in Schützen-Ers.Rgt. 57umbe- nannt.",
+    "ersatz": "20 Regensburg, WK XII Ergänzungs-Bil. Infanterie-Rgt. 20,FStO Sulzbach, wird bei Mobilmachung I./Inf.Rgt. 481 der 256.Inf.Div. der 4.Welle. Infanterie-Ers.Btl.20 * 26.8.1939 in Regensburg, WK XI; 1.12.1940 motorisiert, 1.10.1942 geteilt; Grenadier-Ers. resp. Ausb.Btl. (mot.) 20 am 7.11.1942, 10.4.1943 vereinigt als Gren.Ers. u. Ausb.Btl. (mot.) 20, aber am 29.10.1943 abermals geteilt in Ers. u. Ausb.Btl. Das Ers.Btl. bleibt in Regensburg, 5.6.1944 wieder Ers. u.Ausb.Btl. und Panzergrenadier-Ers. u. Ausb.Bil. 20 seit1.12.1944 und als solchesMärz 1945 mobil.",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept.",
+        "detail": "XIX 4.Armee Nord Osten Pommern,Polen"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Dez.",
+        "detail": "z.Vfg. _ „B& Westen Eifel"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan./Mai",
+        "detail": "z.Vfg. 6.Armee =B Westen Eifel, Belgien"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "XXXXl 12. Armee „A“ Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli/Sept.",
+        "detail": "XIV 2.Armee GC” Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Okt.",
+        "detail": "XXXXV 2.Armee ee Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Nov.",
+        "detail": "XXXIX 1.Armee DE Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Dez.",
+        "detail": "XXXXVIU 11. Armee „Gi Heimat -"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Jan./Febr.",
+        "detail": "z.Vfg. _ ee Heimat -"
+      },
+      {
+        "jahr": 1941,
+        "monat": "März",
+        "detail": "XXXXl 1. Armee „a Westen Frankreich"
+      },
+      {
+        "jahr": 1941,
+        "monat": "April",
+        "detail": "XXVI 1.Armee ‚os Westen Frankreich"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Mai",
+        "detail": "z.Vfg. _ „Be Osten Ostpreußen"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juni/Aug.",
+        "detail": "XXXIX 3.Pz.Gru. Mitte Osten Bialystok,Minsk"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Sept./Dez.",
+        "detail": "XXXIX 16.Armee Nord Osten Nordrußland"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Jan.",
+        "detail": "XXXIX 16.Armee Nord Osten Nordrußland"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Febr./Juni",
+        "detail": "I 18. Armee Nord Osten Wolchow"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Juli",
+        "detail": "I 16.Armee Nord Osten Star.Russa"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Aug.",
+        "detail": "z.Vfg. _ Nord Osten Star.Russa"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Sept./Nov.",
+        "detail": "XXXVII 18.Armee Nord Osten Wolchow"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Dez.",
+        "detail": "LIX z.Vfg. Mitte Osten Welish"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Jan.",
+        "detail": "LIX z.Vfg. Mitte Osten Welish"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Febr./Mai",
+        "detail": "XXXXII 3.Pz.Armee Mitte Osten Welish"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Juni/Juli",
+        "detail": "XXXXII 3.Pz.Armee Mitte Osten Welish"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Aug.",
+        "detail": "LIII 2.Pz.Armee Mitte Osten Orel"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Sept.",
+        "detail": "Xu 9.Armee Mitte Osten Brjansk"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Okt.",
+        "detail": "XXXXVIIN 8.Armee Süd Osten Dnjepr"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Nov.",
+        "detail": "vu 4.Pz.Armee Süd Osten Dnjepr"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Dez.",
+        "detail": "XXXXI 4.Pz.Armee Süd Osten Shitomir"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan./Febr.",
+        "detail": "xXIV 4.Pz. Armee Süd Osten Winniza"
+      },
+      {
+        "jahr": 1944,
+        "monat": "März",
+        "detail": "xXIV 1. Pz.Armee Süd Osten Kam.-Podolsk"
+      },
+      {
+        "jahr": 1944,
+        "monat": "April",
+        "detail": "LIX 1.Pz.Armee Nordukr. Osten Kam.Podolsk"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Mai/Juli",
+        "detail": "z.Vfg. 1.Pz.Armee Nordukr. Osten Brody"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Aug.",
+        "detail": "IU 4.Pz. Armee Nordukr. Osten Baranow, Weichsel"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Sept.",
+        "detail": "XXXXVIII 4.Pz.Armee Nordukr. Osten Baranow,Weichsel"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Okt./Nov.",
+        "detail": "XXXXVII 4.Pz.Armee „A” Osten Baranow,Weichsel"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Dez.",
+        "detail": "z.Vfg. _ „A“ Osten Baranow, Weichsel"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan.",
+        "detail": "z.Vfg. _ „A” Osten Weichselbogen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Febr./Märzz",
+        "detail": "GD 4.Pz. Armee Mitte Osten Schlesien"
+      },
+      {
+        "jahr": 1945,
+        "monat": "April",
+        "detail": "XI.SS 9.Armee Mitte Osten Oder"
+      }
+    ],
+    "_raw_len": 5893
+  },
+  {
+    "nummer": "20",
+    "einheit": "Feld-Division (L)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.11.1943 durch Übernahme der 20.Lw.Feld-Division (wie sie in der Regel weiter benanntwurde)in dasHeerund am 17.11.1943 in einen Radfahrer-Verband umgegliedert(gelbeSchulterklappen).",
+    "gliederung": "I.1-4, II.5-8, III.9-12, 13",
+    "ueberstellung_kurz": "20.Feld-Div.(L); 20.Lw.Sturm-Div. Jäger-Rgt.20 (L) * 1.11.1943 vor Oranienbaum ausder Luftwaffe in dasHeerüber- nommen; am 3. Februar 1944 nach Zerschlagung im Kessel von Oranienbaum auf- gelöstund in die170.Inf.Div.eingeteilt.",
+    "ersatz": "WK VII Jäger-Rgt.20 April 1945 wird das Res.Jäger-Rgt.1 in Kroatien in der schem.Kriegs- gliederung als Res.Jäg.Rgt.20, andersauchalsJäger-Rgt.20 bezeichnet.InderFpÜ findetsichdieUmbenennungnichtmehr.",
+    "unterstellungen": [
+      {
+        "jahr": 1943,
+        "monat": "Nov./Dez.",
+        "detail": "Befh.d. dt.Truppen Dänemark"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan./Mai",
+        "detail": "Befh.d.dt.Truppen Dänemark"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Juni/Aug.",
+        "detail": "XIV 14. Armee \" Süden Italien"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Sept./Dez.",
+        "detail": "LXXVI 10.Armee ger Süden Italien(Adria)"
+      }
+    ],
+    "_raw_len": 3112
+  },
+  {
+    "nummer": "20",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "IX",
+    "heimatgarnison": "59 Jena",
+    "aufgestellt": "15.10.1940 im WK IX aus Teilen derin die 19.Pz.Div.umgewandelten19.Inf.Div.",
+    "gliederung": "1943: Schn.Abt. 503 Haagebeen, 504 Heerenveen, 506 Zwolle, 50% Almelo, 510 Zutphen, 511Tiel, 512Breda 1944 (Mai): 503Heilo, 504Castricum,506 Alkmaar,509 Rhoon, 510Rotterdam, 511 Schiedam, 512 Breda",
+    "ueberstellung_kurz": "Niederlande (StO Zutphen); Mai 1944in Loenen",
+    "ersatz": "13 Lüneburg, WK X 139 Panzerabwehr-Abt.20 * 15.10.1935, FtO Hamburg, WK X; beiKriegsbeginn vorübergehenddie1/MGK 52 als4.Kp. dazu; Panzerjäger-Abt.20 seit16.3.1940;7.8.1942 wird die 1./Fla-Btl.52 endgültig 4./Pz.Jäg. Abt.20.",
+    "unterstellungen": [],
+    "_raw_len": 5266
+  },
+  {
+    "nummer": "20",
+    "einheit": "Schützen-Brigade* 1.11.1940 im WK IX für die Schützen-Rgt.der20.Pz.Div.(59",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.11.1940 im WK IX für die Schützen-Rgt.der20.Pz.Div.(59 und 112); 20.Panzergrenadier-Brigadeseit5.7.1942;1943 aufgelöst.",
+    "gliederung": "1939I.1-3, II.4-6, III.7-9 unterAR 56 1940 1.1—3, II.4-6, III. 7-9 und 1./56 1—3 19411.1-3, II.4-6, I.(s.) 7-9",
+    "ueberstellung_kurz": "20.Panzer-Div.",
+    "ersatz": "59 Jena, WK IX Panzergrenadier-Rgt.20 *1.12.1944durchUmbenennungdesGren.Rgt.(mot.)20(FStO Regensburg)der10.Pz.Gren.Div.,s. Inf.Rgt.20. Panzergrenadier-Ers. u. Ausb.Btl. 20 * 1.12.1944 durch Umbenennung des Gren.Ers. u. Ausb. Btl. (mot.)20 in Regensburg, s.Inf.Ers.Btl. 20. Kradschützen-Btl. 20 * 4.11.1940 im WK IX durch Umgliederung desIII./Inf.Rgt.115 (FStOWorms, WK XII); 1942Eingliederung derAufkl.Abt. 92; Panzer-Aufkl.Abt.20 seit dem 1.4.1943. NachVernichtung bei Hgr. Mitte (Bobruisk) Okt.1944inAryswiederaufgestellt.",
+    "unterstellungen": [],
+    "_raw_len": 12516
+  },
+  {
+    "nummer": "20",
+    "einheit": "Fallschirm-Jäger-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "20.3.1945 im nordholländischenRaum (Assens)als Feld-Ausbildungs-Division.Nach denBefehlenvom5.4. 1945sollte die Division ausfolgendenTeilen derbish. Fallsch.",
+    "gliederung": "1.1-4, 11 5—8, III.9-12, 13, 14, 15",
+    "ueberstellung_kurz": "7. Fallsch.Jäg.Div. Dez. 1944 Venlo, 1945 Goch, Wesel Luftwaffen-Jäger-Rgt. 20 * Okt. 1942 unter Verwendung des Flieger-Rgt.72 (FStO Detmold); wird 1.11.1943 alsJäger-Rgt.20(L) in dasHeerübernommen.",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 4610
+  },
+  {
+    "nummer": "21",
+    "einheit": "Armee (AOK zı)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "27.4.1945 ausdemStabdesausOstpreußenzurückberufenenAOK 4 unterZuteilung zur HeeresgruppeWeichsel.",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 7868
+  },
+  {
+    "nummer": "21",
+    "einheit": "Infanterie-Division *)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": ") (WK IL,E3 Mohrungen) * Okt. 1934 in Elbing, Tarnbezeichnung „Kommandantvon Elbing”, 10.10.1935 21. Inf.Div.; 21. 8. 1939 mobil mit",
+    "gliederung": "1939 IEB 3Mohrungen, 24Braunsberg, 45Elbing n 1940 IEB 34 Prag, Erg.B 3Beraun 1943 RGB 24 Dünaburg, 176 Rositten, 301 Ludsen",
+    "ueberstellung_kurz": "21.Inf.Div. Infanterie-Ers.Rgt. 21 * 26.8.1939 in Elbing, WKL| als Stab für die Ers.Btl. der 21.Inf. Div.; 14.9.1940 in das Protektorat nach Prag verlegt; 15.7.1941 zurück nach Ostpreußen - und nach Braunsberg verlegt; 1.10.1942 Res.Inf.Rgt.21 und dann Res.Grenadier-Rgt. 21 seit dem 7.11.1942; in das Reichskommissariat Ostland nach Dünaburg verlegt; 9.2.1944 aufgelöst und zur Bildung der Inf.Div. Mielau verwandt.",
+    "ersatz": "21Fürth,WK XIII Ergänzungs-Bil. Infanterie-Rgt.21, FStO Nürnberg, WK XIII, wird bei Mobilmachung L/Inf.Rgt. 480 der 260.Inf.Div. 4.Welle. Infanterie-Ers.Btl. 21 * 26.8.1939 in Fürth, WK XIII; 1.10.1942 geteilt; Grenadier-Ers. resp. Ausb.Abt. 21 am 7.11.1942; 8.4.1943 vereinigt zum Gren.Ers. u, Ausb. Btl.21 und am 16.7.1943 abermals in Ers. u. Res,Btl. geteilt. Ers.Btl. bleibt in Fürth und wird März 1945 als Gren.Ausb.Btl. 21 mobil mit Fp.Nummer.",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept.",
+        "detail": "XXI 3.Armee Nord Osten Ostpreußen,Polen"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Okt.",
+        "detail": "z.Vfg. = Nord Osten Polen"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Nov./Dez.",
+        "detail": "II 12. Armee „A“ Westen Eifel"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan./Febr.",
+        "detail": "II 12.Armee „A“ Westen Eifel"
+      },
+      {
+        "jahr": 1940,
+        "monat": "März/Mai",
+        "detail": "XVII 12. Armee A“ Westen Eifel, Luxemburg,"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "XII 12. Armee „A“ Westen Aisne, Marne,"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli",
+        "detail": "XXX 12.Armee ne Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Aug.",
+        "detail": "xXVI 12. Armee eg Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Sept./Dez.",
+        "detail": "I 18.Armee „B# Osten Ostpreußen"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Jan./April",
+        "detail": "I 18.Armee „B& Osten Ostpreußen"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Mai",
+        "detail": "I 18.Armee er Osten Ostpreußen"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juni/Aug.",
+        "detail": "I 18.Armee Nord Osten Tilsit, Wolchow"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Sept./Nov.",
+        "detail": "I 16.Armee Nord Osten Grusino,"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Dez.",
+        "detail": "I 18.Armee Nord Osten Wolchow"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Jan./April",
+        "detail": "I 18. Armee Nord Osten Wolchow"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Mai/Dez.",
+        "detail": "XXVII 18.Armee Nord Osten Ladoga"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Jan.",
+        "detail": "XXVII 18.Armee Nord Osten Ladoga"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Febr/März",
+        "detail": "XXVI 18.Armee Nord Osten Ladoga"
+      },
+      {
+        "jahr": 1943,
+        "monat": "April/Aug.",
+        "detail": "LIV 18.Armee Nord Osten Ladoga"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Sept.",
+        "detail": "XXVI 18.Armee Nord Osten Ladoga"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Okt.",
+        "detail": "XXXVII 18.Armee Nord Osten Wolchow"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Nov./Dez.",
+        "detail": "XXVII 18. Armee Nord Osten Wolchow"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Okt.",
+        "detail": "IX 3.Pz.Armee Mitte Osten Tilsit"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Nov.",
+        "detail": "z.Vfg. 4.Armee Mitte Osten Ostpreußen"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Dez.",
+        "detail": "XXXIX 4.Armee Mitte Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan.",
+        "detail": "XXXXI 4.Armee Mitte Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Febr./März",
+        "detail": "XX 4.Armee Nord Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "April",
+        "detail": "XXVI Ostpreußen — Osten Ostpreußen"
+      }
+    ],
+    "_raw_len": 4532
+  },
+  {
+    "nummer": "21",
+    "einheit": "Feld-Division (L)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.Nov. 1943 in Nordrußland (Staraja-Russa)aus der Luftwaffe in das Heer über- nommenund zu einerInf.Div.neuerArt umgebildet.",
+    "gliederung": "I.1-4, II.5-8, II. 9-12, 13, 14",
+    "ueberstellung_kurz": "21.Feld-Division(L) ung Jäger-Rgt.21(L) *1.11.1943inGriechenlanddurchdieÜbernahmeder11.Lw.Feld-Div. in dasHeer.",
+    "ersatz": "WK VIIL Jan. 1944 WK III Grenzwacht-Regiment 21 *26. 8. 1939 durch Ausb.Leiter Allenstein, WKI, 16.bis 21.10.1939 entlassenund aufgelöst. und G:1.14, II.5-8, III.9-12, 1.—3.Sperrkp.,Pak1-6 en- U:Grz.Schtz.Abschn.Kdo.15 (Allenstein), HeerestruppeNord, Ostpreußen E: 24 Braunsberg, WK I Festungs-Rgt.Stab21 * Sept.1944 im WK VI;1944/45 in der Saarpfalz unter AOK 1 (tw.416.ID).",
+    "unterstellungen": [],
+    "_raw_len": 2549
+  },
+  {
+    "nummer": "21",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.8.1941 in Afrika durchUmgliederung der5.LeichtenDivision",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 1531
+  },
+  {
+    "nummer": "21",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "VI",
+    "heimatgarnison": "64Wuppertal",
+    "aufgestellt": "15.7.1943 in Frankreich (Rennes) beim AOK 7 durch Umbildung der Schnellen",
+    "gliederung": "1.1, 2,4, 1. 5,6, 8, I1.9,10,12",
+    "ueberstellung_kurz": "direkt WK XXI Panzer-Brigadestab21*25.6.1943beiOrelausStabPanzer-Rgt.21 (WK V),wird Okt. 1943Kdo.Pz.Div.Norwegen. en U: Heerestruppe Panzer-Rgt.21*1.10.1940im WK V ausdenPz.Ers.Abt.7 (Vaihingen,WK V) und 35 ig. (Bamberg,WK XIII)zudreiAbt. (Stabu. III.neu);26.4.1943aufgelöst.Stabbildete 25.6. Pz.Brigade-Stab21,III.die Panzer-Abt.21.",
+    "ersatz": "25Erlangen,WK XIII Panzer-Rgt.21 * Okt. 1944 in Arys/Ostpr. ausdem Stab Pz.Brig.101, denRestender Pz.Abt.21alsI.und derPz.Abt.2101alsII.Abt.",
+    "unterstellungen": [],
+    "_raw_len": 17672
+  },
+  {
+    "nummer": "21",
+    "einheit": "Fallschirm-Jäger-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "5.4.1945 mit sofortiger Wirkung befohlen aus der Fallsch.Jäger-Ersatz-und Aus- bildungs-Division und derSturm-BrigadeGericke.Die Division sollte aus",
+    "gliederung": "I.1-4, II.5-8, IN. 9-12, 13, 14, 15",
+    "ueberstellung_kurz": "7.Fallsch.Jäg.Div.:1944 Dez.Niederlande, 1945 Jan.am Oberrhein, Elsaß, Febr. Kleve, Goch, Wesel Fallschirm-Jäger-Lehr-Rgt.21 *Juni1944in Nantes/FrankreichdurchUmbenennungdes Fallschirm-Jäger-Lehr-Rgts., das bisher keine Nummer führte und jetzt wie alle Ein- heitendesFallsch.AOK1 die Nummer21erhielt. EswarFebr.1944gebildetworden, alsStammdesI.hattedasI./Fallsch.Jäg.Rgt.7 gedient.Wiederaufstellung 11.2.1945 und 28.3.1945umbenanntin 210.",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 12611
+  },
+  {
+    "nummer": "22",
+    "einheit": "Infanterie-Division *)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": ") (WK X, E65 De'menhorst) * 15.10.1935 in Bremen, Div. wurde teilweise zum Luftlandeeinsatz ausgebildet; 18.8.1939mobilmit",
+    "gliederung": "1939 IEB 16Oldenburg, 47Lüneburg, 65Delmenhorst 1940 IEB 47Lüneburg, 65Delmenhorst, 377Verden",
+    "ueberstellung_kurz": "22.Inf.(LL) Div. Infanterie-Ers.Rgt. 22 * 26.8.1939 in Bremen, WKX, als Stab für die Ers.Bataillone der 22.Inf.Div.; 1.11.1939 nach Delmenhorst verlegt; 10.6.1940 umbenannt in Inf.Ers.Rgt. 269 (Nummerntausch).",
+    "ersatz": "22 Gumbinnen, 1944 E 43 Insterburg, WK I Ergänzungs-Bil. Infanterie-Rgt. 22, FStO Gumbinnen; nicht zur Aufstellung der 4.Welle verwandt; 29.9.1940 nach Jermer (Prot.) verlegt, 1.1.1941 umbenannt in Inf.Ers.Btl. 151.",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept.",
+        "detail": "z.Vfg. 5. Armee ser Westen**)"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Okt.",
+        "detail": "IX 1.Armee ae Westen Saarpfalz"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Dez.",
+        "detail": "Res.OKH Sennelager -"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan./Juni",
+        "detail": "Res. OKH Sennelager"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli",
+        "detail": "IV 9.Armee N Westen Niederlande"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Aug.",
+        "detail": "IV 16.Armee „A“ Westen Niederlande"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Sept./Okt.",
+        "detail": "z.Vfg. — „A“ Westen Niederlande"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Nov./Dez.",
+        "detail": "V 16. Armee „A“ Westen Niederlande"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Jan./Mai",
+        "detail": "z.Vfg. Ob.d.L."
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juni",
+        "detail": "XXX 11. Armee Süd Osten Rumänien"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juli/Aug.",
+        "detail": "xl 11.Armee Süd Osten Südukraine"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Sept.",
+        "detail": "XXX 11.Armee Süd Osten Bereslaw"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Okt.",
+        "detail": "z.Vfg. 11.Armee Süd Osten Perekop"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Nov.",
+        "detail": "XXX 11. Armee Süd Osten Krim"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Dez.",
+        "detail": "LIV 11.Armee Süd Osten Sewastopol"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Jan./Juli",
+        "detail": "LIV 11.Armee Süd Osten Sewastopol"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Aug./Okt.",
+        "detail": "z.Vfg. 12.Armee _ Südosten Griechenland"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Nov./Dez.",
+        "detail": "Kreta 12. Armee _ Südosten Kreta, tw.Afrika"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Jan./Febr.",
+        "detail": "Kreta 12. Armee _ Südosten Kreta, tw.Afrika"
+      },
+      {
+        "jahr": 1943,
+        "monat": "März/Aug.",
+        "detail": "Kreta _ „E* Südosten Kreta"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Sept./Dez.",
+        "detail": "Kreta »EE „F Südosten Kreta, Ägäis"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan./Sept.",
+        "detail": "Kreta =E# „FE Südosten Kreta,Ägäis"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Okt.",
+        "detail": "Mazedonien „E” Eee Südosten Griechenland"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Nov.",
+        "detail": "XXI „Er „F Südosten Serbien,"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Dez.",
+        "detail": "ERKRRT SE? „FE Südosten Serbien,"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan.",
+        "detail": "EXXRXTL ES u Südosten Kroatien"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Febr.",
+        "detail": "xxlI Ee „E% Südosten Kroatien"
+      },
+      {
+        "jahr": 1945,
+        "monat": "März",
+        "detail": "ZAXIN : „Er Pi Südosten Kroatien"
+      },
+      {
+        "jahr": 1945,
+        "monat": "April",
+        "detail": "xXXXIV — „Er Südosten Steiermark"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Mai",
+        "detail": "xXV.S —- 4ER Südosten Steiermark"
+      }
+    ],
+    "_raw_len": 7760
+  },
+  {
+    "nummer": "22",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "25.9.1941 in Frankreichbeim AOK 7 aus dembereitsdort ausBeutepanzerngebil- deten Pz.Rgt.204 und zwei neugebildetenSchützenregimentern.Für die Schützenregi- imenterstelltendasInf.Btl. (mot.)z.b.V. 100 und Einzelkomp. (stetsdie 5.)vonRegi- menternausdem ganzenBereichOb.West denStamm. 22.Schützen-Brigade",
+    "gliederung": "19401-4, 5.schw.;1941 1-4, 5.schw.,6.Pz.Späh(vonPz.Aufkl.Abt.2); 1942 1.Pz.Sp.,2.—4.Kradschtz.,5.schw.Kp.",
+    "ueberstellung_kurz": "21. Panzer-Div.: Lothringen, Saarpfalz, Febr. 1945 an der Oder",
+    "ersatz": "7 Böblingen, WK V Panzerabwehr-Abt. 22 * 15.10.1935 FStO Bremen, WKX; bei Mobilmachung die 2./MGK 52 als4.Kp. vorübergehendzugeteilt; Panzerjäger-Abt.22seit1.4.1940.",
+    "unterstellungen": [],
+    "_raw_len": 17880
+  },
+  {
+    "nummer": "23",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "II",
+    "heimatgarnison": "9Potsdam",
+    "aufgestellt": "15.10.1935 in Potsdam. 26. 8.1939 mobil mit",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 1541
+  },
+  {
+    "nummer": "23",
+    "einheit": "Infanterie-Division (neu)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "23.10. 1942in Dänemarkausdennichtzur Bildung der 26.Pz.Div.verwandtenTeilen der23.Inf.Div.,die zur Aufstellung derneuenDivision nachDänemarkverlegtwurden, und Neubildungen ausdemErsatzheer",
+    "gliederung": "1939 IEB 9 (Potsdam), 67 (Spandau), 68 (Brandenburg) 1940 IEB 9 (Potsdam), 178 (Potsdam), 323 (Potsdam) 1942 Res.Gren.Btl. 9,68, 477 1943 1.1—4,II.5-8, III.9-12, Na.Kp., Pi.Kp., Pz.]Jg.Kp.",
+    "ueberstellung_kurz": "23.Inf.Div.;23.Inf.Div.(neu)",
+    "ersatz": "9 Potsdam, WK III Infanterie-Ers.Rgt. 23 *26.8.1939 in Potsdam, WK III als Stab für die Ers.Truppen der 23.Inf.Div.; 1.10.1942 umbenannt in Res.Inf. und 15.10. in Res.Grenadier-Rgt.23 und in die Ukraine und 1.1.1943 auf die Krim verlegt; 29.3.1943 umgegliedert in Grenadier-(Feldausb.)Rgt. 23, I. aus 178, II. aus 68, III. aus 477. Die im März 1944 geplante Umbenennung in Gren.(Feldausb.)Rgt. 715 wurde nicht durchgeführt, da das Regiment auf der Krim vernichtet wurde; II.in Bessarabien wurde I./Gren.(Feldausb.)Rgt. 715.",
+    "unterstellungen": [],
+    "_raw_len": 6548
+  },
+  {
+    "nummer": "23",
+    "einheit": "Panzer-Division *)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": ") (WK V, SEB86 Ludwigsburg, sp. E215 Reutlingen) * 21.9.1941 in Frankreichbeim AOK 1 aus der dort bestehenden,aus Beutepanzern gebildetenPz.Brigade101 mit dem Pz.Rgt.201 und zweineugebildetenSchützen-Rgt., für die Einzelkomp. (stetsdie 5.) vonden in FrankreichliegendenDivisionen gestellt wurden. 23.Schützen-Brigade",
+    "gliederung": "EL,2,3",
+    "ueberstellung_kurz": "Heerestruppe(bei 17.Inf.Div.),1.11. 1939 7.Pz.Div.",
+    "ersatz": "23 (Kp.) Schwetzingen,WK XII 196 Panzer-Rgt.23 * 16.8.1943 in Polen durch Umbenennung desam 1.12.1940 aufge- stelltenPanzer-Rgt.201der23.Pz.Div.",
+    "unterstellungen": [],
+    "_raw_len": 23667
+  },
+  {
+    "nummer": "24",
+    "einheit": "Armee (AOK 24)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "Nov. 1944 als Rahmenorganisation aus stellv. Gkdo. V an der Schweizer Grenze;",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 2455
+  },
+  {
+    "nummer": "24",
+    "einheit": "Infanterie-Division*)",
+    "wehrkreis": "IV",
+    "heimatgarnison": "102 Chemnitz",
+    "aufgestellt": ") (WK IV,E102 Chemnitz) * 15.10.1935 in Chemnitz; 26.8.1939 mobil mit",
+    "gliederung": "1939: IEB 31 (Plauen), 32 (Teplitz), 102 (Chemnitz) 1940: IEB 102 (Chemnitz), 394 (Freiberg), 456 (Freiberg), 475 (Döbeln) 1941: TEB304 (Elbekosteletz), 456 (Prag), 476 (Theresienstadt) 1943: RGB 304 (Lukow), 425 (Brody), 456 (Miendzyrzec), 476 (Biala-Odlaska)",
+    "ueberstellung_kurz": "24.Inf.Div. Infanterie-Ers.Rgt. 24 * 26.8.1939 in Chemnitz, WK IV; 3.8.1941 nach Prag verlegt; 15.9.1942 dort umbenannt in Inf.Ausb.Rgt. 24 und in das Generalgouvernement verlegt nach Miendzyrzec bei Radom (Üb.Pl. Mitte); Res.Grenadier-Rgt. 24am 2.11.1942; Aug. 1944 aufgelöst.",
+    "ersatz": "24 Braunsberg; Juni 1944 E 3Braunsberg, WK I Infanterie-Ers.Bil. 24 * 24.8.1939 in Braunsberg, WK I; 27.9.1940 nach Prag (Prot.) verlegt; 25.7.1941 zurück nach Braunsberg; 1.10.1942 geteilt in Ers. u. Res.Btl.; Grenadier-Ers.Btl. 24 seit 7.11.1942; 11.4. 1944 umbenannt in Ers. u. Ausb.Btl. (M) 271.",
+    "unterstellungen": [],
+    "_raw_len": 5739
+  },
+  {
+    "nummer": "24",
+    "einheit": "Panzer-Division*)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": ") (WKL E413 Insterburg) * 28.11.1941 in Stablack/Ostpreußen, WK I, durch Umgliederung der 1.Kav.Division (EStO Insterburg) in eine Panzer-Division; Febr.1942 auf dem Truppen-Übungsplatz",
+    "gliederung": "19411. 1, 2,4, II. 5,6,8, III.9, 10, 12, 15. Felders. 1943 11.5-8, III.9-12, sp. I.1-4, II. 9-12",
+    "ueberstellung_kurz": "24.Panzer-Div.: April 1942 Frankreich, Juni Südrußland (Kursk, Stalingrad); Wiederaufstellung Frankreich;Sept.1943Oberitalien,Nov.Südrußland;1944Süd- ukraine, Aug.Galizien, Okt.Ungarn; 1945Ostpreußen(I.1944Normandie,Eifel, 1945 Ungarn)",
+    "ersatz": "15Sagan,WK VIII Panzerabwehr-Abt. 24 * 15. 10.1935, FStO Borna, WK IV; bei Mobilmachung die 6./MGK 47 als 4.Kp. hinzu. Die 2.Kp. wurde2,/Pz.Abw.Abt.90; PanzerjägerAbt.24 seit1.4.1940:Die 2./Pz.Jäg.Abt.208wurdeam1.1.1941 als3.und die Fla-Kp. (Sf) 665 am1.8.1943 als neue4.Kp. eingegliedert;1.10. 1943Abgabe der 1. als 1./Armee-Pz.Jäg.Abt. 752.",
+    "unterstellungen": [],
+    "_raw_len": 19679
+  },
+  {
+    "nummer": "25",
+    "einheit": "Armee (AOK 35)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "10.11.1944 in denNiederlandenausdem StabdesWehrmachtbefehlshabersNieder- landeund derArmee-AbteilungNarwa (ausTarnungsgründenzunächstweiterAOK 15 genannt,daszurArdennenoffensiveherausgezogenwar);7.4.1945: „FestungHolland“.",
+    "gliederung": "",
+    "ueberstellung_kurz": "Luftflotte 4, 1. 7.1944 Luftflotte 6; hierbei Luftgau-Nachr.Rgt. 25 I.Luftwaffen-Ausb.Btl. (Hiwi) Luftgau-Kdo. XXV * 1943 aus dem Ausb.Btl. der Luftwaffe Lebedin; Winter 1943/44 umbenannt in Luftw.Bau-Bil. (Hiwi) 201/XVII (s.unter XVII). U: Feld-Luftgaukommando XXV Il.Luftwaffen-Ausb.Btl. (Hiwi) Luftgau-Kdo. XXV * Sommer 1943; Winter 1943/44 umge- wandelt in Lw.Bau-Btl. (Hiwi) 207/XVII (s.unter XVII). U: Feld-Luftgaukommando XXV # 222 B.Infanterie",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 2786
+  },
+  {
+    "nummer": "25",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.4.1936 Ludwigsburg, 26.8.1939 mobil mit",
+    "gliederung": "1939 IEB 13 (Ludwigsburg), 35 (Tübingen), 119 (Stuttgart) 1940 IEB 13 (Pisek), 35 (Tabor), 119 (Budweis) IEB 13 (Ludwigsburg), 35 (Pforzheim), 119 (Stuttgart) 1942 IEB (mot.) 35 (Pforzheim), 119 (Stuttgart), MG-Ers.Btl. (mot.) 4 (Horb), Fla-Ers. Btl. (mot.)55Neckarsulm",
+    "ueberstellung_kurz": "25. Inf.Div., 25. Inf.Div. (mot.), 25. Pz.Gren.Div. Infanterie-Ers.Rgt. 25*26.8.1939 in Ludwigsburg, WK’V, als Stab für die Ers.Truppen der 25.Inf.Div.; 3.11.1939 nach Pisek/Prot. verlegt; 11.8.1940 nach Stuttgart in den WK V zurückverlegt; 1.10.1941 motorisiert; Grenadier-Ers, u. Ausb.Rgt. (mot.) 25 am 2.11.1942; am 4.8.1943 aufgelöst und zur Auf- stellung des Kdr. der Pz.Truppen V verwandt.",
+    "ersatz": "25Stargard,WK II Infanterie-Ers.Btl. (mot.)25 *29.8.1939 in Stargard, WK II; wird 1.12.1940umgebildet in Inf.Ers.Btl. (mot.) 51 Görlitz, WK VII.",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept./Okt.",
+        "detail": "IX 1.Armee =ea Westen Saarpfalz"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Dez.",
+        "detail": "Westen Saarpfalz"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan.",
+        "detail": "Westen Saarpfalz"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Mai",
+        "detail": "z.Vfg. EA“ Westen Eifel, Belgien"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "XxVIN 9.Armee Westen Frankreich(Aisne)"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli",
+        "detail": "2.Armee - C“ Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Aug.",
+        "detail": "XXXIKX 2.Armee Reel Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Sept.",
+        "detail": "z.Vfg. z e% Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Okt.",
+        "detail": "Heimat"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Nov./Dez.",
+        "detail": "xXIV 2. Armee Heimat"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Jan./März",
+        "detail": "XXIV 2. Armee =Ce Heimat"
+      },
+      {
+        "jahr": 1941,
+        "monat": "April",
+        "detail": "xXIV 11. Armee LG Heimat"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Mai/Juni",
+        "detail": "WKV 2. Pz.Gru. Heimat"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juli",
+        "detail": "II 1. Pz.Gru. Süd Osten Shitomir"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Aug./Sept.",
+        "detail": "xIV 1.Pz.Gru. Süd Osten Uman, Kiew"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Okt.",
+        "detail": "XXXXVIU 2. Pz.Armee Miitte Osten Brjansk"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Nov.",
+        "detail": "XXXXVIH 2. Pz.Armee Mitte Osten Tula, Moskau"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Dez.",
+        "detail": "z.Vfg. 2.Pz.Armee Mitte Osten Tula, Moskau"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Jan.",
+        "detail": "XXXXVI 2. Pz.Armee Mitte Osten Brjansk,Orel"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Febr./Dez.",
+        "detail": "LIU 2. Pz.Armee Mitte Osten Brjansk,Orel"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Jan./Mai",
+        "detail": "LIU 2. Pz. Armee Mitte Osten Brjansk,Orel"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Juni/Juli",
+        "detail": "LII 2.Pz.Armee Miite Osten Brjansk, Orel"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Aug.",
+        "detail": "z.Vfg. 2.Pz.Armee Mitte Osten Brjansk, Orel"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Sept.",
+        "detail": "XXVU 4. Armee Mitte Osten Brjansk, Orel"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Okt.",
+        "detail": "XXXIX 4. Armee Mitte Osten Smolensk"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Nov./Dez.",
+        "detail": "XxXVI 4. Armee Mitte Osten Orscha"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan./Juni",
+        "detail": "XxXVU 4.Armee Mitte Osten Orscha"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Juli",
+        "detail": "Verbleib unbekannt"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Sept./Okt.",
+        "detail": "BdE Heimat"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Nov.",
+        "detail": "OKW Heimat"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Dez.",
+        "detail": "1.Armee „G“ Westen Saarpfalz"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan.",
+        "detail": "z.Vfg. 1.Pz.Armee „G” Westen Saarpfalz"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Febr/März",
+        "detail": "XlI.SS 9.Armee Weichsel Osten Oder"
+      },
+      {
+        "jahr": 1945,
+        "monat": "April",
+        "detail": "z.Vfg. 9.Armee Weichsel Osten Oder"
+      }
+    ],
+    "_raw_len": 6223
+  },
+  {
+    "nummer": "25",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "25.2.1942 in Norwegenmit unterstelltem Schützen-VerbandOslo, seitMai 1942 in folgender Gliederung:",
+    "gliederung": "1939 1.1,2,4, dazu 1940 II.5,6,7 1941]. 1-4, II.5-8, III.9-12 1942 I.1-4, II.5-8",
+    "ueberstellung_kurz": "7.Panzer-Div. (18.10.1939): 1940 Belgien,Frankreich(Somme),1941 Mittelruß- land (Moskau), 1942 Mai nach Westen, 1943 Südrußland (Don, Belgorod, Char- kow),1944Nordukraine (Kamenetz-Podolsk),Aug.Litauen,Kurland,Ostpreußen, 1945Narew,Westpreußen",
+    "ersatz": "35 Bamberg, WK XIII; 1.4. 1940 25 Erlangen, WK XIII *) nur Kampfgruppe 227 Panzer-Ers.Abt. 25 * 18.4.1940 in Erlangen, WK XlIIL aus den Pz.Ers.Kp. 3/35 (XIII), 23 (XI), 5/1 (IX); bildet 27.9.1940 die IL/Pz.Rgt. 27; 1.12.1940 aus dem Restkommando wieder gebildet; April 1943 Pz.Ers. und Ausb.Abt. 25; 1.11.1943 geteilt in Ers. und Res. Abt.; 31.3.1944 in Pz.Ers. u. Ausb.Abt. 35 eingegliedert.",
+    "unterstellungen": [],
+    "_raw_len": 20599
+  },
+  {
+    "nummer": "26",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.4.1936in Köln; 26. 9.1939 mobil mit",
+    "gliederung": "1939 IEB 39 (Düsseldorf), 77 (Köln-Mülheim), 78 (Mülheim/Ruhr) 1940 IEB 39 (Konitz), 77 (Schwetz),78 (Mewe) 1940 IEB 39 (Düsseldorf), 77 (Mülheim), 78 (Wesel) 1942 IAB 77 (Maastricht), 78 (Venlo)",
+    "ueberstellung_kurz": "26. Inf.Div.; Okt. 1944 26. Volks-Gren.Div. Feld-Ausb.Bil.26 *Winter 1942/43ausdemSturm-Bil. 395 zu 4 Kp.; wird im Winter 1943/44IIl./Inf.Rgt.77. U:26.Inf.Div. Infanterie-Ers.Rgt. 26 * 26.8.1939 in Köln, WK VI, als Stab für die Ersatzbataillone der 26.Inf.Div. (1.Welle); 4.11.1939 nach Mewe in Westpreußen, 15.2.1940 nach Schwetz und 16.8.1940 nach Düsseldorf in den WK VI zurückverlegt; 16.7.1941 nach Valkenburg (Holland) verlegt; am 1.10.1942 Res.Inf.- und am 7.11.1942 Res.Grenadier-Rgt. 26. Das Regiment wurde in Belgien und später an der Kanalküste ein- gesetztund am 1.2.1944 in Gren.Rgt. 115 (47.ID) umgewandelt.",
+    "ersatz": "26Schleswig(auch1944),WK X Ergänzungs-Bil.Inf.Rgt.26 * 10.11.1938, FStO Flensburg, wurde bei Mobil- machungIl,/Inf.Rgt.490(269.ID). Infanterie-Ers.Btl. 26*26.8.1939 in Schleswig, WK X; 1.6.1940 nachSeegard-Lager/Dänemark verlegt; April 1941 in Vordingborg, Mai 1942 in Hövelte u. Helsingör; 1.10.1942 geteilt in Ers. und Ausb.Btl. Das Ers.Btl. wurde 1.11. nach Schleswig zurückverlegt, seit 7.11.1942 Gren.Ers.Btl. 26und dann Füsilier-Ers.Bitl. 26 seit 10.12.1942; Sept. 1944 auf Alarm Küste mit 3Kp. in die Niederlande, dort Okt. 1944 eingegliedert in die 190.Inf.Div. (1/1226 ?); 26.9.1944 in Saksborg (Nord- schleswig)wieder errichtet.",
+    "unterstellungen": [],
+    "_raw_len": 7213
+  },
+  {
+    "nummer": "26",
+    "einheit": "Panzer-Division *)",
+    "wehrkreis": "III",
+    "heimatgarnison": "9 Potsdam",
+    "aufgestellt": ") (WK III,E9 Potsdam) * 14.9.1942 in Frankreich (um Amiens) durch Ob.West aus der 23.Inf.Div. (EStO",
+    "gliederung": "I.1-4, 1! 5-8",
+    "ueberstellung_kurz": "26. Pz.Div.: Frankreich, Juni 1943 Italien, 1943/45 Italien",
+    "ersatz": "10Groß-Glienicke, 25.6.1944E5Neuruppin, WK III Panzerabwehr-Abt.26 *12.10.1937, FtO Düren, WK VI;dazubeiMobilmachung als 4. die 2.MGK 46; Panzerjäger-Abt.26seit1.4.1940;22.11.1940Abgabeder2.Kp. als2./Pz.Jäg.Abt.106, wurdeersetzt;27.9.1942 Abgabeder3.als5./Jäger-Btl.8;24.8.1943Abt. aufgelöst bis auf einePz.Jäg.Kp.26.—Wiederaufstellun g März 1944ausStabPz.Jäg. Abt. 262, der Kp. 26, 5./Jäg.Btl. 8 und der 3./Fla.Btl. 601; bei Kowel vernichtet. - Wiederaufstellung 17.9.1944 ausderPz.Jäg.Abt.1582 (die 2. hieß Sturm- gesch.Abt.1026).",
+    "unterstellungen": [],
+    "_raw_len": 2903
+  },
+  {
+    "nummer": "26",
+    "einheit": "Panzergrenadier-Brigade* 27.7.1942 durchdie 23.Div. in Frankreichals Brig.Stab",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "27.7.1942 durchdie 23.Div. in Frankreichals Brig.Stab für die beidenPz.Gren.Rgt.der26.Pz.Div.(9,67);am 10.11.1942aufgelöst.",
+    "gliederung": "LIA4]] 5-8, 9. sIG, 1944 10. Fla-Schw. ()",
+    "ueberstellung_kurz": "26. Panzer-Div.",
+    "ersatz": "9 Potsdam, WK III Schützen-Rgt.26 *4.1.1942 in StablackdurchUmgliederungdesReiter-Rgt.22 (15.12. 1939errichtet);Rgt. behieltSchwadronen; Panzergrenadier-Rgt.26seit5.7. 1942;Jan.1943inStalingrad vernichtet. 241 Panzergrenadier-Rgt2.6 W au ie f d g e e r f a ü u l f l s t te d l u lu r n chI./verst.G 8 ren s . e R it gt 1 . 7 ( .2 m .1 o 9 t 4 . 3 )891 in . Frankreich beim AOK 15; 11. 4.1943",
+    "unterstellungen": [],
+    "_raw_len": 18744
+  },
+  {
+    "nummer": "27",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "VII",
+    "heimatgarnison": "40Augsburg",
+    "aufgestellt": "1.10. 1936inAugsburg, 26.8.1939mobilmit",
+    "gliederung": "1940IEB40 (Augsburg),63(Ingolstadt),91(Kempten)",
+    "ueberstellung_kurz": "27.Inf.Div.,ab10.10.194017.Panzer-Div. Infanterie-Ers.Rgt. 27 * 26.8.1939 in Augsburg, WK VIL als Stab für die Ersatztruppen der 27.Inf.Div.; wurde 1.11.1941 umgebildet zum Schützen-Ers.Rgt. 27.",
+    "ersatz": "27 Rostock, WK II Infanterie-Ers.Btl. 27 * 26.8.1939 in Rostock »WK II; 1.10.1942 geteilt in Ers. und Ausb. Btl.; Grenadier-Ers.Btl. 27, Rostock am 15.10.1942 und Füsilier-Ers.Btl. 27, Rostock am 1.2.1943,",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept.",
+        "detail": "VI z.Vfg. Süd Osten Südpolen"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Dez.",
+        "detail": "z.Vfg. 12.Armee A Westen Eifel"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan.",
+        "detail": "z.Vfe Be Westen Eifel"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Mai",
+        "detail": "z.Vfg. 12. Armee „Ar Westen Luxemburg,"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "XXXVII 4.Armee sB: Westen Somme, Loire"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli/Sept.",
+        "detail": "XXI 2.Armee ler Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Okt.",
+        "detail": "BdEWK VIIzur Umbildung Heimat"
+      }
+    ],
+    "_raw_len": 3657
+  },
+  {
+    "nummer": "27",
+    "einheit": "Panzer-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.10. 1942 (aufBef.v.5.9.),inSüdrußland durchUmbenennungderGruppe Michalek der22.Panzer-Div.in27.Panzer-Div.",
+    "gliederung": "19401. 1-3, II.4-6, III.7-9 19421. 1-4 1943 I.1-4, II.5-8",
+    "ueberstellung_kurz": "19.Panzer-Div.:1941Mittelrußland (Moskau),1942Mittel-, seitDez.Südrußland, 1 1 9 9 4 4 3 4L S it ü a d u r e u n ßla (K nd ow ( n C o h ) a , r d k a o n w n , P S o h l i e to n m (W ir) a , rk M a) a , i 1 1 9 9 4 4 5 4 W N e i i e c d h e se rl l a b n o d g e en a , u R fg e e st f e ris S c c h h t l , es J i u e l n i (Schweidnitz)",
+    "ersatz": "11 Paderborn, Bielefeld, WK VI Panz v e e ra rs b t w ä e r h k r t - d A u bt r . ch5 2 . 7 M * GK 6.1 5 0 5 . a 1 l 9 s 36 4 , ,K F p St . O ; Augsburg, WK VII, bei Kriegsausbruch Pan U d z i : e e r 2 j 3 7 ä . . g a I e u n r s f - . A D 1 b . i / v t P . . 2 z : 7 . 1 J 9 g s 3 . e 5 9 i 2 t P 9 1 o n . l 4 e e . u n 1 , 9 g 1 4 e 9 0 b 4 ; il 0 de L a u t m ; xe 2 m 1 0 5 . b . 6 u 8 . r . 1 g 9 1 , 4 9 F 3 4 r 2 a d n i d e k ie 4 re . i 1 ( c F . h / l F a l ) a a .6 n 6 H a . l F s la 4 k . ar e t i - n A g b e t g . l 2 ie 9 d 7 e . rt, 17.Panzer-Div. (10.10.1940): 1941 Mittelrußland (Tula), 1942 Orel, Dez. am 253 Don, 1943 Südrußland, 1944 Nordukraine, Galizien, Weichsel bei Baranow, 1945 Schlesien E: 7München, WK VII Fes W tu K ng I s I -P Id a i k e -V Fe e s rb t. a P n a d k X -K X p V . I 1 I -10 (S /X t V ab I ) I, * m J i a t n d . ie 1 s 9 e 4 n 5 se im it2 W 2. K 2.1 V 94 I 5 I, i d n a F zu es M tu ä n r g z St 1 e 9 t 4 ti 5 ne a i u n s - gesetzt(21 8,8 Pak43und 148,8Flak). Schü d S t i c z e h e n n E e - r l E s le r . s E n . i R nh T g e t r . i u t p e 2 p n 7 en * de V 1 r I .1 I 1 . 1 7 .1 . 9 P 4 z 1 .Div. i ; n w A u u r g d s e bur 1 g 0 , .5.1942 W n K ach VI M I, ün a c u h s en Inf v . e E r r l s e . g R t gt. als 27 Rg a t ls .Kd S r t . ab de f r .",
+    "unterstellungen": [],
+    "_raw_len": 17474
+  },
+  {
+    "nummer": "28",
+    "einheit": "Infanterie-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "1.10.1936in Breslau; 1.8. 1939mobil mit",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 727
+  },
+  {
+    "nummer": "28",
+    "einheit": "Jäger-Division",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "Westen Frankreich 262 b) als 28. lei.Inf.Div.",
+    "gliederung": "1939 IEB 7 Schweidnitz, 49 Breslau, 83Hirschberg 1940 IEB 7 Schweidnitz, 350 Striegau, 461 Jauer 1941 IEB 7 St. Avold, 350 u. 461 Mörchingen 1943 RGB 38, 350, 461",
+    "ueberstellung_kurz": "28. Inf.Div.; 28. leichte Inf.Div.; 28. Jäg.Div. Infanterie-Ers.Rgt. 28 * 26.8.1939 in Schweidnitz, WK VII, als Stab für die Ersatz- bataillone der 28.Inf.Div.; Dez. 1940 nah Mörchin gen/Lothringen (WK XII) ver- legt; 1.10.1942 Res.Inf.Rgt. 28und Res.Grenadier-Rgt. 28 am7.11.1942; das Regiment trat 10.5.1943 zur neuformierten 189,Res. Div. über, Dez. 1943 in Moulins; Aug. 1944 beim Rückzug aus dem Pyrenäengebiet ver- nichtet, erst April 1945 gelöscht. 263 ii - ——ee G: 1939 IEB 7 Schweidnitz, 49 Breslau, 83Hirschberg 1940 IEB 7 Schweidnitz, 350 Striegau, 461 Jauer 1941 IEB 7 St. Avold, 350 u. 461 Mörchingen 1943 RGB 38, 350, 461 U: Div. 168, sp. 148; 1.10.1942 148,Res.Div.; 10.5.1943 189,Res.Div. Infanterie-Rgt. 28 * 15.10.1935, FStO Trop pau (II.Sternberg, seit 1939 Mistek/ Prot.,III.Neutitschein), WK VII; 1.11.1940 AbgabeRgt.Stabund III.alsStabund L/IR 233andie102.Inf.Div.(12.Welle); Jäger-Rgt.28 seit15.12.1941.",
+    "ersatz": "28Troppau, Metz, Troppau (auch1944),WK VIII Ergänzungs-Btl. Inf.Rgt.28, FStO Leobschütz, wird bei Mobilmachung I./Inf. Rgt.452(252.ID)? Infanterie-Ers.Btl. 28 * 26.8.1939 in Troppau, WK VII; 15.12.1940 nah Metz verlegt; Nov. 1941 Jäger-Ers.Btl. 28, Metz. 1.10.1942 geteilt in Ers. und Res.Btl., das Ers.Btl. nach Schlesien, Troppau, zurückverlegt.",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept.",
+        "detail": "VII 14.Armee Süd Osten Südpolen"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Okt./Dez.",
+        "detail": "VIH 4.Armee Bi Westen Aachen"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan.",
+        "detail": "VII 4.Armee B Westen Aachen"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Mai",
+        "detail": "V 4.Armee ER: Westen Belgien"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "VII z.Vfg. „Bi Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli",
+        "detail": "VII 7.Armee Be Westen Frankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Aug./Dez.",
+        "detail": "VII 9.Armee „A“ Westen Belgien-"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Jan./April",
+        "detail": "VOI 9.Armee „A“ Westen Belgien-"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Mai",
+        "detail": "XXXI 15.Armee „DE Westen Belgien-"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juni/Okt.",
+        "detail": "VIU 9.Armee Mitte Osten Smolensk,Moskav"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Nov.",
+        "detail": "zZ.Nfg. „D* Westen Frankreich"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Dez.",
+        "detail": "VIN 1.Armee „DE Westen Frankreich"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Jan.",
+        "detail": "VII 1.Armee DE Westen Frankreich"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Febr.",
+        "detail": "z.Vfg. Süd Osten Krim"
+      },
+      {
+        "jahr": 1942,
+        "monat": "März",
+        "detail": "z.Vfg. 11.Armee Süd Osten Krim"
+      },
+      {
+        "jahr": 1942,
+        "monat": "April",
+        "detail": "XXXXU 11.Armee Süd Osten Krim"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Mai/Juni",
+        "detail": "XXX 11.Armee Süd Osten Krim (Sewastopol)"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Juli",
+        "detail": "XXX 11. Armee Süd Osten Krim"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Aug.",
+        "detail": "XXX 11. Armee „A“ Osten Krim"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Sept.",
+        "detail": "XXVI 18.Armee Nord Osten Wolchow"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Okt.",
+        "detail": "XXVI 11.Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Nov.",
+        "detail": "z.Vfg. 18.Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Dez.",
+        "detail": "I 18.Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Jan.",
+        "detail": "I 18. Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Febr./Aug.",
+        "detail": "XXVI 18.Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Sept.",
+        "detail": "LIV 18.Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Okt.",
+        "detail": "zZNIS. 18.Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Nov./Dez.",
+        "detail": "XXXVII 18.Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan./Febr.",
+        "detail": "XXXVII 18.Armee Nord Osten Leningrad"
+      },
+      {
+        "jahr": 1944,
+        "monat": "März",
+        "detail": "VI 16.Armee Nord Osten Opotschka"
+      },
+      {
+        "jahr": 1944,
+        "monat": "April",
+        "detail": "I 16.Armee Nord Osten Opotschka"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Mai",
+        "detail": "z.Vfg. 16.Armee Nord Osten Opotschka"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Juni",
+        "detail": "z.Vfg. 4. Pz.Armee Nordukr. Osten Kowel"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Juli/Aug.",
+        "detail": "LV 2.Armee Mitte Osten Minsk"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Sept./Nov.",
+        "detail": "LV 4.Armee Mitte Osten Ostpreußen"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Dez.",
+        "detail": "XXXXI 4.Armee Mitte Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan.",
+        "detail": "XXXXI 4.Armee Mitte Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Febr./März",
+        "detail": "XXVI 4.Armee Nord Osten Ostpreußen"
+      },
+      {
+        "jahr": 1945,
+        "monat": "April",
+        "detail": "XXVI Ostpreußen — Osten Ostpreußen"
+      }
+    ],
+    "_raw_len": 20479
+  },
+  {
+    "nummer": "29",
+    "einheit": "Infanterie-Division *)",
+    "wehrkreis": "IX",
+    "heimatgarnison": "71 Jena",
+    "aufgestellt": ") (WK IX, E71 Jena) *1.10.1936 in Erfurt; Herbst 1937 motorisiert. 24. 8.1939 mobil mit",
+    "gliederung": "1939: IEB 15 Kassel, 71 Erfurt, 86 Mühlhausen 1940: IEB 71 Jena, 86 Mühlhausen, 187 Mühlhausen, 451 Gotha",
+    "ueberstellung_kurz": "29.Inf.Div.(mot.);29.Pz.Gren.Div. Infanterie-Ers.Rgt (mot.)29 *26.8.1939 in Erfurt, WK IX, als Stab f.die Ersatztruppen der 29.Inf.Div. (mot.); 1.12.1940 in den WK IV verlegt und umgebildet zum Schützen- ErsRgt. 4.",
+    "ersatz": "E29 Guben, 1940 Züllichau, WK II Ergänzungs-Btl. Inf.Rgt.29, FStO Grünberg; wird bei Mobilmachung III./Inf. Rgt.466 (257.ID)(?). Infanterie-Ers.Btl. 29 * 26.8.1939 in Guben, WK II; 1.12.1940 umbenannt in Inf.Ers. Btl. 512.",
+    "unterstellungen": [
+      {
+        "jahr": 1939,
+        "monat": "Sept.",
+        "detail": "XIV 10.Armee Süd Osten Schlesien,Polen"
+      },
+      {
+        "jahr": 1939,
+        "monat": "Dez.",
+        "detail": "OKH Res. b. Hann.Münden Westen -"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Jan.",
+        "detail": "OKH Res. bei Montabaur Westen -"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Mai",
+        "detail": "z.Vfg. 16. Armee „A” Westen Luxemburg,"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juni",
+        "detail": "XXXIX Guderian (12) „A“ Westen Rethel, Belfort"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Juli",
+        "detail": "XXXVII 2.Armee er Westen Östfrankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Aug./Okt.",
+        "detail": "XXXIX 2.Armee „e Westen Ostfrankreich"
+      },
+      {
+        "jahr": 1940,
+        "monat": "Nov./Dez.",
+        "detail": "XXXXI 16. Armee „Ar Westen Ostfrankreich"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Jan./Febr.",
+        "detail": "XXXXlI 1.Armee „D“ Westen Ostfrankreich"
+      },
+      {
+        "jahr": 1941,
+        "monat": "März/April",
+        "detail": "z. Vfg. _ u. Heimat -"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Mai",
+        "detail": "WKIX 2.Pz.Gru. _ Heimat -"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Juni/Nov.",
+        "detail": "XXXXVI 2.Pz.Gru. Mitte Osten Minsk, Smolensk,"
+      },
+      {
+        "jahr": 1941,
+        "monat": "Dez.",
+        "detail": "LIU 2.Pz.Armee Mitte Osten Tula"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Jan.",
+        "detail": "XXXXVIU 2.Pz.Armee Mitte Osten Orel (Mzensk)"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Febr./Mai",
+        "detail": "XXXV 2.Pz.Armee Mitte Osten Orel (Mzensk)"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Juni",
+        "detail": "z.Vfg. _ Süd Osten Charkow"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Juli",
+        "detail": "XXXX 6.Armee Süd Osten Don"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Aug./Sept.",
+        "detail": "XXXXVII 4.Pz.Armee „B“ Osten Stalingrad"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Okt./Nov.",
+        "detail": "z.Vfg. 4.Pz.Armee „B“ Osten Stalingrad"
+      },
+      {
+        "jahr": 1942,
+        "monat": "Dez.",
+        "detail": "IV 6. Armee Don Osten Stalingrad"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Jan./Febr.",
+        "detail": "XIV 6.Armee Don Osten Stalingrad"
+      },
+      {
+        "jahr": 1943,
+        "monat": "März/Mai",
+        "detail": "z.Vfg. _ „Dr Westen Frankreich"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Juni",
+        "detail": "z. Vfg. _ DD“ Westen Frankreich"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Juli/Aug.",
+        "detail": "XIV _ ner Süden Apulien, Sizilien"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Sept./Nov.",
+        "detail": "LXXVI 10. Armee AsE Süden Sizilien, Salerno"
+      },
+      {
+        "jahr": 1943,
+        "monat": "Dez.",
+        "detail": "XIV 10. Armee A Süden Cassino"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Jan.",
+        "detail": "XIV 10.Armee .e® Süden Rom"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Febr/März",
+        "detail": "z.Vfe. 14.Armee Cr Süden Nettuno"
+      },
+      {
+        "jahr": 1944,
+        "monat": "April",
+        "detail": "z.Vfg. 14.Armee ser Süden Nettuno"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Mai",
+        "detail": "z.Vfg. _ „ee Süden nöstl. Rom"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Juni",
+        "detail": "XIV 14. Armee „ec: Süden Apennin"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Juli",
+        "detail": "I.Fallsch. 14. Armee ne Süden Apennin"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Aug.",
+        "detail": "z.Vfg. 14.Armee Sach Süden Florenz"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Sept./Okt.",
+        "detail": "LXXVI 10. Armee sc Süden Rimini"
+      },
+      {
+        "jahr": 1944,
+        "monat": "Nov./Dez.",
+        "detail": "XIV 10.Armee „ee Süden Bologna"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Jan.",
+        "detail": "LXXVI 10.Armee ser Süden Bologna"
+      },
+      {
+        "jahr": 1945,
+        "monat": "Febr./April",
+        "detail": "z.Vfg. _, se Süden Bologna,Po,Piave"
+      }
+    ],
+    "_raw_len": 20061
+  },
+  {
+    "nummer": "30",
+    "einheit": "Infanterie-Division *)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": ") (WKX,E6Lübe) *1.10.1936in Lübeck; 26. 8. 1939 mobil mit",
+    "gliederung": "1939 IEB 6 Lübeck, 26 Schleswig, 46 Neumünster 1940 IEB 6 Lübeck, 46 Neumünster, 469 Eutin 1943 GEuAB 6 Lübeck, 46 Neumünster, 490 Heide 1945 GEuAB 6 Lübeck, 46 Neumünster, 490 Heide GEB 469 Lübeck, Ldsch.Btl. 666 Lübeck",
+    "ueberstellung_kurz": "30.Inf.Div. U: 30. Inf.Div. Infa 3 n 0 t . er I i n e f - . E D r i s v . . R ; gt. 30 * 26.8.1939 in Lübe ck, WKAX, als Stab für die Ersatztruppen d. Gren m 1 a 9 d o i b 0 e i r l I. - D Er u s ( n . 2 d R ) g . t n . ac 3 h 0 de s n eit N 7 ie .1 d 1 e . rla 1 n 9 d 4 e 2 n ; 19 v 4 e 4 rle G gt r , en. b E i r ld s e . te un O d kt A . us 1 b 9 . 4 R 4 gt. da 3 s 0; Gr w e u n r .R de gt. 1 1 8 2 . 2 9 5 .19 d 4 e 4 r W 19 ie 4 d 5 er m au o f b g il es a t n ell d t ie Weser (St 1 a 8 b .9 , .1 L 9 — 4 I 4 II,B a t u l s .). dem Restkommando in Lübeck; 27.März",
+    "ersatz": "30 Görlitz, WK VIII Ergänzungs-Btl.Inf.Rgt.30,FStO Görlitz, wurdebeiMobilmachung L/Inf.Rgt. 472 (252.ID). Infanterie-Ers.Btl. 30 * 26.8.1939 in G örlitz, WK VII, wurde 8.12.1939 II./Inf.Rgt. 429 und am 15.1.1940 neu gebildet; blieb 15.12,1940 als besp, Btl. in Schlesien; 26.10.1941 motorisiert; 1.10.1942 geteilt in Ers. u. Ausb.Btl.; Grenadier-Ers. resp. Ausb.Btl. (mot.)30 Görlitz 7.11.1942; am 10.4.1943 beide Btl. vereinigt zum Gren.Ers. u. Ausb.Btl. (mot) 30, zuletzt Mähr. Weißwasser.",
+    "unterstellungen": [],
+    "_raw_len": 14561
+  },
+  {
+    "nummer": "16",
+    "einheit": "Armee (AOK 16): „* 22. 10. 1939“ (nicht: 1938)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "22. 10. 1939“ (nicht: 1938) zu Seite 25 (noch: 16. Armee): 1942, März 10; ergänze: „ —z. Vfg.: Ma. 122“ zu Seite26 (noch: 16 Armee): 1942, Aug. 5;ändere EndedererstenZeile: „123“ (nicht: 129) 1944, April 15; ändere beim X. Korps: „24“ (nicht: 74)",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 3862
+  },
+  {
+    "nummer": "21",
+    "einheit": "Armee (AOK 21): „* 7. 4. 1945“ (nicht: 27. 4.)",
+    "wehrkreis": "",
+    "heimatgarnison": "",
+    "aufgestellt": "7. 4. 1945“ (nicht: 27. 4.) zu Seite 154:",
+    "gliederung": "",
+    "ueberstellung_kurz": "",
+    "ersatz": "",
+    "unterstellungen": [],
+    "_raw_len": 3496
+  }
+]
