@@ -35,6 +35,7 @@ from pipeline_b import (
     ingest_wast,
 )
 from abbreviations import resolve_abbreviations, add_user_abbreviation, ABBREV_FILE
+from entity_linking import link_unit, link_person, link_all
 
 # Echte Dateinamen (Leerzeichen + Sonderzeichen wie im Dateisystem)
 WAST_PDF = Path("Koppermann, Hans-Jürgen_B 563-1 KARTEI_K_1458_033.pdf")
@@ -153,6 +154,44 @@ def test_ingest_wast(require_api_key):
     from db import verorte
     events = verorte("person_koppermann_hj_1917", "1943-08-28")
     assert any(e["type"] == "Wounding" for e in events)
+
+
+# ─── B5 Entity-Linking ───────────────────────────────────────────────────────
+
+def test_link_unit_exact():
+    result = link_unit("Nachrichten-Abteilung 20", 1939)
+    assert result["actor_id"] == "unit_na20"
+    assert result["match_type"] == "exact"
+    assert result["confidence"] == 1.0
+
+
+def test_link_unit_fuzzy():
+    result = link_unit("Nachr.-Abt. 20", 1939)
+    assert result["actor_id"] == "unit_na20"
+    assert result["confidence"] >= 0.85
+
+
+def test_link_unit_mit_tessin():
+    result = link_unit("Infanterie-Regiment 90", 1943)
+    assert result["actor_id"] is not None
+    assert result["tessin_standort"] is not None
+
+
+def test_link_unit_unbekannt():
+    result = link_unit("Unbekannte Einheit 999", 1943)
+    assert result["match_type"] == "none"
+    assert result["actor_id"] is None
+
+
+def test_link_all_koppermann():
+    extracted = extract_bundesarchiv(AUSKUNFT_PDF)
+    linked = link_all(extracted)
+
+    koppermann = linked["persons"][0]
+    matched = [e for e in koppermann["einheitsmeldungen"] if e.get("actor_id")]
+    # 5× NA/NEA (exact nach Sub-Einheits-Strip) + 1× IR90→unit_pzgrenrgt90 (alt_label)
+    # G.Ers.Btl.76 und G.Ers.Btl.(mot.)90 nicht im Tessin-DB → bleiben ungemappt
+    assert len(matched) >= 6
 
 
 # ─── B4 Abkürzungsauflösung ──────────────────────────────────────────────────
