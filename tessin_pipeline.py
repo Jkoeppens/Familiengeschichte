@@ -1,22 +1,23 @@
 """
-Tessin Bd. 4 PDF → JSON pipeline.
-Extracts all unit entries from Bd_4_ocr.pdf and outputs tessin_bd4.json.
+Tessin PDF → JSON pipeline (band-agnostisch).
 
 Steps:
   1. Extract text page-by-page, strip running headers
-  2. Detect unit-entry boundaries → chunks_debug.json
+  2. Detect unit-entry boundaries → chunks_<band>_debug.json
   3. Parse each chunk → structured record
-  4. QC + output → tessin_bd4.json
+  4. QC + output → tessin_<band>.json
+
+Verwendung:
+    python3 tessin_pipeline.py                         # Standard: Bd_4_ocr.pdf
+    python3 tessin_pipeline.py --input Bd_1_ocr.pdf
+    python3 tessin_pipeline.py --input Bd_16-1_ocr.pdf
 """
 
 import pdfplumber
 import json
 import re
+import sys
 from pathlib import Path
-
-PDF_PATH = Path('Bd_4_ocr.pdf')
-DEBUG_PATH = Path('chunks_debug.json')
-OUTPUT_PATH = Path('tessin_bd4.json')
 
 # ── 1. text extraction ────────────────────────────────────────────────────────
 
@@ -313,65 +314,46 @@ def parse_chunk(chunk: dict) -> dict:
 # ── 4. main ───────────────────────────────────────────────────────────────────
 
 def main():
+    # Pfade band-agnostisch aus --input ableiten
+    _raw = Path(sys.argv[sys.argv.index('--input') + 1]) if '--input' in sys.argv else Path('Bd_4_ocr.pdf')
+    _band = re.sub(r'_ocr$', '', _raw.stem, flags=re.IGNORECASE).lower().replace('bd_', 'bd')
+    pdf_path    = _raw
+    debug_path  = _raw.parent / f'chunks_{_band}_debug.json'
+    output_path = _raw.parent / f'tessin_{_band}.json'
+
+    print(f"Band: {_band}  ({pdf_path})")
     print("Schritt 1: Textextraktion …")
-    pages = extract_pages(PDF_PATH)
-    full_text = '\f'.join(pages)  # form-feed between pages
+    pages = extract_pages(pdf_path)
+    full_text = '\f'.join(pages)
     print(f"  {len(pages)} Seiten, {len(full_text):,} Zeichen")
 
     print("Schritt 2: Chunk-Erkennung …")
     chunks = find_chunks(full_text)
     print(f"  {len(chunks)} Einträge erkannt")
 
-    # Save debug chunks (raw text only, truncated for readability)
     debug = [{'offset': c['offset'], 'preview': c['raw'][:300]} for c in chunks]
-    DEBUG_PATH.write_text(json.dumps(debug, ensure_ascii=False, indent=2))
-    print(f"  → {DEBUG_PATH} geschrieben ({DEBUG_PATH.stat().st_size // 1024} KB)")
+    debug_path.write_text(json.dumps(debug, ensure_ascii=False, indent=2))
+    print(f"  → {debug_path} geschrieben ({debug_path.stat().st_size // 1024} KB)")
 
     print("Schritt 3: Strukturierte Extraktion …")
     records = [parse_chunk(c) for c in chunks]
 
-    # QC
-    with_table = sum(1 for r in records if r['unterstellungen'])
-    without_table = len(records) - with_table
-    print(f"\n── QC ──────────────────────────────")
-    print(f"  Einträge gesamt:        {len(records)}")
-    print(f"  Mit Unterstellungstab.: {with_table}")
-    print(f"  Ohne:                   {without_table}")
-
-    # Gold standard check: 20. Inf.Div. (mot.) / 20. Pz.Gren.Div.
-    gold = [r for r in records if '20' in r['nummer'] and
-            ('Infanterie' in r['einheit'] or 'Panzergrenadier' in r['einheit'])]
-    if gold:
-        print(f"\n  Gold-Standard-Check — 20. Inf.Div.(mot.) / 20.Pz.Gren.Div.:")
-        for g in gold:
-            print(f"    {g['nummer']}. {g['einheit']}")
-            print(f"      WK: {g['wehrkreis']}, Garnison: {g['heimatgarnison']}")
-            print(f"      Unterstellung-Einträge: {len(g['unterstellungen'])}")
-            if g['unterstellungen']:
-                for row in g['unterstellungen'][:3]:
-                    print(f"        {row}")
-    else:
-        print("  WARNUNG: Kein Gold-Standard-Eintrag gefunden!")
-
-    # Remove obvious false positives
+    # Generischer Filter: Einheit muss einen sinnvollen Namen haben
     def is_valid_entry(r: dict) -> bool:
-        # Bd. 4 covers units 15–30; numbers outside range are OCR artifacts
-        try:
-            n = int(r['nummer'])
-            if not (15 <= n <= 30):
-                return False
-        except ValueError:
-            return False
-        return True
+        return len(r.get('einheit', '').strip()) >= 3
 
     filtered = [r for r in records if is_valid_entry(r)]
     removed = len(records) - len(filtered)
-    if removed:
-        print(f"  {removed} Außerhalb-Bereich-Einträge entfernt")
+
+    with_table = sum(1 for r in filtered if r['unterstellungen'])
+    print(f"\n── QC ──────────────────────────────")
+    print(f"  Einträge gesamt:        {len(records)}")
+    print(f"  Gültig (nach Filter):   {len(filtered)}  ({removed} verworfen)")
+    print(f"  Mit Unterstellungstab.: {with_table}")
 
     print("Schritt 4: Ausgabe …")
-    OUTPUT_PATH.write_text(json.dumps(filtered, ensure_ascii=False, indent=2))
-    print(f"  → {OUTPUT_PATH} geschrieben ({OUTPUT_PATH.stat().st_size // 1024} KB)")
+    output_path.write_text(json.dumps(filtered, ensure_ascii=False, indent=2))
+    print(f"  → {output_path} ({output_path.stat().st_size // 1024} KB)")
     print("Fertig.")
 
 

@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "event.schema.json",
+  "title": "Event",
+  "description": "Historisches Ereignis im Familiengeschichte-Datenmodell (CIDOC-CRM-inspiriert)",
+  "type": "object",
+  "required": ["id", "type", "label", "time_span", "source", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+
+    "id": {
+      "type": "string",
+      "pattern": "^event_[a-z0-9_]+$",
+      "description": "Eindeutige ID, Format: event_{snake_case}, unveränderlich"
+    },
+
+    "type": {
+      "type": "string",
+      "enum": [
+        "Birth", "Death", "Missing", "Promotion", "Wounding",
+        "Hospitalization", "Discharge", "Capture", "PersonJoining",
+        "UnitFormation", "UnitDissolution", "UnitNaming",
+        "UnitJoining", "TroopMovement",
+        "Battle", "Encirclement", "Siege", "Retreat", "Surrender",
+        "Atrocity", "MassExecution", "Deportation", "GhettoOperation", "ForcedLabor",
+        "DocumentCreation", "Unknown"
+      ],
+      "description": "Event-Typ aus festgelegter Liste. Neue Typen nur nach Schema-Update."
+    },
+
+    "subtype": {
+      "type": ["string", "null"],
+      "description": "Freitext-Präzisierung des Typs, z.B. 'Granatsplitterverwundung', 'Relazarettierung'"
+    },
+
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Kurze beschreibende Bezeichnung des Events"
+    },
+
+    "time_span": {
+      "type": "object",
+      "required": ["begin", "end", "precision"],
+      "additionalProperties": false,
+      "properties": {
+        "begin": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9]{4}(-[0-9]{2}(-[0-9]{2})?)?$",
+          "description": "Beginn ISO 8601: YYYY, YYYY-MM, oder YYYY-MM-DD"
+        },
+        "end": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9]{4}(-[0-9]{2}(-[0-9]{2})?)?$",
+          "description": "Ende ISO 8601: YYYY, YYYY-MM, oder YYYY-MM-DD"
+        },
+        "precision": {
+          "type": "string",
+          "enum": ["day", "month", "year", "circa", "unknown"],
+          "description": "Zeitliche Präzision des Eintrags"
+        }
+      }
+    },
+
+    "place": {
+      "type": ["object", "null"],
+      "required": ["name", "precision"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Historischer Ortsname wie in der Quelle"
+        },
+        "modern_name": {
+          "type": ["string", "null"],
+          "description": "Moderner Name mit Land, z.B. 'Gorki, Oblast Minsk, Belarus'"
+        },
+        "lat": {
+          "type": ["number", "null"],
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lon": {
+          "type": ["number", "null"],
+          "minimum": -180,
+          "maximum": 180
+        },
+        "precision": {
+          "type": "string",
+          "enum": ["exakt", "lokalisiert", "stadt", "region", "schauplatz"],
+          "description": "exakt: GPS-genau | lokalisiert: 1-10km | stadt: 10-30km | region: 30-150km | schauplatz: kein Punkt"
+        },
+        "radius_km": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Unsicherheitsradius in km. Pflicht wenn precision != exakt und != schauplatz"
+        },
+        "place_source": {
+          "type": ["string", "null"],
+          "description": "Woher die Koordinaten stammen, z.B. 'WASt-Karte I' oder 'GeoNames'"
+        }
+      },
+      "if": {
+        "properties": { "precision": { "enum": ["lokalisiert", "stadt", "region"] } }
+      },
+      "then": {
+        "required": ["lat", "lon", "radius_km"]
+      }
+    },
+
+    "source": {
+      "$ref": "#/definitions/source"
+    },
+
+    "source_alternatives": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/source" },
+      "description": "Weitere Quellen die dasselbe Event belegen oder widersprechen"
+    },
+
+    "description": {
+      "type": ["string", "null"],
+      "description": "Längere Beschreibung des Events"
+    },
+
+    "created_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "description": "Datum des Datenbankeintrags"
+    },
+
+    "medical_details": {
+      "type": ["object", "null"],
+      "description": "Nur für Wounding und Hospitalization",
+      "additionalProperties": false,
+      "properties": {
+        "diagnosis": { "type": ["string", "null"] },
+        "lazarett_name": { "type": ["string", "null"] },
+        "lazarett_krankenbuch_nr": { "type": ["string", "null"] },
+        "lazarett_type": {
+          "type": ["string", "null"],
+          "enum": ["Kriegslazarett", "Reserve-Lazarett", "Feldlazarett",
+                   "Sanitätskompanie", "Hauptverbandsplatz", null]
+        }
+      }
+    },
+
+    "atrocity_details": {
+      "type": ["object", "null"],
+      "description": "Nur für Atrocity, MassExecution, Deportation, GhettoOperation, ForcedLabor",
+      "additionalProperties": false,
+      "properties": {
+        "victims_count": { "type": ["string", "null"], "description": "Opferzahl als String wegen Unsicherheit, z.B. '70.000–100.000'" },
+        "victim_groups": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Betroffene Gruppen, z.B. ['Jüdische Bevölkerung', 'Sowjetische Kriegsgefangene']"
+        },
+        "method": { "type": ["string", "null"], "description": "Art des Verbrechens" },
+        "camp_type": {
+          "type": ["string", "null"],
+          "enum": ["Vernichtungslager", "Konzentrationslager", "Arbeitslager",
+                   "Durchgangslager", "Ghetto", "Sterbelager", null]
+        }
+      }
+    },
+
+    "unit_details": {
+      "type": ["object", "null"],
+      "description": "Nur für UnitJoining: Unterstellungsdetails aus Tessin",
+      "additionalProperties": false,
+      "properties": {
+        "korps": { "type": ["string", "null"] },
+        "armee": { "type": ["string", "null"] },
+        "heeresgruppe": { "type": ["string", "null"] },
+        "theater": { "type": ["string", "null"], "description": "z.B. Osten, Westen, Nordafrika" }
+      }
+    },
+
+    "notes": {
+      "type": ["string", "null"]
+    }
+  },
+
+  "definitions": {
+    "source": {
+      "type": "object",
+      "required": ["type", "certainty", "generated_by"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["wast", "bundesarchiv", "tessin", "drk", "brief",
+                   "ushmm", "stanford", "sekundaer", "manuell"],
+          "description": "Quellentyp aus festgelegter Liste"
+        },
+        "certainty": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Zuverlässigkeit 1-5: 5=Primärquelle exakt, 1=unsicher/rekonstruiert"
+        },
+        "generated_by": {
+          "type": "string",
+          "enum": ["direkt", "entity_linking", "manuell"],
+          "description": "direkt=in Quelle belegt | entity_linking=erschlossen | manuell=eingetragen"
+        },
+        "reference": {
+          "type": ["string", "null"],
+          "description": "Genaue Quellenangabe, z.B. 'B 563-1 KARTEI/K-1458/033, Karte I, Meldung I'"
+        },
+        "url": {
+          "type": ["string", "null"],
+          "format": "uri"
+        },
+        "page": {
+          "type": ["string", "null"],
+          "description": "Seitenangabe, z.B. 'S. 146' oder 'Bd. 4, S. 133-135'"
+        },
+        "accessed_date": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "note": {
+          "type": ["string", "null"]
+        }
+      }
+    }
+  }
+}

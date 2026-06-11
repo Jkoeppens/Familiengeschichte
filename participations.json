@@ -1,0 +1,116 @@
+[
+  {
+    "event_id": "event_koppermann_wounding_1943_08_28",
+    "actor_id": "person_koppermann_hj_1917",
+    "relation": "had_participant",
+    "role": "patient",
+    "note": "Granatsplitter-Verwundung an Hals und rechtem Ohr. Quelle: WASt B 563-1 KARTEI/K-1458/033, Karte I, Meldung I.",
+    "created_at": "2026-06-11"
+  },
+  {
+    "event_id": "event_koppermann_wounding_1943_08_28",
+    "actor_id": "unit_20_pz_gren_div",
+    "relation": "had_participant",
+    "role": "unit",
+    "note": "WASt Karte I: 'abgeg.: V.Pl. 20 Pz. Gren. Div.'. Koppermann war Angehöriger der Division.",
+    "created_at": "2026-06-11"
+  },
+  {
+    "event_id": "event_koppermann_wounding_1943_08_28",
+    "actor_id": "unit_pzgrenrgt90",
+    "relation": "had_participant",
+    "role": "unit",
+    "note": "WASt Kartei: '11./Gr.R. 90 = 9./Pz.Gr.B.90 = 20. Pz.Gren.Div.' — Koppermann in der 11. Kompanie des Regiments.",
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "event_id": "event_koppermann_hospitalization_radom_1943",
+    "actor_id": "person_koppermann_hj_1917",
+    "relation": "had_participant",
+    "role": "patient",
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "event_id": "event_koppermann_hospitalization_trier_1943",
+    "actor_id": "person_koppermann_hj_1917",
+    "relation": "had_participant",
+    "role": "patient",
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "event_id": "event_koppermann_hospitalization_marburg_1943",
+    "actor_id": "person_koppermann_hj_1917",
+    "relation": "had_participant",
+    "role": "patient",
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "event_id": "event_koppermann_discharge_1944_03_15",
+    "actor_id": "person_koppermann_hj_1917",
+    "relation": "had_participant",
+    "role": "soldier",
+    "note": "Entlassung aus Res.Laz. III Marburg, übergeben an Gren.Ers.Btl. 90, Hamburg-Wandsbek.",
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "event_id": "event_koppermann_missing_1945_01_13",
+    "actor_id": "person_koppermann_hj_1917",
+    "relation": "had_participant",
+    "role": "soldier",
+    "created_at": "2026-06-11"
+  },
+  {
+    "event_id": "event_koppermann_missing_1945_01_13",
+    "actor_id": "unit_20_pz_gren_div",
+    "relation": "had_participant",
+    "role": "unit",
+    "note": "Tessin Bd. 4: 20. Pz.Gren.Div. Jan. 1945 am Weichselbogen (z.Vfg., Hgr. A). Koppermann mit hoher Wahrscheinlichkeit bei PGR 90.",
+    "created_at": "2026-06-11"
+  },
+  {
+    "event_id": "event_koppermann_missing_1945_01_13",
+    "actor_id": "unit_pzgrenrgt90",
+    "relation": "had_participant",
+    "role": "unit",
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "event_id": "event_koppermann_minsk_1941_07",
+    "actor_id": "person_koppermann_hj_1917",
+    "relation": "had_participant",
+    "role": "soldier",
+    "note": "Entity-linking: Koppermann 1939 und 1942 in N.A. 20 belegt (B 563/40425). Division Sommer 1941 im Raum Białystok–Minsk.",
+    "created_at": "2026-06-11"
+  },
+  {
+    "event_id": "event_koppermann_minsk_1941_07",
+    "actor_id": "unit_na20",
+    "relation": "had_participant",
+    "role": "unit",
+    "note": "Tessin Bd. 4, S. 155: NA20 mit 20. Inf.Div.(mot.) 1941 bei XXXIX. AK, 3. Pz.Gruppe, Hgr. Mitte.",
+    "created_at": "2026-06-11"
+  },
+  {
+    "event_id": "event_koppermann_minsk_1941_07",
+    "actor_id": "unit_20_inf_div_mot",
+    "relation": "had_participant",
+    "role": "unit",
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "event_id": "event_minsk_ghetto_1941",
+    "actor_id": "person_koppermann_hj_1917",
+    "relation": "occurred_in_presence_of",
+    "role": "witness",
+    "certainty_override": 2,
+    "note": "Koppermann war Sommer 1941 mit N.A.20 im Minsk-Raum. Das Ghetto wurde gleichzeitig errichtet (Juli 1941). Keine direkte Beteiligung; Anwesenheit im Gebiet erschlossen.",
+    "created_at": "2026-06-11"
+  }
+]

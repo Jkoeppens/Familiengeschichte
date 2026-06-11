@@ -1,0 +1,10 @@
+{
+  "gesamt": 1020,
+  "mit_tabelle": 76,
+  "zeilen_gesamt": 1143,
+  "regex_geloest": 54,
+  "llm_geloest": 670,
+  "fehler": 0,
+  "nicht_benoetigt": 419,
+  "goldstandard_20_pgd": "OK"
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "id": "event_koppermann_wounding_1943_08_28",
+    "type": "Wounding",
+    "subtype": "Granatsplitterverwundung",
+    "label": "Granatsplitter-Verwundung Gorki, 28.08.1943",
+    "time_span": {
+      "begin": "1943-08-28",
+      "end": "1943-08-28",
+      "precision": "day"
+    },
+    "place": {
+      "name": "Gorki",
+      "modern_name": "Gorki, Oblast Minsk, Belarus",
+      "lat": 54.02,
+      "lon": 27.1,
+      "precision": "lokalisiert",
+      "radius_km": 5,
+      "place_source": "WASt Karte I, Meldung I"
+    },
+    "source": {
+      "type": "wast",
+      "certainty": 5,
+      "generated_by": "direkt",
+      "reference": "B 563-1 KARTEI/K-1458/033, Karte I, Meldung I (eingeg. 20.04.1944)"
+    },
+    "medical_details": {
+      "diagnosis": "Granatsplitter-Verwundung an Hals und rechtem Ohr",
+      "lazarett_name": "Hauptverbandsplatz 20. Panzergrenadier-Division",
+      "lazarett_krankenbuch_nr": null,
+      "lazarett_type": "Hauptverbandsplatz"
+    },
+    "description": "Gorki, ca. 35 km südöstlich von Ilija (Oblast Minsk). Leicht verwundet: A.G. re. Ohr. Abgegangen über V.Pl. 20 Pz.Gren.Div., Verlustmeldung Bd. 2, Nr. 146, Einheit 1602.",
+    "notes": null,
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "id": "event_koppermann_hospitalization_radom_1943",
+    "type": "Hospitalization",
+    "subtype": "Relazarettierung",
+    "label": "Lazarettbehandlung Kriegslazarett 3/605 und Radom, 29.08.–07.09.1943",
+    "time_span": {
+      "begin": "1943-08-29",
+      "end": "1943-09-07",
+      "precision": "day"
+    },
+    "place": {
+      "name": "Radom",
+      "modern_name": "Radom, Masowien, Polen",
+      "lat": 51.4,
+      "lon": 21.15,
+      "precision": "stadt",
+      "radius_km": 15,
+      "place_source": "WASt Karte I, Meldungen 1–4"
+    },
+    "source": {
+      "type": "wast",
+      "certainty": 5,
+      "generated_by": "direkt",
+      "reference": "B 563-1 KARTEI/K-1458/033, Karte I, Meldungen 1–4 (eingeg. 27.03.1944)"
+    },
+    "medical_details": {
+      "diagnosis": "Granatsplitter-Verwundung Hals und rechtes Ohr (Folgebehandlung)",
+      "lazarett_name": "Kriegslazarett 3/605, dann Reserve-Lazarett Radom",
+      "lazarett_krankenbuch_nr": "3567 (KGz.) / 23787 (Radom)",
+      "lazarett_type": "Kriegslazarett"
+    },
+    "description": "Beginn: Kriegslazarett 3/605 (Ort Roslaml, unsicher lesbar). Relazarettierung nach Radom, Lkb. 23787. 06.09. verlegt mit Lazarettzug; 07.09. Rela. Radom, Lkb. 3242.",
+    "notes": null,
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "id": "event_koppermann_hospitalization_trier_1943",
+    "type": "Hospitalization",
+    "subtype": "Relazarettierung",
+    "label": "Lazarettbehandlung Bürgerhospital / Res.Laz. I Trier, 21.10.–20.11.1943",
+    "time_span": {
+      "begin": "1943-10-21",
+      "end": "1943-11-20",
+      "precision": "day"
+    },
+    "place": {
+      "name": "Trier — Bürgerhospital / Reserve-Lazarett I",
+      "modern_name": "Trier, Rheinland-Pfalz, Deutschland",
+      "lat": 49.75,
+      "lon": 6.64,
+      "precision": "stadt",
+      "radius_km": 10,
+      "place_source": "WASt Karte I, Meldungen 6–8"
+    },
+    "source": {
+      "type": "wast",
+      "certainty": 5,
+      "generated_by": "direkt",
+      "reference": "B 563-1 KARTEI/K-1458/033, Karte I, Meldungen 6–8 (eingeg. 27.03.1944)"
+    },
+    "medical_details": {
+      "diagnosis": "Granatsplitter-Verwundung rechtes Ohr (Weiterbehandlung)",
+      "lazarett_name": "Bürgerhospital Trier / Reserve-Lazarett I Trier",
+      "lazarett_krankenbuch_nr": "377 / III/634",
+      "lazarett_type": "Reserve-Lazarett"
+    },
+    "description": "Zugang per Lazarettzug. Bürgerhospital Trier, Lkb. 377. Zweifache Relazarettierung in Trier, Lkb. III/634.",
+    "notes": null,
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "id": "event_koppermann_hospitalization_marburg_1943",
+    "type": "Hospitalization",
+    "subtype": "Relazarettierung, Ohrenklinik",
+    "label": "Lazarettbehandlung Res.Laz. III Marburg/Lahn, Ohrenklinik, 21.11.1943–15.03.1944",
+    "time_span": {
+      "begin": "1943-11-21",
+      "end": "1944-03-15",
+      "precision": "day"
+    },
+    "place": {
+      "name": "Reserve-Lazarett III Marburg an der Lahn, Ohrenklinik",
+      "modern_name": "Marburg an der Lahn, Hessen, Deutschland",
+      "lat": 50.81,
+      "lon": 8.77,
+      "precision": "stadt",
+      "radius_km": 10,
+      "place_source": "WASt Karte I, Meldung II (eingeg. 24.10.1944)"
+    },
+    "source": {
+      "type": "wast",
+      "certainty": 5,
+      "generated_by": "direkt",
+      "reference": "B 563-1 KARTEI/K-1458/033, Karte I, Meldung II (eingeg. 24.10.1944)"
+    },
+    "medical_details": {
+      "diagnosis": "Granatsplitter-Verwundung rechtes Ohr, Ohrenklinik",
+      "lazarett_name": "Reserve-Lazarett III Marburg an der Lahn, Ohrenklinik",
+      "lazarett_krankenbuch_nr": "364",
+      "lazarett_type": "Reserve-Lazarett"
+    },
+    "description": "Zugang von Reserve-Lazarett I Trier. Lkb. 364. Abgang 15.03.1944 an Gren.Ers.Btl. 90, Hamburg-Wandsbek.",
+    "notes": null,
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "id": "event_koppermann_discharge_1944_03_15",
+    "type": "Discharge",
+    "subtype": null,
+    "label": "Lazarettentlassung und Übergabe Gren.Ers.Btl. 90 Hamburg-Wandsbek, 15.03.1944",
+    "time_span": {
+      "begin": "1944-03-15",
+      "end": "1944-03-15",
+      "precision": "day"
+    },
+    "place": {
+      "name": "Hamburg-Wandsbek — Grenadier-Ersatz-Bataillon 90",
+      "modern_name": "Hamburg-Wandsbek, Hamburg, Deutschland",
+      "lat": 53.57,
+      "lon": 10.08,
+      "precision": "stadt",
+      "radius_km": 10,
+      "place_source": "WASt Karte I, Meldung II (Folgeeinträge)"
+    },
+    "source": {
+      "type": "wast",
+      "certainty": 5,
+      "generated_by": "direkt",
+      "reference": "B 563-1 KARTEI/K-1458/033, Karte I, Meldung II (Folgeeinträge): 'Abg. a. 15.3.44, Abg. Gren.Ers.Btl. 90, Hamburg-Wandsbek'"
+    },
+    "description": "Ende der Lazarettreise nach Granatsplitter-Verwundung Aug. 1943. Übergabe an Grenadier-Ersatz-Bataillon 90, Ersatztruppenstandort für Pz.Gren.Rgt. 90.",
+    "notes": null,
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "id": "event_koppermann_missing_1945_01_13",
+    "type": "Missing",
+    "subtype": null,
+    "label": "Koppermann als vermisst gemeldet, Weichselbogen 13.01.1945",
+    "time_span": {
+      "begin": "1945-01-13",
+      "end": "1945-01-13",
+      "precision": "day"
+    },
+    "place": {
+      "name": "Weichselbogen, Raum Kielce",
+      "modern_name": "Raum Kielce, Woiwodschaft Heiligkreuz, Polen",
+      "lat": 50.87,
+      "lon": 20.63,
+      "precision": "region",
+      "radius_km": 50,
+      "place_source": "Tessin Bd. 4: 20. Pz.Gren.Div. Januar 1945 Weichselbogen (z.Vfg., Hgr. A)"
+    },
+    "source": {
+      "type": "wast",
+      "certainty": 4,
+      "generated_by": "direkt",
+      "reference": "B 563-1 KARTEI/K-1458/033, Karte II, Eintrag 25.07.1986: 'Ausw.: 13.1.45 vermisst'. Lt. Vorl.-Meldg. Bd. A 620, 19.07.1984, B.R./Z.N.S."
+    },
+    "description": "Sowjetische Weichsel-Oder-Offensive begann 12.01.1945. Koppermann am Folgetag als vermisst gemeldet. Familienüberlieferung: Schussverletzung, Lafettentransport, Wundbrand, Beinverlust. Einsatzort stimmt exakt mit Tessin (20. Pz.Gren.Div., Hgr. A) überein.",
+    "notes": null,
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "id": "event_koppermann_minsk_1941_07",
+    "type": "TroopMovement",
+    "subtype": null,
+    "label": "Koppermann mit N.A.20/20.Inf.Div.(mot.) im Raum Minsk, Sommer 1941 (entity_linking)",
+    "time_span": {
+      "begin": "1941-06",
+      "end": "1941-08",
+      "precision": "month"
+    },
+    "place": {
+      "name": "Minsk-Raum",
+      "modern_name": "Raum Minsk / Białystok, Oblast Minsk, Belarus",
+      "lat": 53.9,
+      "lon": 27.56,
+      "precision": "region",
+      "radius_km": 100,
+      "place_source": "Tessin Bd. 4, S. 155: NA20/20.Inf.Div.(mot.) 1941 XXXIX.AK, 3.Pz.Gruppe, Hgr. Mitte"
+    },
+    "source": {
+      "type": "tessin",
+      "certainty": 2,
+      "generated_by": "entity_linking",
+      "reference": "Tessin Bd. 4, S. 155: '1941_sommer: Białystok, Minsk (XXXIX. AK, 3. Pz.Gruppe, Hgr. Mitte)'",
+      "page": "Bd. 4, S. 155"
+    },
+    "description": "Erschlossen: Koppermann war 1939 und 1942 in der 1. Kp. N.A. 20 belegt (B 563/40425). Die 20. Inf.Div.(mot.) war Sommer 1941 im Raum Białystok–Minsk. Daher Koppermann mit hoher Wahrscheinlichkeit in diesem Raum.",
+    "notes": null,
+    "created_at": "2026-06-11"
+  },
+
+  {
+    "id": "event_minsk_ghetto_1941",
+    "type": "GhettoOperation",
+    "subtype": "Ghetto und Massenerschießungen",
+    "label": "Ghetto Minsk 1941–1943",
+    "time_span": {
+      "begin": "1941-07",
+      "end": "1943-10",
+      "precision": "month"
+    },
+    "place": {
+      "name": "Minsk",
+      "modern_name": "Minsk, Belarus",
+      "lat": 53.9,
+      "lon": 27.56,
+      "precision": "lokalisiert",
+      "radius_km": 5,
+      "place_source": "USHMM Encyclopedia of Camps and Ghettos"
+    },
+    "source": {
+      "type": "ushmm",
+      "certainty": 3,
+      "generated_by": "direkt",
+      "reference": "USHMM Encyclopedia of Camps and Ghettos: Minsk"
+    },
+    "atrocity_details": {
+      "victims_count": "ca. 70.000–100.000",
+      "victim_groups": ["Jüdische Bevölkerung Weißrusslands", "Jüdische Deportierte aus dem Deutschen Reich"],
+      "method": "Erschießungen, Gaswagen, Hunger, Zwangsarbeit",
+      "camp_type": "Ghetto"
+    },
+    "description": "Das Ghetto Minsk bestand Juli 1941 bis Oktober 1943. Eines der größten Ghettos im besetzten Sowjetgebiet. Zentrum des Holocaust in Weißrussland, ca. 70.000–100.000 Opfer.",
+    "notes": null,
+    "created_at": "2026-06-11"
+  }
+]

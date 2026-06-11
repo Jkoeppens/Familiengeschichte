@@ -1,0 +1,122 @@
+{
+  "Neutral": {
+    "count": 681,
+    "von": "1939-09",
+    "bis": "1945-01",
+    "monate": 63
+  },
+  "German-occupied": {
+    "count": 501,
+    "von": "1939-10",
+    "bis": "1945-01",
+    "monate": 64
+  },
+  "Axis": {
+    "count": 267,
+    "von": "1940-09",
+    "bis": "1945-01",
+    "monate": 52
+  },
+  "Allies": {
+    "count": 171,
+    "von": "1939-09",
+    "bis": "1945-01",
+    "monate": 63
+  },
+  "<Null>": {
+    "count": 107,
+    "von": "1939-01",
+    "bis": "1939-08",
+    "monate": 8
+  },
+  "German Protectorate": {
+    "count": 65,
+    "von": "1939-09",
+    "bis": "1945-01",
+    "monate": 65
+  },
+  "Belligerent": {
+    "count": 49,
+    "von": "1939-04",
+    "bis": "1941-05",
+    "monate": 26
+  },
+  "Italian Protectorate": {
+    "count": 47,
+    "von": "1940-06",
+    "bis": "1943-08",
+    "monate": 30
+  },
+  "Axis-aligned": {
+    "count": 37,
+    "von": "1941-06",
+    "bis": "1944-08",
+    "monate": 37
+  },
+  "Italian-occupied": {
+    "count": 34,
+    "von": "1939-04",
+    "bis": "1943-03",
+    "monate": 34
+  },
+  "Romanian-occupied": {
+    "count": 32,
+    "von": "1941-08",
+    "bis": "1944-03",
+    "monate": 32
+  },
+  "German, Italian, Bulgarian-occupied": {
+    "count": 29,
+    "von": "1941-04",
+    "bis": "1943-08",
+    "monate": 29
+  },
+  "Axis and German-occupied": {
+    "count": 25,
+    "von": "1943-09",
+    "bis": "1945-01",
+    "monate": 17
+  },
+  "German, Italian-occupied": {
+    "count": 15,
+    "von": "1940-06",
+    "bis": "1941-06",
+    "monate": 13
+  },
+  "Axis and German, Italian-occupied": {
+    "count": 13,
+    "von": "1941-07",
+    "bis": "1942-07",
+    "monate": 13
+  },
+  "German, Bulgarian-occupied": {
+    "count": 12,
+    "von": "1943-09",
+    "bis": "1944-08",
+    "monate": 12
+  },
+  "Axis, German, Italian-occupied": {
+    "count": 10,
+    "von": "1942-11",
+    "bis": "1943-08",
+    "monate": 10
+  },
+  "Allied": {
+    "count": 7,
+    "von": "1943-09",
+    "bis": "1944-03",
+    "monate": 7
+  },
+  "War with Soviet Union": {
+    "count": 4,
+    "von": "1939-11",
+    "bis": "1940-02",
+    "monate": 4
+  },
+  "German,Soviet-occupied": {
+    "count": 1,
+    "von": "1939-09",
+    "bis": "1939-09",
+    "monate": 1
+  }
+}

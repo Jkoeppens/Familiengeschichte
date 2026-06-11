@@ -21,5 +21,33 @@ stanford_monthly/
 # Persönliche Dokumente (Bundesarchiv, privat)
 *.pdf
 
-# Alte/veraltete Dateien
+# Datenbank (persönlich + 23 MB Binary)
+familiengeschichte.db
+
+# Generierte GeoJSON-Zwischendateien (zu groß: >100 MB)
+stanford_combined.geojson
+stanford_combined_hires.geojson
+stanford_borders_all.geojson
 stanford_borders_all.geojson.bak
+
+# Veraltete PMTiles-Version (durch _hires ersetzt)
+stanford_borders.pmtiles
+
+# Simplifizierungs-Testdateien
+test_tol*.geojson
+test_tol*.pmtiles
+
+# Pipeline-Zwischenstände und Debug-Ausgaben
+chunks_*_debug.json
+chunks_debug.json
+*_clean_checkpoint.json
+batch_all_bands.log
+bd4_p49_out.txt
+bd4_p49_ppm-049.ppm
+
+# Tessin-Pipeline-Zwischenstände (nur _final.json kommt ins Repo)
+tessin_bd*_clean.json
+tessin_bd*_checkpoint.json
+tessin_bd*_report.json
+tessin_bd*.json
+!tessin_bd*_final.json
