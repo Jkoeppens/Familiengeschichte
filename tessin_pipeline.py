@@ -189,6 +189,22 @@ RE_G = re.compile(r'\bG:\s*(.+?)(?=\nU:|\nE:|\nUnterstellung|\Z)', re.DOTALL)
 RE_U = re.compile(r'\bU:\s*(.+?)(?=\nG:|\nE:|\nUnterstellung|\Z)', re.DOTALL)
 RE_E = re.compile(r'\bE:\s*(.+?)(?=\nG:|\nU:|\nUnterstellung|\Z)', re.DOTALL)
 
+# Parent-Unit-Extraktion: U:, Ug:, einzeilige Unterstellung:
+PARENT_PATTERNS = [
+    r'\bUg?:\s*([^\n;,]+)',
+    r'\bUnterstellung:\s*([^\n;,]+)',
+]
+
+
+def extract_parent_unit(text: str) -> str | None:
+    for pattern in PARENT_PATTERNS:
+        m = re.search(pattern, text)
+        if m:
+            val = m.group(1).strip()
+            if val:
+                return val
+    return None
+
 RE_USTERZ_BLOCK = re.compile(
     r'Unterstellung\s*:\s*\n(.*?)(?=\n[A-Z][a-z]+ersatz|\nFeldersatz|\Z)',
     re.DOTALL,
@@ -305,6 +321,7 @@ def parse_chunk(chunk: dict) -> dict:
         'aufgestellt': aufgestellt,
         'gliederung': gliederung_raw,
         'ueberstellung_kurz': ueberstellung_kurz,
+        'ueberstellung_parent_name': extract_parent_unit(raw),
         'ersatz': ersatz,
         'unterstellungen': unterstellungen,
         '_raw_len': len(raw),

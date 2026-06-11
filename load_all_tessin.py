@@ -16,6 +16,7 @@ from collections import defaultdict
 
 sys.path.insert(0, str(Path(__file__).parent))
 import db
+from entity_linking import link_unit
 
 CREATED = "2026-06-11"
 
@@ -422,6 +423,80 @@ def make_actor(actor_id: str, nummer: str, einheit: str,
     }
 
 
+# ─── Parent-Unit-Auflösung ────────────────────────────────────────────────────
+
+def _first_parent_candidate(ueberstellung_kurz: str) -> str | None:
+    """Extrahiert den ersten Einheitsnamen aus ueberstellung_kurz.
+
+    U:-Inhalte haben oft die Form:
+      "29.Inf.Div.(mot.): 1939 ...; 1940 ..."  → "29.Inf.Div.(mot.)"
+      "Div. 159; 1.10.1942 189.Res.Div."        → "Div. 159"
+      "189. Inf.Div. (B), Frankreich"            → "189. Inf.Div. (B)"
+    Strategie: erstes Segment (vor ;) nehmen, dann Datums-Kontext abschneiden.
+    """
+    if not ueberstellung_kurz:
+        return None
+    # Erstes Segment vor Semikolon
+    segment = ueberstellung_kurz.split(';')[0].strip()
+    # Alles ab ": YYYY" oder ": 1" abschneiden (Einsatz-/Stationsangaben)
+    segment = re.sub(r':\s*\d.*', '', segment).strip()
+    # Trailing geo-Noise (Komma + Theater) entfernen
+    segment = re.sub(r',\s*[A-ZÄÖÜ][a-zA-Züöäß\-]+\s*$', '', segment).strip()
+    segment = segment.rstrip('.,')
+    return segment if len(segment) >= 4 else None
+
+
+def _extract_number(s: str) -> str | None:
+    """Extrahiert führende Zahl aus einem Einheitsnamen, z.B. '20.Inf.Div.' → '20'."""
+    m = re.match(r'(\d+)', s.strip())
+    return m.group(1) if m else None
+
+
+def resolve_parent_id(parent_text: str | None) -> str | None:
+    """Löst einen Überstellungstext via link_unit() auf — gibt actor_id oder None.
+
+    Nummern-Guard: Wenn der Kandidatext eine führende Zahl enthält, muss diese
+    auch in der pref_label oder ID des gefundenen Actors vorkommen.
+    Threshold: 0.93 (verhindert Fehlzuordnungen wie 'Div. 159' → unit_20_pz_gren_div).
+    """
+    if not parent_text:
+        return None
+    candidate = _first_parent_candidate(parent_text)
+    if not candidate:
+        return None
+    result = link_unit(candidate, 1940)
+    if not result.get("actor_id") or result.get("confidence", 0) < 0.93:
+        return None
+    # Nummern-Guard
+    cand_num = _extract_number(candidate)
+    if cand_num:
+        actor_id = result["actor_id"]
+        # Prüfe ob die Nummer in ID oder pref_label auftaucht
+        with db._get_conn() as conn:
+            row = conn.execute("SELECT data FROM actors WHERE id = ?", (actor_id,)).fetchone()
+        if row:
+            a = json.loads(row["data"])
+            label = a.get("pref_label", "") + " " + actor_id
+            if cand_num not in re.findall(r'\d+', label):
+                return None
+    return result["actor_id"]
+
+
+def set_parent_unit_id(actor_id: str, parent_id: str) -> bool:
+    """Setzt parent_unit_id auf einem Actor, falls noch None. Gibt True bei Änderung."""
+    with db._get_conn() as conn:
+        row = conn.execute("SELECT data FROM actors WHERE id = ?", (actor_id,)).fetchone()
+        if not row:
+            return False
+        d = json.loads(row["data"])
+        if d.get("parent_unit_id"):
+            return False  # bereits gesetzt, nicht überschreiben
+        d["parent_unit_id"] = parent_id
+        conn.execute("UPDATE actors SET data = ? WHERE id = ?",
+                     (json.dumps(d, ensure_ascii=False), actor_id))
+    return True
+
+
 # ─── UnitNaming-Extraktion ─────────────────────────────────────────────────────
 
 # Regex: finde "umbenannt in X" mit vorangehendem Datum
@@ -658,6 +733,25 @@ def load_band(path: Path, band: int) -> dict:
                 print(f"  [Bd.{band}] NAMING PART FEHLER: {exc}")
                 stats['errors'] += 1
 
+    # Schritt 3: parent_unit_id aus ueberstellung_parent (neu) bzw. ueberstellung_kurz (Fallback)
+    stats['parent_set'] = 0
+    for entry in all_entries:
+        nummer = entry.get('nummer', '').strip()
+        einheit = entry.get('einheit', '').strip()
+        if not einheit:
+            continue
+        # Bevorzuge neues ueberstellung_parent_name-Feld; Fallback: ueberstellung_kurz
+        parent_text = entry.get('ueberstellung_parent_name') or entry.get('ueberstellung_kurz')
+        if not parent_text:
+            continue
+        actor_id = make_actor_id(nummer, einheit)
+        if not actor_exists(actor_id):
+            continue
+        parent_id = resolve_parent_id(parent_text)
+        if parent_id and parent_id != actor_id:
+            if set_parent_unit_id(actor_id, parent_id):
+                stats['parent_set'] += 1
+
     return stats
 
 
@@ -714,6 +808,7 @@ def run() -> None:
               f"  act_ex={stats['actors_existing']:4d}"
               f"  join={stats['unitjoining_new']:5d}"
               f"  naming={stats['unitnaming_new']:4d}"
+              f"  parent={stats.get('parent_set', 0):4d}"
               f"  err={stats['errors']:3d}")
 
     # Gesamtstatistik
