@@ -3,9 +3,11 @@ entity_linking.py — verknüpft extrahierte Einheitsnamen und Personennamen
 mit Actors in familiengeschichte.db.
 
 Öffentliche API:
-  link_unit(einheit_name, jahr)  → dict
-  link_person(name, birth_date)  → str
-  link_all(extraction_result)    → dict
+  link_unit(einheit_name, jahr)              → dict
+  link_person(name, birth_date)              → str
+  link_all(extraction_result)                → dict
+  get_current_unit(person_id, zeitpunkt)     → dict|None
+  resolve_location(person_id, zeitpunkt)     → dict
 """
 
 import json
@@ -284,3 +286,149 @@ def link_all(extraction_result: dict) -> dict:
         result["pages"] = linked_pages
 
     return result
+
+
+# ─── 4. get_current_unit ──────────────────────────────────────────────────────
+
+def get_current_unit(person_id: str, zeitpunkt: str) -> Optional[dict]:
+    """
+    Findet die Einheit der Person zu zeitpunkt anhand von PersonJoining-Events.
+
+    Reihenfolge:
+    1. PersonJoining-Events, die zeitpunkt überlappen
+    2. Fallback: neuestes PersonJoining-Event vor zeitpunkt (time_begin <= zeitpunkt_begin)
+
+    Gibt link_unit-Ergebnis zurück, oder None wenn kein Joining-Event gefunden.
+    """
+    z_begin, z_end = db._zeitpunkt_range(zeitpunkt)
+
+    with db._get_conn() as conn:
+        # Schritt 1: überlappende PersonJoining-Events
+        rows = conn.execute(
+            """
+            SELECT e.data
+            FROM events e
+            JOIN participations p ON e.id = p.event_id
+            WHERE p.actor_id = ?
+              AND e.type = 'PersonJoining'
+              AND (e.time_begin IS NULL OR e.time_begin <= ?)
+              AND (e.time_end   IS NULL OR e.time_end   >= ?)
+            ORDER BY json_extract(e.data, '$.source.certainty') DESC
+            LIMIT 1
+            """,
+            (person_id, z_end, z_begin),
+        ).fetchall()
+
+        if not rows:
+            # Schritt 2: neuestes PersonJoining-Event vor zeitpunkt
+            rows = conn.execute(
+                """
+                SELECT e.data
+                FROM events e
+                JOIN participations p ON e.id = p.event_id
+                WHERE p.actor_id = ?
+                  AND e.type = 'PersonJoining'
+                  AND e.time_begin <= ?
+                ORDER BY e.time_begin DESC
+                LIMIT 1
+                """,
+                (person_id, z_begin),
+            ).fetchall()
+
+    if not rows:
+        return None
+
+    event_data = json.loads(rows[0]["data"])
+    label = event_data.get("label", "")
+
+    # Label-Format: "Name bei Einheit"
+    if " bei " not in label:
+        return None
+
+    einheit_name = label.split(" bei ", 1)[1].strip()
+    # Jahr aus Zeitpunkt extrahieren
+    jahr = int(z_begin[:4]) if z_begin and z_begin[:4].isdigit() else 1940
+    return link_unit(einheit_name, jahr)
+
+
+# ─── 5. resolve_location ──────────────────────────────────────────────────────
+
+def resolve_location(person_id: str, zeitpunkt: str) -> dict:
+    """
+    Zentrale Verortungsfunktion — führt alle Quellen nach Priorität zusammen.
+
+    Rückgabe:
+    {
+        "lat":        float|None,
+        "lon":        float|None,
+        "place_name": str|None,
+        "certainty":  int (0–5),
+        "sicherheit": "belegt"|"einheit"|"unbekannt",
+        "source":     dict|None,
+        "event_id":   str|None,
+    }
+
+    Stufe 1 — Direkt belegter Standort (certainty ≥ 4, generated_by = "direkt"):
+      Wählt das Event mit höchster certainty, bevorzugt solche mit Koordinaten.
+
+    Stufe 2 — Einheitsstandort (PersonJoining → Tessin-DB):
+      Ermittelt aktuelle Einheit via get_current_unit, fragt deren Standort ab.
+
+    Stufe 3 — Unbekannt.
+    """
+    # Stufe 1: direkt belegte Ereignisse
+    events = db.verorte(person_id, zeitpunkt)
+    direct = [
+        e for e in events
+        if e.get("source", {}).get("certainty", 0) >= 4
+        and e.get("source", {}).get("generated_by") == "direkt"
+    ]
+
+    if direct:
+        # Sort: cert DESC, hat Koordinaten DESC, time_begin ASC (frühestes = laufendes Ereignis)
+        # NULL-begin → "0000" → sortiert vor allen datierten → bevorzugt offene Zeiträume
+        direct.sort(key=lambda e: (
+            -e.get("source", {}).get("certainty", 0),
+            0 if (e.get("place") or {}).get("lat") is not None else 1,
+            e.get("time_span", {}).get("begin") or "0000",
+        ))
+        best = direct[0]
+        place = best.get("place") or {}
+        return {
+            "lat":        place.get("lat"),
+            "lon":        place.get("lon"),
+            "place_name": place.get("name"),
+            "certainty":  best["source"]["certainty"],
+            "sicherheit": "belegt",
+            "source":     best.get("source"),
+            "event_id":   best.get("id"),
+        }
+
+    # Stufe 2: Einheitsstandort über PersonJoining → Tessin
+    unit = get_current_unit(person_id, zeitpunkt)
+    if unit and unit.get("actor_id"):
+        unit_events = db.verorte(unit["actor_id"], zeitpunkt)
+        if unit_events:
+            best_unit = unit_events[0]
+            place = best_unit.get("place") or {}
+            if place.get("lat") is not None:
+                return {
+                    "lat":        place.get("lat"),
+                    "lon":        place.get("lon"),
+                    "place_name": place.get("name"),
+                    "certainty":  2,
+                    "sicherheit": "einheit",
+                    "source":     best_unit.get("source"),
+                    "event_id":   best_unit.get("id"),
+                }
+
+    # Stufe 3: unbekannt
+    return {
+        "lat":        None,
+        "lon":        None,
+        "place_name": None,
+        "certainty":  0,
+        "sicherheit": "unbekannt",
+        "source":     None,
+        "event_id":   None,
+    }

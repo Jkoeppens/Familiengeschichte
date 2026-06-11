@@ -5093,13 +5093,6 @@
     "precision": "stadt",
     "source": "internal"
   },
-  "weichselbogen": {
-    "lat": 51.5,
-    "lon": 21.5,
-    "precision": "region",
-    "radius_km": 100,
-    "source": "gazeteer_regionen"
-  },
   "italien(adria)": {
     "lat": 42.83,
     "lon": 12.56,

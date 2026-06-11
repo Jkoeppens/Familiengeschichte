@@ -195,6 +195,13 @@ _GEO_EXTENDED: dict[str, dict] = {
     # ── Westfront / Frankreich / Belgien ──
     "aachen":            _geo(50.78,  6.09),
     "trier":             _geo(49.75,  6.64),
+    "marburg":           _geo(50.81,  8.77),
+    "marburg/lahn":      _geo(50.81,  8.77),
+    "marburg an der lahn": _geo(50.81, 8.77),
+    "gorki":             _geo(54.02, 27.10, 5, "lokalisiert"),
+    "kielce":            _geo(50.87, 20.63),
+    "weichselbogen":     _geo(50.87, 20.63, 80, "region"),
+    "raum kielce":       _geo(50.87, 20.63, 50, "region"),
     "saarbrücken":       _geo(49.23,  7.00),
     "saarburg":          _geo(49.60,  6.55),
     "nancy":             _geo(48.69,  6.18),
@@ -649,6 +656,24 @@ def resolve(name: str,
         return gn
 
     return None
+
+
+_lazy_hist: dict | None = None
+_lazy_reg:  dict | None = None
+_lazy_cache: dict | None = None
+
+
+def geocode(name: str) -> dict | None:
+    """Öffentliche Ein-Argument-API: Ortsname → {lat, lon, precision, radius_km} oder None."""
+    global _lazy_hist, _lazy_reg, _lazy_cache
+    if _lazy_hist is None:
+        _lazy_hist  = _build_historisch_index(_load_json(HISTORISCH))
+        _lazy_reg   = _build_regionen_index(_load_json(REGIONEN))
+        _lazy_cache = {}
+        if CACHE_FILE.exists():
+            with open(CACHE_FILE, encoding="utf-8") as f:
+                _lazy_cache = json.load(f)
+    return resolve(name, _lazy_hist, _lazy_reg, _lazy_cache)
 
 
 def main() -> None:

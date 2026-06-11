@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2026-06-11T22:45:57.093321",
+    "source_file": "test_document.pdf",
+    "error_count": 1,
+    "errors": [
+      {
+        "file": "test_document.pdf",
+        "object_id": "event_test_invalid",
+        "error": "'InvalidType' is not one of ['Birth', 'Death', 'Missing', 'Promotion', 'Wounding', 'Hospitalization', 'Discharge', 'Capture', 'PersonJoining', 'UnitFormation', 'UnitDissolution', 'UnitNaming', 'UnitJoining', 'TroopMovement', 'Battle', 'Encirclement', 'Siege', 'Retreat', 'Surrender', 'Atrocity', 'MassExecution', 'Deportation', 'GhettoOperation', 'ForcedLabor', 'DocumentCreation', 'Unknown']",
+        "path": [
+          "type"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-11T23:03:36.458162",
+    "source_file": "test_document.pdf",
+    "error_count": 1,
+    "errors": [
+      {
+        "file": "test_document.pdf",
+        "object_id": "event_test_invalid",
+        "error": "'InvalidType' is not one of ['Birth', 'Death', 'Missing', 'Promotion', 'Wounding', 'Hospitalization', 'Discharge', 'Capture', 'PersonJoining', 'UnitFormation', 'UnitDissolution', 'UnitNaming', 'UnitJoining', 'TroopMovement', 'Battle', 'Encirclement', 'Siege', 'Retreat', 'Surrender', 'Atrocity', 'MassExecution', 'Deportation', 'GhettoOperation', 'ForcedLabor', 'DocumentCreation', 'Unknown']",
+        "path": [
+          "type"
+        ]
+      }
+    ]
+  }
+]

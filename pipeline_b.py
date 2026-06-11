@@ -13,9 +13,11 @@ import json as _json
 import re
 import sqlite3
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import Optional
+
+import jsonschema
 
 import fitz          # PyMuPDF
 import pdfplumber
@@ -23,6 +25,7 @@ import anthropic as _anthropic
 
 import db
 from abbreviations import resolve_abbreviations
+from geocode import geocode as _geocode
 
 
 # ─── Text-Extraktion ──────────────────────────────────────────────────────────
@@ -231,6 +234,63 @@ def extract_bundesarchiv(pdf_path: str | Path) -> dict:
 
 # ─── 3. ingest_bundesarchiv ──────────────────────────────────────────────────
 
+_ERROR_QUEUE = Path(__file__).parent / "error_queue.json"
+
+
+def _validate_and_commit(
+    events: list,
+    participations: list,
+    source_file: str,
+) -> bool:
+    """
+    Validates events and participations against JSON schema.
+    On success: writes to DB. On failure: logs to error_queue.json.
+    Returns True on success, False on failure.
+    """
+    errors = []
+
+    for e in events:
+        try:
+            db._validate(e, "event")
+        except jsonschema.ValidationError as err:
+            errors.append({
+                "file": source_file,
+                "object_id": e.get("id"),
+                "error": err.message,
+                "path": list(err.absolute_path),
+            })
+
+    for p in participations:
+        try:
+            db._validate(p, "participation")
+        except jsonschema.ValidationError as err:
+            errors.append({
+                "file": source_file,
+                "object_id": f"{p.get('event_id')}+{p.get('actor_id')}",
+                "error": err.message,
+                "path": list(err.absolute_path),
+            })
+
+    if errors:
+        queue: list = _json.loads(_ERROR_QUEUE.read_text(encoding="utf-8")) if _ERROR_QUEUE.exists() else []
+        queue.append({
+            "timestamp": datetime.now().isoformat(),
+            "source_file": source_file,
+            "error_count": len(errors),
+            "errors": errors,
+        })
+        _ERROR_QUEUE.write_text(_json.dumps(queue, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"✗ {len(errors)} Validierungsfehler — Dokument in error_queue.json, nicht in DB")
+        return False
+
+    for e in events:
+        db.insert_event(e)
+    for p in participations:
+        db.insert_participation(p)
+    print(f"✓ {len(events)} Events, {len(participations)} Participations in DB")
+    return True
+
+
 def _actor_exists(conn: sqlite3.Connection, actor_id: str) -> bool:
     return conn.execute(
         "SELECT 1 FROM actors WHERE id=?", (actor_id,)
@@ -248,15 +308,17 @@ def ingest_bundesarchiv(pdf_path: str | Path) -> list[str]:
     data = extract_bundesarchiv(pdf_path)
     today = date.today().isoformat()
     actor_ids: list[str] = []
+    events: list[dict] = []
+    participations: list[dict] = []
 
-    with db._get_conn() as conn:
-        for person in data["persons"]:
-            actor_id = person["actor_id"]
-            if not actor_id:
-                continue
+    for person in data["persons"]:
+        actor_id = person["actor_id"]
+        if not actor_id:
+            continue
 
+        with db._get_conn() as conn:
             if not _actor_exists(conn, actor_id):
-                actor = {
+                db.insert_actor({
                     "id": actor_id,
                     "type": "Person",
                     "pref_label": person["name"],
@@ -265,46 +327,99 @@ def ingest_bundesarchiv(pdf_path: str | Path) -> list[str]:
                     "given_name": person["given_name"],
                     "birth_date": person["birth_date"],
                     "created_at": today,
-                }
-                db.insert_actor(actor)
+                })
 
-            actor_ids.append(actor_id)
+        actor_ids.append(actor_id)
 
-            for em in person["einheitsmeldungen"]:
-                # Event-ID: normalisierte Signatur + Jahr für Eindeutigkeit
-                sig_norm = re.sub(r"[^a-z0-9]", "_", em["signatur"].lower()).strip("_")
-                actor_short = actor_id.replace("person_", "")
-                event_id = f"event_pj_{actor_short}_{sig_norm}_{em['jahr']}"
+        for em in person["einheitsmeldungen"]:
+            sig_norm = re.sub(r"[^a-z0-9]", "_", em["signatur"].lower()).strip("_")
+            actor_short = actor_id.replace("person_", "")
+            event_id = f"event_pj_{actor_short}_{sig_norm}_{em['jahr']}"
 
-                event = {
-                    "id": event_id,
-                    "type": "PersonJoining",
-                    "label": f"{person['name']} bei {em['einheit']}",
-                    "time_span": {
-                        "begin": str(em["jahr"]),
-                        "end": str(em["jahr"]),
-                        "precision": "year",
-                    },
-                    "source": {
-                        "type": "bundesarchiv",
-                        "reference": em["signatur"],
-                        "certainty": 4,
-                        "generated_by": "direkt",
-                    },
-                    "created_at": today,
-                }
-                db.insert_event(event)
+            events.append({
+                "id": event_id,
+                "type": "PersonJoining",
+                "label": f"{person['name']} bei {em['einheit']}",
+                "time_span": {
+                    "begin": str(em["jahr"]),
+                    "end": str(em["jahr"]),
+                    "precision": "year",
+                },
+                "source": {
+                    "type": "bundesarchiv",
+                    "reference": em["signatur"],
+                    "certainty": 4,
+                    "generated_by": "direkt",
+                },
+                "created_at": today,
+            })
+            participations.append({
+                "event_id": event_id,
+                "actor_id": actor_id,
+                "relation": "had_participant",
+                "role": "soldier",
+                "created_at": today,
+            })
 
-                participation = {
-                    "event_id": event_id,
-                    "actor_id": actor_id,
-                    "relation": "had_participant",
-                    "role": "soldier",
-                    "created_at": today,
-                }
-                db.insert_participation(participation)
-
+    _validate_and_commit(events, participations, str(pdf_path))
     return actor_ids
+
+
+# ─── Ortsextraktion aus Meldungstexten ───────────────────────────────────────
+
+PLACE_PATTERNS = [
+    # "Rela. Radom, Lkb. 23787" oder "Rela. Marburg" (auch am Zeilenende)
+    r'Rela\.?\s+([A-ZÄÖÜ][a-zA-Züöäß\-]+)(?:[\s,]|$)',
+    # "Res. Laz. III Marburg/Lahn" → Marburg/Lahn
+    r'Laz\..*?([A-ZÄÖÜ][a-zA-Züöäß\-]+/[A-Za-z]+)',
+    # "Res. Laz. III Marburg" (Fallback ohne Slash)
+    r'Laz\..*?([A-ZÄÖÜ][a-zA-Züöäß\-]{3,})',
+    # "Gorki etwa 35 km südostw. Ilija" → Gorki
+    r'^([A-ZÄÖÜ][a-zA-Züöäß\-]+)\s+etwa',
+    # "Trier, Bürgerhospital" → Trier
+    r'^([A-ZÄÖÜ][a-zA-Züöäß\-]+),\s+[A-ZÄÖÜ]',
+]
+
+
+def _extract_place_from_meldung(
+    inhalt: str,
+    ort: Optional[str] = None,
+) -> Optional[dict]:
+    """Extrahiert Ortsangabe aus Vision-ort-Feld (Priorität) oder inhalt_original (Regex).
+
+    Gibt {name, lat, lon, precision, radius_km} oder None zurück.
+    lat/lon können None sein wenn der Ort im Gazetteer nicht gefunden wurde.
+    """
+    def _to_place(ort_name: str) -> Optional[dict]:
+        geo = _geocode(ort_name)
+        if geo is None:
+            return {"name": ort_name, "lat": None, "lon": None,
+                    "precision": "stadt", "radius_km": 20}
+        if geo.get("source") == "blacklist":
+            return None
+        return {
+            "name":      ort_name,
+            "lat":       geo.get("lat"),
+            "lon":       geo.get("lon"),
+            "precision": geo.get("precision", "stadt"),
+            "radius_km": geo.get("radius_km", 20),
+        }
+
+    # Priorität 1: Vision-ort
+    if ort and ort.strip().lower() not in ("", "null", "none"):
+        place = _to_place(ort.strip())
+        if place is not None:
+            return place
+
+    # Priorität 2: Regex auf inhalt_original
+    for pattern in PLACE_PATTERNS:
+        m = re.search(pattern, inhalt)
+        if m:
+            place = _to_place(m.group(1))
+            if place is not None:
+                return place
+
+    return None
 
 
 # ─── B3 WASt Karteikarte (Vision) ────────────────────────────────────────────
@@ -312,6 +427,15 @@ def ingest_bundesarchiv(pdf_path: str | Path) -> list[str]:
 _WAST_PROMPTS: dict[str, str] = {
     "karte_I_vorderseite": """\
 Du siehst die Vorderseite einer WASt-Karteikarte (Wehrmacht-Auskunftstelle).
+
+Die Meldungszeilen haben vier Spalten (von links nach rechts):
+  1. Datum        — TT.MM.JJJJ oder MM.JJJJ oder JJJJ
+  2. Ort          — Stadtname, Kreisname oder Kampfraum (z.B. "Gorki", "Trier", "Radom", "Bialystok")
+                    WICHTIG: Lies diese Spalte unabhängig vom Inhalt sorgfältig aus.
+                    Wenn kein Ort eingetragen ist, gib null an.
+  3. Einheit      — Truppenteil / Einheit
+  4. Eintragung   — Wortlaut des Eintrags (Verwundung, Hospitalisierung usw.)
+
 Extrahiere alle sichtbaren Daten und gib NUR das folgende JSON zurück, ohne erklärenden Text darum:
 
 {
@@ -325,7 +449,7 @@ Extrahiere alle sichtbaren Daten und gib NUR das folgende JSON zurück, ohne erk
   "meldungen": [
     {
       "datum": "TT.MM.JJJJ oder MM.JJJJ oder JJJJ oder null",
-      "ort": "Ort oder null",
+      "ort": "Ortsname aus Spalte 2 oder null (NICHT aus der Eintragungsspalte entnehmen)",
       "einheit": "Truppenteil oder null",
       "inhalt_original": "Wortlaut der Eintragung genau wie auf der Karte"
     }
@@ -333,6 +457,15 @@ Extrahiere alle sichtbaren Daten und gib NUR das folgende JSON zurück, ohne erk
 }""",
     "karte_I_rueckseite": """\
 Du siehst die Rückseite einer WASt-Karteikarte (Wehrmacht-Auskunftstelle).
+
+Die Meldungszeilen haben vier Spalten (von links nach rechts):
+  1. Datum        — TT.MM.JJJJ oder MM.JJJJ oder JJJJ
+  2. Ort          — Stadtname, Kreisname oder Kampfraum (z.B. "Gorki", "Trier", "Radom")
+                    WICHTIG: Lies diese Spalte unabhängig vom Inhalt sorgfältig aus.
+                    Wenn kein Ort eingetragen ist, gib null an.
+  3. Einheit      — Truppenteil / Einheit
+  4. Eintragung   — Wortlaut des Eintrags
+
 Extrahiere alle Meldungen und gib NUR das folgende JSON zurück, ohne erklärenden Text darum:
 
 {
@@ -340,7 +473,7 @@ Extrahiere alle Meldungen und gib NUR das folgende JSON zurück, ohne erklärend
   "meldungen": [
     {
       "datum": "TT.MM.JJJJ oder MM.JJJJ oder JJJJ oder null",
-      "ort": "Ort oder null",
+      "ort": "Ortsname aus Spalte 2 oder null",
       "einheit": "Truppenteil oder null",
       "inhalt_original": "Wortlaut der Eintragung genau wie auf der Karte"
     }
@@ -348,6 +481,15 @@ Extrahiere alle Meldungen und gib NUR das folgende JSON zurück, ohne erklärend
 }""",
     "karte_II": """\
 Du siehst eine WASt-Karte II (Wehrmacht-Auskunftstelle).
+
+Die Meldungszeilen haben vier Spalten (von links nach rechts):
+  1. Datum        — TT.MM.JJJJ oder MM.JJJJ oder JJJJ
+  2. Ort          — Stadtname, Kreisname oder Kampfraum (z.B. "Gorki", "Trier", "Radom")
+                    WICHTIG: Lies diese Spalte unabhängig vom Inhalt sorgfältig aus.
+                    Wenn kein Ort eingetragen ist, gib null an.
+  3. Einheit      — Truppenteil / Einheit
+  4. Eintragung   — Wortlaut des Eintrags
+
 Extrahiere alle sichtbaren Daten und gib NUR das folgende JSON zurück, ohne erklärenden Text darum:
 
 {
@@ -358,7 +500,7 @@ Extrahiere alle sichtbaren Daten und gib NUR das folgende JSON zurück, ohne erk
   "meldungen": [
     {
       "datum": "TT.MM.JJJJ oder MM.JJJJ oder JJJJ oder null",
-      "ort": "Ort oder null",
+      "ort": "Ortsname aus Spalte 2 oder null",
       "einheit": "Truppenteil oder null",
       "inhalt_original": "Wortlaut der Eintragung genau wie auf der Karte"
     }
@@ -580,17 +722,41 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
     actor_ids = [actor_id] if actor_id else []
     actor_short = actor_id.replace("person_", "") if actor_id else "unknown"
 
-    # Meldungen aus allen Seiten ingesten
+    # Meldungen aus allen Seiten sammeln
+    events: list[dict] = []
+    participations: list[dict] = []
     _id_seen: dict[str, int] = defaultdict(int)
+    # Unknown-Meldungen mit ort-Angabe für nachträgliches Place-Enrichment
+    _ort_by_date: dict[str, str] = {}
+
     for page in data["pages"]:
         for m in page.get("meldungen", []):
             inhalt = m.get("inhalt_original", "")
             etype, subtype = _classify_meldung(inhalt)
             if etype == "Unknown":
+                # Ort für gleichdatierte Events merken
+                raw_ort = m.get("ort")
+                if raw_ort and raw_ort.strip().lower() not in ("", "null", "none"):
+                    d_iso = m.get("datum_iso")
+                    if d_iso and d_iso not in _ort_by_date:
+                        _ort_by_date[d_iso] = raw_ort.strip()
                 continue
 
             date_iso = m.get("datum_iso")
             precision = m.get("datum_precision", "unknown")
+
+            # WASt-Karten enthalten Post-War-Bearbeitungsvermerke mit späten Daten
+            # (z.B. "25.7.80" = WASt-Bearbeitungsdatum). Wenn das extrahierte Datum
+            # nach Kriegsende liegt, Datum aus inhalt_original retten.
+            if date_iso and date_iso > "1945-05-09":
+                m_date = re.search(r'\b(\d{1,2}\.\d{1,2}\.\d{2,4})\b', inhalt)
+                if m_date:
+                    recovered, rec_prec = _parse_date_partial(m_date.group(1))
+                    if recovered and recovered <= "1945-05-09":
+                        date_iso, precision = recovered, rec_prec
+                if date_iso > "1945-05-09":
+                    continue  # Kein Kriegsdatum rekonstruierbar → Event überspringen
+
             date_slug = date_iso.replace("-", "_") if date_iso else "unbekannt"
 
             base_id = f"event_wast_{actor_short}_{etype.lower()}_{date_slug}"
@@ -598,7 +764,9 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
             n = _id_seen[base_id]
             event_id = base_id if n == 1 else f"{base_id}_{n}"
 
-            event = {
+            place = _extract_place_from_meldung(inhalt, m.get("ort"))
+
+            event: dict = {
                 "id": event_id,
                 "type": etype,
                 "subtype": subtype,
@@ -616,10 +784,12 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
                 },
                 "created_at": today,
             }
-            db.insert_event(event)
+            if place:
+                event["place"] = place
+            events.append(event)
 
             if actor_id:
-                db.insert_participation({
+                participations.append({
                     "event_id": event_id,
                     "actor_id": actor_id,
                     "relation": "had_participant",
@@ -627,4 +797,16 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
                     "created_at": today,
                 })
 
+    # Enrichment: Unknown-Meldungen mit ort= auf gleichdatierte Events übertragen
+    for event in events:
+        if event.get("place") and event["place"].get("lat") is not None:
+            continue  # bereits geortet
+        date_key = event.get("time_span", {}).get("begin")
+        fallback_ort = _ort_by_date.get(date_key)
+        if fallback_ort:
+            place = _extract_place_from_meldung("", fallback_ort)
+            if place and place.get("lat") is not None:
+                event["place"] = place
+
+    _validate_and_commit(events, participations, str(pdf_path))
     return actor_ids

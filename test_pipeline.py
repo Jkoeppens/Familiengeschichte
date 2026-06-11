@@ -35,7 +35,8 @@ from pipeline_b import (
     ingest_wast,
 )
 from abbreviations import resolve_abbreviations, add_user_abbreviation, ABBREV_FILE
-from entity_linking import link_unit, link_person, link_all
+from entity_linking import link_unit, link_person, link_all, resolve_location, get_current_unit
+from pipeline_b import _validate_and_commit
 
 # Echte Dateinamen (Leerzeichen + Sonderzeichen wie im Dateisystem)
 WAST_PDF = Path("Koppermann, Hans-Jürgen_B 563-1 KARTEI_K_1458_033.pdf")
@@ -259,3 +260,56 @@ def test_wast_quality_vs_goldstandard(require_api_key):
         print(f"  {'✓' if ok else '✗'} {check}")
 
     assert score >= 0.8, f"Qualität unter 80%: {score:.0%}"
+
+
+# ─── B6 Verortung ─────────────────────────────────────────────────────────────
+
+def test_resolve_location_belegt():
+    """Stufe 1: WASt-Verwundungseintrag liefert direkt belegten Standort."""
+    result = resolve_location("person_koppermann_hj_1917", "1943-08-28")
+    assert result["sicherheit"] == "belegt"
+    assert result["certainty"] >= 4
+    assert result["lat"] is not None
+    assert result["lon"] is not None
+
+
+def test_resolve_location_einheit():
+    """Stufe 2: Kein Direktbeleg → Einheitsstandort aus Tessin über PersonJoining."""
+    result = resolve_location("person_koppermann_hj_1917", "1941-07")
+    assert result["sicherheit"] in ("belegt", "einheit")
+    assert result["lat"] is not None
+    assert result["lon"] is not None
+
+
+def test_resolve_location_unbekannt():
+    """Stufe 3: Weder Direktbeleg noch Tessin-Standort → unbekannt."""
+    result = resolve_location("person_koppermann_hj_1917", "1940-03")
+    assert result["sicherheit"] == "unbekannt"
+    assert result["lat"] is None
+    assert result["certainty"] == 0
+
+
+# ─── B6 Validierung ───────────────────────────────────────────────────────────
+
+def test_b6_validation_error_goes_to_queue():
+    """Ein invalides Event darf nicht in die DB — landet stattdessen in error_queue.json."""
+    invalid_event = {
+        "id": "event_test_invalid",
+        "type": "InvalidType",  # nicht im Schema
+        "label": "Test",
+        "time_span": {"begin": "1943-08", "end": "1943-08", "precision": "month"},
+        "source": {"type": "wast", "certainty": 5, "generated_by": "direkt"},
+        "created_at": "2026-06-11",
+    }
+
+    result = _validate_and_commit([invalid_event], [], "test_document.pdf")
+    assert result is False
+
+    queue = json.loads(Path("error_queue.json").read_text(encoding="utf-8"))
+    assert any(e["source_file"] == "test_document.pdf" for e in queue)
+
+
+def test_b6_valid_goes_to_db():
+    """Leere Listen sind valide — gibt True zurück."""
+    result = _validate_and_commit([], [], "empty_test.pdf")
+    assert result is True
