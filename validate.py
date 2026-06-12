@@ -140,6 +140,58 @@ def check_coordinate_consistency(events) -> list[str]:
 
     return errors
 
+def check_no_garbage_actors(actors) -> list[str]:
+    """Pref_label kürzer als 4 Zeichen ist verboten (Garbage-Actor-Filter)."""
+    errors = []
+    if not actors:
+        return errors
+    for a in actors:
+        label = (a.get("pref_label") or "").strip()
+        if len(label) < 4:
+            errors.append(
+                f"  [Garbage-Actor] {a.get('id')}: pref_label {label!r} zu kurz (< 4 Zeichen)"
+            )
+    return errors
+
+
+def check_unitjoining_completeness(events, participations) -> list[str]:
+    """Jedes UnitJoining-Event muss mindestens eine Participation mit role='joined' haben."""
+    errors = []
+    if not events or not participations:
+        return errors
+    joining_ids = {
+        e["id"] for e in events
+        if e.get("type") == "UnitJoining"
+    }
+    joined_event_ids = {
+        p["event_id"] for p in participations
+        if p.get("role") == "joined"
+    }
+    for eid in joining_ids:
+        if eid not in joined_event_ids:
+            errors.append(
+                f"  [UnitJoining] {eid}: kein Participant mit role='joined'"
+            )
+    return errors
+
+
+def check_provenance(events) -> list[str]:
+    """Jedes Event muss source.type und source.certainty haben."""
+    errors = []
+    if not events:
+        return errors
+    for e in events:
+        src = e.get("source")
+        if not src:
+            errors.append(f"  [Provenienz] {e.get('id')}: source fehlt komplett")
+            continue
+        if not src.get("type"):
+            errors.append(f"  [Provenienz] {e.get('id')}: source.type fehlt")
+        if src.get("certainty") is None:
+            errors.append(f"  [Provenienz] {e.get('id')}: source.certainty fehlt")
+    return errors
+
+
 def check_no_duplicate_ids(data: list, label: str) -> list[str]:
     """Prüft auf doppelte IDs."""
     errors = []
@@ -213,6 +265,15 @@ def main():
     for name, data in loaded.items():
         dup_errors.extend(check_no_duplicate_ids(data, name))
     all_errors.extend(dup_errors)
+
+    garbage_errors = check_no_garbage_actors(actors)
+    all_errors.extend(garbage_errors)
+
+    joining_errors = check_unitjoining_completeness(events, participations)
+    all_errors.extend(joining_errors)
+
+    provenance_errors = check_provenance(events)
+    all_errors.extend(provenance_errors)
 
     # 3. Ausgabe
     print()

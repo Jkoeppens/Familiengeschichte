@@ -37,7 +37,8 @@
       "enum": [
         "soldier", "patient", "commander", "prisoner", "victim",
         "witness", "unit", "superior", "subordinate", "allied",
-        "opposing", "location", "origin", "destination"
+        "opposing", "location", "origin", "destination",
+        "joined", "joined_with"
       ],
       "description": "Spezifische Rolle des Akteurs in diesem Event"
     },

@@ -126,9 +126,12 @@ victim                  — Opfer (nur bei Atrocity-Events)
 ### `participation.role`
 ```
 Für Personen:   soldier | patient | commander | prisoner | victim | witness
-Für Einheiten:  unit | superior | subordinate | allied | opposing
+Für Einheiten:  joined | joined_with | superior | subordinate | allied | opposing
+                (joined = P143 beitretende Einheit, joined_with = P144 aufnehmende Einheit)
 Für Orte:       location | origin | destination
 ```
+
+`unit` als Rolle ist deprecated — nur noch in Altdaten, neue Einträge immer `joined` oder `joined_with`.
 
 ### `source.type`
 ```
@@ -258,7 +261,7 @@ Optional:  reference, url, page, accessed_date, note
 
 ## 6. Versionierung und Änderungen
 
-- Schema-Version: `1.0`
+- Schema-Version: `1.1`
 - Jede Änderung an Enum-Werten oder Pflichtfeldern:
   1. Dieses Dokument aktualisieren
   2. JSON-Schema-Dateien aktualisieren
@@ -280,7 +283,9 @@ verorte("person_koppermann_hj_1917", "1943-08-28")
 # → Gorki, lat=54.02, lon=27.1, certainty=5, source.type="wast"
 
 verorte("person_koppermann_hj_1917", "1943-11")
-# → Trier, lat=49.75, lon=6.64, certainty=5, source.type="wast"
+# → Marburg, certainty=5, source.type="wast"
+# (Res.Laz. III Marburg/Lahn, Ohrenklinik — November 1943)
+# Trier war Oktober 1943
 
 verorte("person_koppermann_hj_1917", "1941-07")
 # → Minsk-Raum, certainty=2, generated_by="entity_linking"
@@ -291,4 +296,18 @@ kontext("person_koppermann_hj_1917", "1941-07", radius_km=200)
 
 ---
 
-*Zuletzt aktualisiert: 2026-06-11 | Schema-Version: 1.0*
+## 8. Datenbank-Konsistenzregeln
+
+Diese Regeln gelten für die Gesamtheit der DB, nicht nur für einzelne Objekte.
+`validate.py` prüft sie nach jedem Load.
+
+- **Referentielle Integrität**: jeder `actor_id` in participations muss in actors existieren
+- **Keine Garbage-Actors**: `pref_label` kürzer als 4 Zeichen ist verboten
+- **UnitJoining-Vollständigkeit**: jedes UnitJoining-Event muss mindestens
+  eine Participation mit `role='joined'` haben
+- **Provenienz-Pflicht**: jedes Event muss `source.type` und `source.certainty` haben
+- **ID-Stabilität**: einmal vergebene IDs dürfen nicht geändert werden
+
+---
+
+*Zuletzt aktualisiert: 2026-06-12 | Schema-Version: 1.1*
