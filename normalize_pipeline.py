@@ -237,6 +237,43 @@ ORT_BLACKLIST: frozenset[str] = frozenset({
 })
 
 
+_ORT_EXTRACT_BLACKLIST: frozenset[str] = frozenset({
+    'Osten', 'Westen', 'Heimat', 'Süden', 'Norden',
+    'Nord', 'Süd', 'Mitte', 'Don', 'Südosten',
+    'Südwest', 'Südost',
+})
+
+_KLAMMER_NICHT_ORT: frozenset[str] = frozenset({
+    'Auffr', 'Auffrischung', 'Reste', 'Rest',
+    'Zitadelle', 'Kessel', 'Aufst', 'Aufstellung', 'Stab',
+})
+
+
+def extract_ort_from_right(detail_raw: str) -> str:
+    """Extrahiert Ort als letztes nicht-geblacklistetes Token von rechts.
+
+    Läuft unabhängig vom strukturierten Parse — greift nur wenn ort noch leer.
+    'Mius (Taganrog)'  → 'Taganrog'  (Präzisierung = echter Ort)
+    'Stalino (Auffr.)' → 'Stalino'   (Präzisierung = Truppenstatus → Hauptort)
+    """
+    scan = detail_raw
+    m_klammer = re.search(r'\(([A-ZÄÖÜ][^)]*)\)\s*$', scan)
+    if m_klammer:
+        klammer_inhalt = m_klammer.group(1).strip('., ')
+        if klammer_inhalt in _KLAMMER_NICHT_ORT:
+            scan = scan[:m_klammer.start()].rstrip()
+
+    tokens = scan.rstrip(')').rstrip().split()
+    for token in reversed(tokens):
+        token_clean = token.strip('.,)(')
+        if (len(token_clean) > 2
+                and token_clean not in _ORT_EXTRACT_BLACKLIST
+                and re.match(r'^[A-ZÄÖÜ]', token_clean)
+                and not token_clean.isupper()):  # Röm. Zahlen + Abkürzungen raus
+            return token_clean
+    return ''
+
+
 MONAT_FIXES: dict[str, str] = {
     'Januarr': 'Januar', 'Februarr': 'Februar', 'Märzz': 'März',
     'Aprili': 'April', 'Junil': 'Juni', 'Julii': 'Juli',
@@ -338,6 +375,11 @@ def normalize_entry(entry: dict, use_llm: bool = True) -> dict:
         elif fields is None:
             fields = {'korps': '', 'armee': '', 'hgr': '', 'theater': '', 'ort': ''}
 
+        # Ort immer von rechts bestimmen — überschreibt strukturierten Parse
+        ort_fb = extract_ort_from_right(raw)
+        if ort_fb:
+            fields = {**fields, 'ort': ort_fb}
+
         new_row = {
             **row,
             'detail_raw': raw,
@@ -396,15 +438,13 @@ def postprocess_row(row: dict) -> tuple[dict, list[str]]:
         changes.append(f'ort: {ort_cur!r}→""')
         row['ort'] = ''
 
-    # Fix 2b: ort-Fallback — letztes Token aus detail_raw wenn ort noch leer
-    ort_cur = (row.get('ort') or '').strip()
-    if not ort_cur:
-        raw_for_ort = (row.get('detail_raw') or row.get('detail') or '').strip()
-        if raw_for_ort:
-            last_tok = raw_for_ort.split()[-1]
-            if re.match(r'^[A-ZÄÖÜ][a-zäöüß]+', last_tok) and last_tok not in ORT_BLACKLIST:
-                row['ort'] = last_tok
-                changes.append(f'ort←last_token: {last_tok!r}')
+    # Fix 2b: ort immer von rechts bestimmen — überschreibt strukturierten Parse
+    raw_for_ort = (row.get('detail_raw') or row.get('detail') or '').strip()
+    if raw_for_ort:
+        ort_fb = extract_ort_from_right(raw_for_ort)
+        if ort_fb:
+            row['ort'] = ort_fb
+            changes.append(f'ort←rechts: {ort_fb!r}')
 
     # Fix 3: Arabische Zahl fälschlich als korps-Wert
     korps_cur = (row.get('korps') or '').strip()
