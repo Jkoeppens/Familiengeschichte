@@ -10,6 +10,7 @@ Ausgabe zeigt welche Einträge gegen welche Regeln verstoßen.
 """
 
 import json
+import sqlite3
 import sys
 import os
 from pathlib import Path
@@ -192,6 +193,42 @@ def check_provenance(events) -> list[str]:
     return errors
 
 
+def check_db_consistency(conn) -> list[str]:
+    """Konsistenzprüfungen direkt auf der SQLite-DB (Abschnitt 8 SCHEMA.md v1.1)."""
+    errors = []
+
+    # 1. Referentielle Integrität
+    orphans = conn.execute("""
+        SELECT COUNT(*) FROM participations p
+        LEFT JOIN actors a ON p.actor_id = a.id
+        WHERE a.id IS NULL
+    """).fetchone()[0]
+    if orphans:
+        errors.append(f"  [DB] Referentielle Integrität: {orphans} Participations ohne Actor")
+
+    # 2. Keine Garbage-Actors (pref_label < 4 Zeichen)
+    garbage = conn.execute("""
+        SELECT COUNT(*) FROM actors
+        WHERE length(pref_label) < 4
+    """).fetchone()[0]
+    if garbage:
+        errors.append(f"  [DB] Garbage-Actors: {garbage} mit pref_label < 4 Zeichen")
+
+    # 3. UnitJoining ohne joined-Rolle
+    missing_joined = conn.execute("""
+        SELECT COUNT(*) FROM events e
+        WHERE json_extract(e.data, '$.type') = 'UnitJoining'
+          AND e.id NOT IN (
+              SELECT event_id FROM participations
+              WHERE role = 'joined'
+          )
+    """).fetchone()[0]
+    if missing_joined:
+        errors.append(f"  [DB] UnitJoining ohne joined-Rolle: {missing_joined} Events")
+
+    return errors
+
+
 def check_no_duplicate_ids(data: list, label: str) -> list[str]:
     """Prüft auf doppelte IDs."""
     errors = []
@@ -275,7 +312,23 @@ def main():
     provenance_errors = check_provenance(events)
     all_errors.extend(provenance_errors)
 
-    # 3. Ausgabe
+    # 3. DB-Konsistenz (Abschnitt 8)
+    db_path = Path("familiengeschichte.db")
+    if db_path.exists():
+        try:
+            conn = sqlite3.connect(db_path)
+            conn.row_factory = sqlite3.Row
+            db_errors = check_db_consistency(conn)
+            conn.close()
+            all_errors.extend(db_errors)
+            status = "✓" if not db_errors else "✗"
+            print(f"{status}  familiengeschichte.db: {len(db_errors)} Konsistenzfehler")
+        except sqlite3.Error as e:
+            print(f"⚠  DB-Prüfung fehlgeschlagen: {e}")
+    else:
+        print("–  familiengeschichte.db nicht gefunden, DB-Checks übersprungen")
+
+    # 4. Ausgabe
     print()
     if all_errors:
         print(f"✗  {len(all_errors)} Fehler gefunden:")

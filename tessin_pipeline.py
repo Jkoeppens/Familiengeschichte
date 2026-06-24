@@ -75,7 +75,7 @@ RE_STAR_DATE = re.compile(
 )
 
 # Fallback for major divisions that have (WK...) but OCR dropped the *
-RE_WK_HEADER = re.compile(r'\(WK\s+[IVX]', re.IGNORECASE)
+RE_WK_HEADER = re.compile(r'\(?WK\s*[IVX]', re.IGNORECASE)
 
 # Section/chapter lines to skip when looking backwards for a unit name
 RE_SECTION = re.compile(
@@ -83,6 +83,9 @@ RE_SECTION = re.compile(
     r'Kraftfahr|Sanität|Feldjäger|Sicherungs|Luftwaffe|Waffen|Verbündete)',
     re.IGNORECASE,
 )
+
+
+_FIELD_LINE = re.compile(r'^[UEGKug]\s*:')
 
 
 def _line_offsets(lines: list[str]) -> list[int]:
@@ -111,7 +114,8 @@ def find_chunks(full_text: str) -> list[dict]:
         return (not s
                 or s.startswith('(')
                 or RE_SECTION.match(s)
-                or re.match(r'^[A-Z]\.\s+\w', s))   # "A. Kommandobehörden"
+                or re.match(r'^[A-Z]\.\s+\w', s)
+                or _FIELD_LINE.match(s))   # U:, E:, G:, K: field lines
 
     chunk_starts: set[int] = set()   # set of char offsets
 
@@ -144,9 +148,19 @@ def find_chunks(full_text: str) -> list[dict]:
 
     # ── fallback pass: (WK...) headers without * ────────────────────────────
     for i, line in enumerate(lines):
-        if not RE_WK_HEADER.search(line):
+        wk_m = RE_WK_HEADER.search(line)
+        if not wk_m:
             continue
-        # The unit name is the preceding non-skip line
+        # Inline case: "UnitName 15.10.1935 FStO Hamburg-Wandsbek, WKX."
+        before_wk = line[:wk_m.start()].strip()
+        if (before_wk
+                and re.match(r'[A-ZÄÖÜ]', before_wk)
+                and re.search(r'\d', before_wk)
+                and not _FIELD_LINE.match(before_wk)
+                and not line.strip().startswith('(')):
+            chunk_starts.add(loff[i])
+            continue
+        # Line-start case: WK on its own line — name is on a preceding line
         for back in range(1, 4):
             if i - back < 0:
                 break
@@ -210,6 +224,27 @@ RE_USTERZ_BLOCK = re.compile(
     re.DOTALL,
 )
 
+_RE_INLINE_DATE = re.compile(r'\b(\d{1,2}\.\d{1,2}\.\d{4})\b')
+_RE_INLINE_FSTO = re.compile(r'FStO\s+([^,;]+?)(?=\s*(?:[,;]|WK|$))')
+_RE_INLINE_WK   = re.compile(r'\(?WK\s*([IVX]+)\)?\.?')
+
+
+def clean_einheit(raw: str) -> tuple[str, str, str, str]:
+    """Split inline-date entries: 'UnitName 15.10.1935 FStO Hamburg, WKX.' → (name, date, fsto, wk)."""
+    if 'FStO' not in raw:
+        return raw, '', '', ''
+    m_date = _RE_INLINE_DATE.search(raw)
+    if not m_date:
+        return raw, '', '', ''
+    name = raw[:m_date.start()].strip().rstrip(',.').strip()
+    rest = raw[m_date.start():]
+    aufgestellt    = m_date.group(1)
+    m_fsto         = _RE_INLINE_FSTO.search(rest)
+    m_wk           = _RE_INLINE_WK.search(rest)
+    heimatgarnison = m_fsto.group(1).strip() if m_fsto else ''
+    wehrkreis      = m_wk.group(1).strip()   if m_wk   else ''
+    return name, aufgestellt, heimatgarnison, wehrkreis
+
 
 def parse_unterstellung_table(block: str) -> list[dict]:
     rows = []
@@ -270,6 +305,14 @@ def parse_chunk(chunk: dict) -> dict:
         nums = re.findall(r'\b(\d{1,3})\b', name_line)
         nummer = next((n for n in reversed(nums) if 15 <= int(n) <= 30), '')
 
+    # Inline date/FStO/WK cleanup (e.g. "Nachrichten-Abt.20 15.10.1935 FStO Hamburg, WKX.")
+    inline_aufgestellt = inline_heimatgarnison = inline_wehrkreis = ''
+    if _RE_INLINE_DATE.search(name_raw):
+        name_raw, inline_aufgestellt, inline_heimatgarnison, inline_wehrkreis = clean_einheit(name_raw)
+        if not m_hdr:
+            nums = re.findall(r'\b(\d{1,3})\b', name_raw)
+            nummer = next((n for n in reversed(nums) if 15 <= int(n) <= 30), nummer)
+
     # WK + FStO from (WK ...) line
     wehrkreis = ''
     heimatgarnison = ''
@@ -277,12 +320,23 @@ def parse_chunk(chunk: dict) -> dict:
     if m_wk:
         wehrkreis = m_wk.group(1).strip() if m_wk.group(1) else ''
         heimatgarnison = m_wk.group(2).strip() if m_wk.group(2) else ''
+    if not wehrkreis and inline_wehrkreis:
+        wehrkreis = inline_wehrkreis
+    if not heimatgarnison and inline_heimatgarnison:
+        heimatgarnison = inline_heimatgarnison
+    # WK-Fallback: wenn WKX. auf einer Folgezeile steht
+    if not wehrkreis:
+        m_wk2 = _RE_INLINE_WK.search(raw)
+        if m_wk2:
+            wehrkreis = m_wk2.group(1).strip()
 
     # Formation info: either "* <date/text>..." or (no star) a date line after (WK...)
     aufgestellt = ''
     m_auf = RE_AUFGESTELLT.search(raw)
     if m_auf:
         aufgestellt = re.sub(r'\s+', ' ', m_auf.group(1)).strip()[:500]
+    elif inline_aufgestellt:
+        aufgestellt = inline_aufgestellt
     else:
         # No *, look for a date line after the (WK...) header line
         after_wk = re.search(r'\(WK[^\)]+\)\s*\n(.+)', raw)

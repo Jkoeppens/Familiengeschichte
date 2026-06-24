@@ -26,6 +26,7 @@ import anthropic as _anthropic
 import db
 from abbreviations import resolve_abbreviations
 from geocode import geocode as _geocode
+from entity_linking import link_unit
 
 
 # ─── Text-Extraktion ──────────────────────────────────────────────────────────
@@ -358,6 +359,34 @@ def ingest_bundesarchiv(pdf_path: str | Path) -> list[str]:
                 "actor_id": actor_id,
                 "relation": "had_participant",
                 "role": "soldier",
+                "created_at": today,
+            })
+
+            # Einheit auflösen und als zweite Participation verlinken
+            linked = link_unit(em["einheit"], em["jahr"])
+            if linked.get("match_type") != "none":
+                unit_actor_id = linked["actor_id"]
+            else:
+                # Kein Treffer → neuen Actor aus dem Einheitsnamen anlegen
+                unit_norm = re.sub(r"[^a-z0-9]+", "_",
+                                   em["einheit"].lower()).strip("_")
+                unit_actor_id = f"unit_{unit_norm}"
+                with db._get_conn() as conn:
+                    if not _actor_exists(conn, unit_actor_id):
+                        db.insert_actor({
+                            "id": unit_actor_id,
+                            "type": "MilitaryUnit",
+                            "pref_label": em["einheit"],
+                            "alt_labels": [],
+                            "branch": "Heer",
+                            "unit_type": "Unknown",
+                            "created_at": today,
+                        })
+            participations.append({
+                "event_id": event_id,
+                "actor_id": unit_actor_id,
+                "relation": "had_participant",
+                "role": "unit",
                 "created_at": today,
             })
 

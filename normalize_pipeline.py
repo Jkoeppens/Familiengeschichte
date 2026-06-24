@@ -34,7 +34,10 @@ VALID_ROMAN = {
     'XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX',
     'XXI','XXII','XXIII','XXIV','XXV','XXVI','XXVII','XXVIII','XXIX',
     'XXX','XXXI','XXXII','XXXIII','XXXIV','XXXV','XXXVI','XXXVII',
-    'XXXVIII','XXXIX','XL','XLI','XLII','XLIII','XLIV','XLV','XLVI',
+    'XXXVIII','XXXIX',
+    # Wehrmacht-Notation: XXXX statt XL (z.B. XXXXII = 42. Korps)
+    'XXXXI','XXXXII','XXXXIII','XXXXIV','XXXXV','XXXXVI','XXXXVII','XXXXVIII','XXXXIX',
+    'XL','XLI','XLII','XLIII','XLIV','XLV','XLVI',
     'XLVII','XLVIII','XLIX','L','LI','LII','LIII','LIV','LV','LVI',
     'LVII','LVIII','LIX','LX','LXI','LXII','LXIII','LXIV','LXV','LXVI',
     # SS-Korps (selten)
@@ -256,19 +259,21 @@ def fix_roman_ocr(s: str) -> str:
 
 def regex_parse_fields(detail: str) -> dict | None:
     """Schneller Regex-Parser. Gibt None zurück wenn nicht eindeutig."""
-    tokens = detail.split()
+    # Führende (Stab)/(Rest)/... vor dem Korps-Token entfernen
+    detail_clean = re.sub(r'^\s*\([^)]+\)\s*', '', detail)
+    tokens = detail_clean.split()
     if not tokens:
         return {'korps': '', 'armee': '', 'hgr': '', 'theater': '', 'ort': ''}
 
     korps = ''
-    rest = detail
+    rest = detail_clean
 
     # Korps-Token: erster Token wenn gültige römische Zahl
     tok0 = tokens[0]
     base0 = re.sub(r'\.(SS|Lw|Fs|Fsch|Fallsch|Kav|Pz).*', '', tok0)
     if base0 in VALID_ROMAN or tok0 in VALID_ROMAN:
         korps = tok0
-        rest = detail[len(tok0):].strip()
+        rest = detail_clean[len(tok0):].strip()
     elif tok0 in KNOWN_NON_KORPS:
         korps = tok0   # z.Vfg. etc.
         rest = detail[len(tok0):].strip()
@@ -390,6 +395,16 @@ def postprocess_row(row: dict) -> tuple[dict, list[str]]:
     if ort_cur in ORT_BLACKLIST:
         changes.append(f'ort: {ort_cur!r}→""')
         row['ort'] = ''
+
+    # Fix 2b: ort-Fallback — letztes Token aus detail_raw wenn ort noch leer
+    ort_cur = (row.get('ort') or '').strip()
+    if not ort_cur:
+        raw_for_ort = (row.get('detail_raw') or row.get('detail') or '').strip()
+        if raw_for_ort:
+            last_tok = raw_for_ort.split()[-1]
+            if re.match(r'^[A-ZÄÖÜ][a-zäöüß]+', last_tok) and last_tok not in ORT_BLACKLIST:
+                row['ort'] = last_tok
+                changes.append(f'ort←last_token: {last_tok!r}')
 
     # Fix 3: Arabische Zahl fälschlich als korps-Wert
     korps_cur = (row.get('korps') or '').strip()

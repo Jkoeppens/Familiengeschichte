@@ -7,6 +7,7 @@ Lädt alle Tessin-Bände in familiengeschichte.db.
 - Deduplication: Actor nicht überschreiben wenn bereits vorhanden
 """
 
+import argparse
 import json
 import re
 import sys
@@ -16,9 +17,24 @@ from collections import defaultdict
 
 sys.path.insert(0, str(Path(__file__).parent))
 import db
-from entity_linking import link_unit
 
 CREATED = "2026-06-11"
+
+# Garbage-Labels die niemals als Actor in die DB kommen sollen
+_GARBAGE_LABELS = {
+    'unterstellung', 'i', 'ii', 'iii', 'iv', 'v',
+    'z.vfg.', '—', '-', 'x', 'xi', 'xii', 'xiii',
+}
+
+
+def is_valid_actor(pref_label: str) -> bool:
+    s = pref_label.strip()
+    if len(s) < 4:
+        return False
+    if s.lower() in _GARBAGE_LABELS:
+        return False
+    return True
+
 
 # Mappt (nummer_strip, einheit_strip) → bekannte Actor-IDs aus actors.json
 KNOWN_ACTOR_IDS: dict[tuple, str] = {
@@ -452,34 +468,112 @@ def _extract_number(s: str) -> str | None:
     return m.group(1) if m else None
 
 
-def resolve_parent_id(parent_text: str | None) -> str | None:
-    """Löst einen Überstellungstext via link_unit() auf — gibt actor_id oder None.
+def _token_overlap(query: str, label: str) -> int:
+    """Zählt nützliche Tokens aus query die als Präfix in label vorkommen.
 
-    Nummern-Guard: Wenn der Kandidatext eine führende Zahl enthält, muss diese
-    auch in der pref_label oder ID des gefundenen Actors vorkommen.
-    Threshold: 0.93 (verhindert Fehlzuordnungen wie 'Div. 159' → unit_20_pz_gren_div).
+    'Inf' matcht 'Infanterie', 'mot' matcht 'mot'. Typ-Worte ('Div', 'Division'
+    etc.) und Zahlen werden ignoriert — sie wurden bereits als Filterkriterium
+    genutzt.
+    """
+    _STOPS = {
+        'div', 'division', 'abt', 'abteilung', 'btl', 'bataillon',
+        'rgt', 'regiment', 'kp', 'kompanie', 'korps', 'armee',
+    }
+    norm_label = re.sub(r'[^\wäöüß]', '', label.lower())
+    tokens = re.findall(r'[a-zäöüß]{3,}', query.lower())
+    useful = [t for t in tokens if t not in _STOPS]
+    return sum(1 for t in useful if t in norm_label)
+
+
+def resolve_parent_id(parent_text: str | None) -> str | None:
+    """Strukturierte parent-Auflösung: Nummer + Typ → DB-Lookup.
+
+    Statt Fuzzy-Matching: extrahiere Nummer und Einheitentyp aus dem Text,
+    suche in der DB nach Actors mit passender Nummer im pref_label und
+    gleichem unit_type. Bei mehreren Treffern: höchster Token-Overlap mit
+    dem Suchbegriff, dann kürzestes pref_label.
     """
     if not parent_text:
         return None
     candidate = _first_parent_candidate(parent_text)
     if not candidate:
         return None
-    result = link_unit(candidate, 1940)
-    if not result.get("actor_id") or result.get("confidence", 0) < 0.93:
+
+    nummer = _extract_number(candidate)
+    if not nummer:
         return None
-    # Nummern-Guard
-    cand_num = _extract_number(candidate)
-    if cand_num:
-        actor_id = result["actor_id"]
-        # Prüfe ob die Nummer in ID oder pref_label auftaucht
-        with db._get_conn() as conn:
-            row = conn.execute("SELECT data FROM actors WHERE id = ?", (actor_id,)).fetchone()
-        if row:
-            a = json.loads(row["data"])
-            label = a.get("pref_label", "") + " " + actor_id
-            if cand_num not in re.findall(r'\d+', label):
-                return None
-    return result["actor_id"]
+
+    unit_type = derive_unit_type(candidate)
+    if unit_type == 'Unknown':
+        return None
+
+    # Garbage-Muster in pref_labels (OCR-Artefakte, eingebettete U:-Felder)
+    _GARBAGE = re.compile(r'U:|[|!>]|\d{4}')
+
+    with db._get_conn() as conn:
+        rows = conn.execute(
+            """
+            SELECT id, pref_label FROM actors
+            WHERE type = 'MilitaryUnit'
+              AND json_extract(data, '$.unit_type') = ?
+              AND pref_label LIKE ?
+            """,
+            (unit_type, f"{nummer}. %"),
+        ).fetchall()
+
+    # Garbage-Filter + Längen-Obergrenze (echte Divisionsnamen < 70 Zeichen)
+    rows = [
+        (aid, lbl) for aid, lbl in rows
+        if not _GARBAGE.search(lbl) and len(lbl) <= 70
+    ]
+
+    if not rows:
+        return None
+    if len(rows) == 1:
+        return rows[0][0]
+
+    # Sortiere: höchster Token-Overlap zuerst, dann kürzestes Label
+    rows.sort(key=lambda r: (-_token_overlap(candidate, r[1]), len(r[1])))
+    return rows[0][0]
+
+
+def _from_roman(s: str) -> int | None:
+    """Konvertiert römische Zahl zu int. Gibt None bei ungültigem Input."""
+    vals = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+    s = s.upper().rstrip('.')
+    if not s or not all(c in vals for c in s):
+        return None
+    result, prev = 0, 0
+    for c in reversed(s):
+        v = vals[c]
+        result = result - v if v < prev else result + v
+        prev = v
+    return result if result > 0 else None
+
+
+def _resolve_superior_actor(unit_details: dict) -> str | None:
+    """Versucht den übergeordneten Verband (Korps oder Armee) als Actor-ID aufzulösen."""
+    for field, utype in [('korps', 'Korps'), ('armee', 'Armee')]:
+        val = (unit_details.get(field) or '').strip()
+        if not val or val.lower() in ('z.vfg.', '—', '-', ''):
+            continue
+        # Römische Zahl (z.B. "XXXIX", "XIV")
+        m_roman = re.match(r'^([IVXivxLlCcDdMm]+)\.?', val)
+        # Arabische Zahl (z.B. "4.Armee", "18. Armee")
+        m_arabic = re.match(r'^(\d+)', val)
+        if m_roman:
+            num = _from_roman(m_roman.group(1))
+            if num is None:
+                continue
+            num_str = str(num)
+        elif m_arabic:
+            num_str = m_arabic.group(1)
+        else:
+            continue
+        parent_id = resolve_parent_id(f"{num_str}. {utype}")
+        if parent_id:
+            return parent_id
+    return None
 
 
 def set_parent_unit_id(actor_id: str, parent_id: str) -> bool:
@@ -600,21 +694,21 @@ def load_band(path: Path, band: int) -> dict:
     }
 
     with_ust = [e for e in data if e.get('unterstellungen')]
-    all_entries = data  # UnitNaming aus allen Einträgen, auch ohne Unterstellungen
+    all_entries = data
 
     event_id_counter: dict[str, int] = defaultdict(int)
     naming_id_counter: dict[str, int] = defaultdict(int)
 
-    # Schritt 1: Actors + UnitJoining aus Einträgen mit Unterstellungen
-    for entry in with_ust:
+    # Schritt 0: Actors für alle Einträge anlegen (unabhängig von Unterstellungen)
+    for entry in all_entries:
         nummer = entry.get('nummer', '').strip()
         einheit = entry.get('einheit', '').strip()
         if not einheit:
             continue
-
+        label = make_pref_label(nummer, einheit)
+        if not is_valid_actor(label):
+            continue
         actor_id = make_actor_id(nummer, einheit)
-
-        # Actor nur einfügen wenn neu
         if actor_exists(actor_id):
             stats['actors_existing'] += 1
         else:
@@ -627,7 +721,17 @@ def load_band(path: Path, band: int) -> dict:
             except Exception as exc:
                 print(f"  [Bd.{band}] ACTOR FEHLER {actor_id}: {exc}")
                 stats['errors'] += 1
-                continue
+
+    # Schritt 1: UnitJoining aus Einträgen mit Unterstellungen
+    for entry in with_ust:
+        nummer = entry.get('nummer', '').strip()
+        einheit = entry.get('einheit', '').strip()
+        if not einheit:
+            continue
+        if not is_valid_actor(make_pref_label(nummer, einheit)):
+            continue
+
+        actor_id = make_actor_id(nummer, einheit)
 
         # UnitJoining-Events
         for u in entry['unterstellungen']:
@@ -684,16 +788,30 @@ def load_band(path: Path, band: int) -> dict:
                 stats['errors'] += 1
                 continue
 
+            # Participation: untergeordnete Einheit (joined)
             try:
                 db.insert_participation({
                     "event_id": eid, "actor_id": actor_id,
-                    "relation": "had_participant", "role": "unit",
+                    "relation": "had_participant", "role": "joined",
                     "created_at": CREATED,
                 })
                 stats['participations_new'] += 1
             except Exception as exc:
                 print(f"  [Bd.{band}] PART FEHLER {eid}: {exc}")
                 stats['errors'] += 1
+
+            # Participation: übergeordneter Verband (joined_with) — optional, nur wenn auflösbar
+            superior_id = _resolve_superior_actor(unit_details)
+            if superior_id and superior_id != actor_id:
+                try:
+                    db.insert_participation({
+                        "event_id": eid, "actor_id": superior_id,
+                        "relation": "had_participant", "role": "joined_with",
+                        "created_at": CREATED,
+                    })
+                    stats['participations_new'] += 1
+                except Exception:
+                    pass
 
     # Schritt 2: UnitNaming aus allen Einträgen (auch ohne Unterstellungen)
     for entry in all_entries:
@@ -766,11 +884,29 @@ def band_key(path: Path) -> tuple:
     return (999, 0)
 
 
+def _band_str_from_path(path: Path) -> str:
+    """Extrahiert Band-String aus Dateiname: 'tessin_bd16-1_final' → '16-1'."""
+    m = re.search(r'bd(\d+(?:-\d+)?)', path.stem)
+    return m.group(1) if m else ''
+
+
 def run() -> None:
-    files = sorted(
-        Path('.').glob('tessin_bd*_final.json'),
-        key=band_key
-    )
+    parser = argparse.ArgumentParser(description='Tessin-Bände in DB laden')
+    parser.add_argument('--band', action='append', metavar='N',
+                        help='Nur diesen Band laden (wiederholbar, z.B. --band 4 --band 6)')
+    args = parser.parse_args()
+
+    all_finals = sorted(Path('.').glob('tessin_bd*_final.json'), key=band_key)
+
+    if args.band:
+        band_filter = set(args.band)
+        files = [f for f in all_finals if _band_str_from_path(f) in band_filter]
+        if not files:
+            print(f"Keine Dateien für --band {', '.join(sorted(band_filter))} gefunden.")
+            sys.exit(1)
+    else:
+        files = all_finals
+
     if not files:
         print("Keine tessin_bd*_final.json Dateien gefunden.")
         sys.exit(1)

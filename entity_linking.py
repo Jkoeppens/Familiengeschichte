@@ -136,6 +136,10 @@ def link_unit(einheit_name: str, jahr: int) -> dict:
     }
     """
     units = _load_unit_index()
+    # OCR-Fragmente und Zombie-Actors herausfiltern: pref_label < 8 Zeichen sind
+    # nie valide Treffer (z.B. 'Div.', 'Kp.', 'U:') und verursachen falsche
+    # partial_ratio=100-Matches durch Substring-Effekte.
+    units = [u for u in units if len(u[1]) >= 8]
     labels = _flat_labels(units)
 
     pref_by_id = {u[0]: u[1] for u in units}
