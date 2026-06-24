@@ -30,13 +30,16 @@ UNIT_NORMALIZATIONS: dict[str, str] = {
     "Grenadier-Regiment":            "Gren.Rgt.",
     "Grenadier-Ersatz-Bataillon":    "G.E.B.",
     # Umgekehrt
-    "N.A.":          "Nachrichten-Abteilung",
-    "N.E.A.":        "Nachrichten-Ersatz-Abteilung",
-    "I.R.":          "Infanterie-Regiment",
-    "Pz.Gren.Rgt.":  "Panzergrenadier-Regiment",
-    "Gren.Rgt.":     "Grenadier-Regiment",
-    "G.E.B.":        "Grenadier-Ersatz-Bataillon",
-    "Gren.Ers.Btl.": "Grenadier-Ersatz-Bataillon",
+    "N.A.":           "Nachrichten-Abteilung",
+    "N.E.A.":         "Nachrichten-Ersatz-Abteilung",
+    "I.R.":           "Infanterie-Regiment",
+    "Pz.Gren.Rgt.":   "Panzergrenadier-Regiment",
+    "Gren.Rgt.":      "Grenadier-Regiment",
+    "G.E.B.":         "Grenadier-Ersatz-Bataillon",
+    "Gren.Ers.Btl.":  "Grenadier-Ersatz-Bataillon",
+    # Tessin-Kurzformen (nicht im WASt-Standard, aber häufig in Dokumenten)
+    "Nachr.-Abt.":    "Nachrichten-Abt.",
+    "Nachr.Abt.":     "Nachrichten-Abt.",
 }
 
 # Historisch belegte Vorgänger-/Nachfolgebezeichnungen die im Tessin-DB fehlen.
@@ -44,6 +47,12 @@ UNIT_NORMALIZATIONS: dict[str, str] = {
 # redesigniert; WASt-Karten verwenden noch die alte Bezeichnung.
 _ALT_LABEL_OVERRIDES: dict[str, list[str]] = {
     "unit_pzgrenrgt90": ["Infanterie-Regiment 90"],  # Redesigniert 1942
+}
+
+# Für Override-Einheiten die nicht in der DB sind: explizite Parent-Zuordnung
+# damit der Standort-Fallback in _hit() über die Division greifen kann.
+_ALT_LABEL_PARENTS: dict[str, str] = {
+    "unit_pzgrenrgt90": "unit_20_pz_gren_div",
 }
 
 # Sub-Einheits-Präfix: "1. Kompanie", "Stamm-Kompanie", "1. Genesenden-Kompanie" …
@@ -95,11 +104,17 @@ def _load_unit_index() -> list[tuple[str, str, list[str]]]:
             "SELECT id, pref_label, data FROM actors WHERE type='MilitaryUnit'"
         ).fetchall()
     result = []
+    seen: set[str] = set()
     for row in rows:
         data = json.loads(row["data"])
         alts = list(data.get("alt_labels", []))
         alts += _ALT_LABEL_OVERRIDES.get(row["id"], [])
         result.append((row["id"], row["pref_label"], alts))
+        seen.add(row["id"])
+    # Override-Einheiten die (noch) nicht in der DB sind
+    for uid, labels in _ALT_LABEL_OVERRIDES.items():
+        if uid not in seen:
+            result.append((uid, uid, labels))
     return result
 
 
@@ -146,9 +161,19 @@ def link_unit(einheit_name: str, jahr: int) -> dict:
 
     def _hit(uid: str, mtype: str, conf: float) -> dict:
         standort = db.verorte(uid, str(jahr))
+        if not standort:
+            # Fallback: Parent-Einheit (Rgt. → Division) für bessere Verortung
+            with db._get_conn() as conn:
+                row = conn.execute(
+                    "SELECT json_extract(data, '$.parent_unit_id') FROM actors WHERE id = ?",
+                    (uid,),
+                ).fetchone()
+            parent_id = (row[0] if row else None) or _ALT_LABEL_PARENTS.get(uid)
+            if parent_id:
+                standort = db.verorte(parent_id, str(jahr))
         return {
             "actor_id":        uid,
-            "pref_label":      pref_by_id[uid],
+            "pref_label":      pref_by_id.get(uid, uid),
             "match_type":      mtype,
             "confidence":      conf,
             "tessin_standort": standort[0] if standort else None,
