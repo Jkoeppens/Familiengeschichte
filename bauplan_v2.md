@@ -20,6 +20,23 @@
 - [x] `db.py` — SQLite-Modul mit `init_db()`, `insert_*()`, `verorte()`, `kontext()`
 - [x] `familiengeschichte.db` — Datenbankdatei angelegt
 
+### A2 — Architekturprinzip: Rohtext erhalten
+
+Inspiriert von WarSampo (Hyvönen et al. 2016) und modernen Document-Parsing-Pipelines
+(Impresso/impresso-text-acquisition, 2024): Parsing erfolgt in zwei getrennten Stufen.
+
+**Stufe 1 — Struktur erhalten (tessin_pipeline.py):**
+- Vollständiger Rohtext pro Einheit in `_raw_text`
+- Alle erkannten Felder als best-effort, keine Längenbegrenzungen
+- Nichts verwerfen — unverstandener Text bleibt in `aufgestellt` erhalten
+
+**Stufe 2 — Schema befüllen (normalize_pipeline.py + load_all_tessin.py):**
+- Strukturierte Felder aus `_raw_text` via Regex oder LLM
+- Mehrere Durchläufe möglich ohne Rohdaten zu verlieren
+- Verbesserungen an Stufe 2 ändern nie Stufe 1
+
+---
+
 ### A2. Tessin → Einheitsdatenbank
 - [x] Alle 17 Bände heruntergeladen
 - [x] OCR-Text extrahiert, Chunks erkannt (1.020 Einträge Bd. 4)

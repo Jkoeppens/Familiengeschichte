@@ -340,14 +340,14 @@ def parse_chunk(chunk: dict) -> dict:
     aufgestellt = ''
     m_auf = RE_AUFGESTELLT.search(raw)
     if m_auf:
-        aufgestellt = re.sub(r'\s+', ' ', m_auf.group(1)).strip()[:500]
+        aufgestellt = re.sub(r'\s+', ' ', m_auf.group(1)).strip()
     elif inline_aufgestellt:
         aufgestellt = inline_aufgestellt
     else:
         # No *, look for a date line after the (WK...) header line
         after_wk = re.search(r'\(WK[^\)]+\)\s*\n(.+)', raw)
         if after_wk:
-            aufgestellt = re.sub(r'\s+', ' ', after_wk.group(1)).strip()[:300]
+            aufgestellt = re.sub(r'\s+', ' ', after_wk.group(1)).strip()
 
     # Gliederung
     gliederung_raw = ''
@@ -384,7 +384,7 @@ def parse_chunk(chunk: dict) -> dict:
         'ueberstellung_parent_name': extract_parent_unit(raw),
         'ersatz': ersatz,
         'unterstellungen': unterstellungen,
-        '_raw_len': len(raw),
+        '_raw_text': raw,
     }
 
 
@@ -415,11 +415,32 @@ def main():
     print("Schritt 3: Strukturierte Extraktion …")
     records = [parse_chunk(c) for c in chunks]
 
-    # Generischer Filter: Einheit muss einen sinnvollen Namen haben
-    def is_valid_entry(r: dict) -> bool:
-        return len(r.get('einheit', '').strip()) >= 3
+    def is_valid_einheit(einheit: str) -> bool:
+        if not einheit or len(einheit.strip()) < 5:
+            return False
+        e = einheit.strip()
+        if not e[0].isupper():
+            return False
+        if ' ' not in e and '-' not in e and '.' not in e:
+            return False
+        # Ein einzelnes Wort das auf Punkt endet = Ortsname oder Fragment
+        # z.B. "Italien.", "Ungarn.", "Frankreich." → verwerfen
+        # Aber "Inf.Rgt.712." bleibt (enthält mehrere Punkte als Trennzeichen)
+        stripped = e.rstrip('.')
+        if ' ' not in e and '-' not in e and '/' not in e and stripped.isalpha():
+            return False
+        # Zu lang = Fließtext-Fragment
+        if len(e) > 60:
+            return False
+        # Enthält Satzzeichen die in Einheitsnamen nicht vorkommen
+        if ':' in e or '=' in e:
+            return False
+        # Wehrkreis-Fragmente aus U:/E:-Zeilen
+        if re.fullmatch(r'WK\s+[IVXLC]+\.?', e.strip()):
+            return False
+        return True
 
-    filtered = [r for r in records if is_valid_entry(r)]
+    filtered = [r for r in records if is_valid_einheit(r.get('einheit', ''))]
     removed = len(records) - len(filtered)
 
     with_table = sum(1 for r in filtered if r['unterstellungen'])
