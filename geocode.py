@@ -734,6 +734,10 @@ def main() -> None:
         else:
             stats["geonames"] += 1
 
+        if "lat" not in result or "lon" not in result:
+            stats["unresolved"] += 1
+            unresolved_names.append(ort_name)
+            continue
         place["lat"]       = result["lat"]
         place["lon"]       = result["lon"]
         place["precision"] = result["precision"]

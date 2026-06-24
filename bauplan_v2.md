@@ -38,31 +38,27 @@ Inspiriert von WarSampo (Hyvönen et al. 2016) und modernen Document-Parsing-Pip
 ---
 
 ### A2. Tessin → Einheitsdatenbank
-- [x] Alle 17 Bände heruntergeladen
-- [x] OCR-Text extrahiert, Chunks erkannt (1.020 Einträge Bd. 4)
+- [x] Alle 18 Bände heruntergeladen und finalisiert
+- [x] OCR-Text extrahiert, Chunks erkannt; `_raw_text` vollständig erhalten
+- [x] `merge_invalid_chunks` aktiv — 0 verworfen, Anhänge an Vorgänger-Chunk
 - [x] LLM-Normalisierung der Unterstellungstabellen (korps/armee/hgr)
 - [x] Postprocessing: römische Zahlen, Monatstippfehler, Blacklist
-- [x] `tessin_bd4_final.json` — Bd. 4 finalisiert, Goldstandard 20. Pz.Gren.Div. verifiziert
-- [ ] Bände 1–3, 5–17 finalisiert (Pipeline läuft)
-- [x] Alle verfügbaren Bände in DB geladen
-      (1.068 Actors | 8.518 UnitJoining-Events | 454 UnitNaming-Events)
-- [ ] A2.1 — UnitNaming-Events vollständig: Bd. 16-x hat 0 Join-Events, prüfen
+- [x] Alle 18 Bände in DB geladen
+      (15.726 Actors | 5.086 UnitJoining-Events)
+- [x] `make_pref_label` konsistentes Format (`'20. Infanterie-Division'` mit Space)
+- [x] `parent_unit_id` korrekt — `unit_20_nachrichten_abt_20` → `unit_20_pz_gren_div` ✓
+- [x] A2.1 — Bd. 16-x: strukturell leer (Feldpostnummern/Ersatz-Einheiten ohne Unterstellungstabellen), dokumentiert
 - [ ] A2.2 — Einheitshierarchie: `get_hierarchy()` in `db.py` (Kompanie → Division → Korps)
       Aus Tessin-Gliederungsfeldern extrahieren, Lücken dokumentieren
 - [ ] A2.3 — Baseline-Qualitätsbericht `tessin_all_quality.md`
 
 ### A3. Gazeteer → Ortsauflösung
-*Blocker für Karte. Ohne Koordinaten kein verorte() mit Geo-Ausgabe.*
-- [ ] Inventar aller `ort`-Werte aus `tessin_all_final.json`
-      (häufigste zuerst, Schauplatz-Werte als nicht-geocodierbar markieren)
-- [ ] GeoNames als Basis: deutsch-historische → moderne Ortsnamen + Koordinaten
-      (Breslau→Wrocław, Danzig→Gdańsk, Reval→Tallinn, Lemberg→Lwiw usw.)
-- [ ] Manuelle Liste für Kriegsregionen als Zentroide + Radius
-      (Wolchow-Front, Kursker Bogen, Weichselbogen, Baranow usw.)
-- [ ] Geocoding-Pipeline: `place.precision` und `place.radius_km` setzen
-- [ ] Cache: einmal aufgelöste Orte nicht neu abfragen
-- [ ] Alle Events in DB mit Koordinaten aktualisieren
-- [ ] Anteil erfolgreich geocodierter Orte berichten (Ziel: >60%)
+- [x] Geocoding-Lauf abgeschlossen: **75% geocodiert** (3.832 / 5.086 UnitJoining-Events)
+- [x] 369 Schauplatz-Namen korrekt leer (Frankreich, Ostfront usw.)
+- [x] 587 unaufgelöste Namen in `nicht_aufgeloest.json` dokumentiert
+- [x] `validate.py`: alle Checks grün, alle Koppermann-Referenzinstanzen vorhanden
+- [ ] Manuelle Nachpflege: häufige Orte aus `nicht_aufgeloest.json` in `gazeteer_historisch.json`
+- [ ] Ziel: >85% Geocoding-Abdeckung
 
 ### A4. Kontextereignisse laden
 - [ ] `operationen_wk2.json` → Battle-Events in DB
@@ -213,4 +209,4 @@ Inspiriert von WarSampo (Hyvönen et al. 2016) und modernen Document-Parsing-Pip
 
 ---
 
-*Schema-Version: 1.0 | Zuletzt aktualisiert: 2026-06-11*
+*Schema-Version: 1.1 | Zuletzt aktualisiert: 2026-06-24*
