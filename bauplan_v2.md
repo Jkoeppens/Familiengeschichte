@@ -61,16 +61,19 @@ Inspiriert von WarSampo (Hyvönen et al. 2016) und modernen Document-Parsing-Pip
 - [ ] Ziel: >85% Geocoding-Abdeckung
 
 ### A4. Kontextereignisse laden
-- [ ] `operationen_wk2.json` → Battle-Events in DB
-- [ ] `verbrechen_kontext.json` → Atrocity-Events in DB
-- [ ] `kz_lager.geojson` → Atrocity-Events (Typ: KZ) mit Eröffnungs-/Schließungszeitraum
-- [ ] Automatische Beteiligungsverknüpfung:
-      Welche Einheiten waren laut Tessin zur selben Zeit im selben Raum?
-      → `occurred_in_presence_of` wenn Zeitraum + Ort überlappen
-      → `had_participant` wenn explizit in Quelle belegt
-- [ ] 10 Stichproben manuell prüfen
-- [ ] `kontext("unit_20_pz_gren_div", "1941-07", radius_km=200)` muss
-      Minsk-Ghetto mit `occurred_in_presence_of` zurückgeben
+- [x] `operationen_wk2_new.json` (533 Wikidata-Battles) → Battle-Events in DB
+- [x] `verbrechen_kontext.json` (27 kuratierte Einträge) → Atrocity-Events in DB
+- [x] `kz_lager.geojson` (1.111 Lager) → Atrocity-Events (Typ: KZ) in DB
+- [x] `ghettos_new.json` (1.359 EHRI-Ghettos) → GhettoOperation-Events in DB
+- [x] `load_a4.py` angepasst: neue Dateinamen, Listenformat, kein Koppermann-Code
+- [x] Schema erweitert: `source.type` um wikidata/ehri; `generated_by` um wikidata_sparql/ehri_api
+- [x] `load_ghettos()` neu geschrieben (analog load_verbrechen)
+- [x] Automatische Beteiligungsverknüpfung: `run_auto_linking()` — role-Bug gefixt (`joined` statt `unit`)
+      → 12.775 neue `occurred_in_presence_of`-Participations
+- [x] `kontext("unit_20_pz_gren_div", "1941-07", radius_km=200)` → 9 Ereignisse inkl. Minsk-Ghetto ✓
+- [x] DB-Stand: 15.726 Actors | 8.451 Events | 19.828 Participations
+- [ ] 10 Stichproben manuell prüfen (kontext-Ergebnisse qualitativ bewerten)
+- [ ] A4-Ergebnisse committen
 
 ---
 
@@ -209,4 +212,4 @@ Inspiriert von WarSampo (Hyvönen et al. 2016) und modernen Document-Parsing-Pip
 
 ---
 
-*Schema-Version: 1.1 | Zuletzt aktualisiert: 2026-06-24*
+*Schema-Version: 1.1 | Zuletzt aktualisiert: 2026-06-24 | DB: 15.726 Actors | 8.451 Events | 19.828 Participations*

@@ -66,6 +66,8 @@ def _precision_from_date(s: str | None) -> str:
     return "year"
 
 def _time_span(von: str | None, bis: str | None) -> dict:
+    von = von or None
+    bis = bis or None
     prec = _precision_from_date(von)
     return {"begin": von, "end": bis, "precision": prec}
 
@@ -147,50 +149,39 @@ _KZ_TYP_MAP = {
 
 def load_operationen() -> tuple[int, int]:
     """Gibt (events_geladen, participations_geladen) zurück."""
-    with open(BASE / "operationen_wk2.json", encoding="utf-8") as f:
-        ops = json.load(f)["operationen"]
+    with open(BASE / "operationen_wk2_new.json", encoding="utf-8") as f:
+        ops = json.load(f)  # direkt eine Liste
 
     ev_count = part_count = 0
     for op in ops:
         raw_id    = op["id"]
         event_id  = f"event_op_{_slug(raw_id)}"
         ev_type, subtype = _op_event_type(op)
-        z         = op.get("zentroid") or {}
-        lat, lon  = z.get("lat"), z.get("lon")
+        # Neues Format: lat/lon direkt; altes Format: zentroid-Dict
+        lat = op.get("lat") or (op.get("zentroid") or {}).get("lat")
+        lon = op.get("lon") or (op.get("zentroid") or {}).get("lon")
 
+        src = op.get("source") or {}
         event = {
             "id":         event_id,
             "type":       ev_type,
             "label":      op["name"],
             "subtype":    subtype,
             "time_span":  _time_span(op.get("datum_von"), op.get("datum_bis")),
-            "place":      _place(lat, lon, op.get("ort", ""), 150) if lat else None,
+            "place":      _place(lat, lon, op.get("ort", op.get("land", "")), 150) if lat else None,
             "description": op.get("beschreibung"),
             "source": {
-                "type":         "sekundaer",
-                "certainty":    3,
-                "generated_by": "direkt",
-                "note":         op.get("koppermann_detail"),
+                "type":         src.get("type", "sekundaer"),
+                "certainty":    src.get("certainty", 3),
+                "generated_by": src.get("generated_by", "direkt"),
+                "reference":    src.get("reference"),
             },
             "created_at": TODAY,
         }
         insert_event(event)
         ev_count += 1
-
-        # Explizite Koppermann-Verknüpfung
-        k = op.get("koppermann", "nein")
-        if k in ("ja", "nahe"):
-            relation = "had_participant" if k == "ja" else "occurred_in_presence_of"
-            # Person
-            _participation(event_id, KOPPERMANN_PERSON, relation, "soldier",
-                           note=f"Quelle: operationen_wk2 koppermann={k!r}")
-            part_count += 1
-            # Einheiten aus koppermann_einheit
-            for actor_id in _einheit_to_actors(op.get("koppermann_einheit") or ""):
-                if _actor_exists(actor_id):
-                    _participation(event_id, actor_id, relation, "unit",
-                                   note=f"koppermann_einheit: {op.get('koppermann_einheit')}")
-                    part_count += 1
+        # Koppermann-Verknüpfung entfällt für generische Wikidata-Daten;
+        # räumlich-zeitliche Verlinkung läuft über run_auto_linking() (A4.2)
 
     return ev_count, part_count
 
@@ -325,6 +316,60 @@ def load_kz_lager() -> tuple[int, int]:
     return ev_count, part_count
 
 
+# ─── A4.1 — Ghettos (EHRI) ───────────────────────────────────────────────────
+
+def load_ghettos() -> tuple[int, int]:
+    with open(BASE / "ghettos_new.json", encoding="utf-8") as f:
+        ghettos = json.load(f)
+
+    ev_count = 0
+    for g in ghettos:
+        lat = g.get("lat")
+        lon = g.get("lon")
+        if lat is None or lon is None:
+            continue
+
+        ehri_id  = g.get("ehri_id", "")
+        event_id = f"event_ghetto_{_slug(ehri_id or g['id'])}"
+        name     = g.get("name") or g.get("name_de") or g.get("name_en") or ehri_id
+
+        event = {
+            "id":      event_id,
+            "type":    "GhettoOperation",
+            "label":   name,
+            "subtype": None,
+            "time_span": _time_span(
+                g.get("datum_eroeffnung"),
+                g.get("datum_schliessung"),
+            ),
+            "place": {
+                "name":      name,
+                "lat":       lat,
+                "lon":       lon,
+                "precision": "lokalisiert",
+                "radius_km": 5,
+            },
+            "description": None,
+            "atrocity_details": {
+                "victims_count": None,
+                "victim_groups": ["Jüdische Bevölkerung"],
+                "method":        None,
+                "camp_type":     "Ghetto",
+            },
+            "source": {
+                "type":         "ehri",
+                "certainty":    4,
+                "generated_by": "ehri_api",
+                "reference":    ehri_id,
+            },
+            "created_at": TODAY,
+        }
+        insert_event(event)
+        ev_count += 1
+
+    return ev_count, 0
+
+
 # ─── A4.2 — Automatische Einheits-Verlinkung ─────────────────────────────────
 
 def link_units_to_event(event: dict, radius_km: float = RADIUS_KM) -> list[dict]:
@@ -352,7 +397,7 @@ def link_units_to_event(event: dict, radius_km: float = RADIUS_KM) -> list[dict]
             FROM events e
             JOIN participations p ON e.id = p.event_id
             WHERE e.type = 'UnitJoining'
-              AND p.role = 'unit'
+              AND p.role = 'joined'
               AND e.lat IS NOT NULL AND e.lon IS NOT NULL
               AND e.time_begin <= ? AND e.time_end >= ?
             """,
@@ -421,20 +466,24 @@ def run_auto_linking() -> int:
 if __name__ == "__main__":
     print("=== A4.1 — Kontextereignisse laden ===")
 
-    print("\n[1/3] Operationen …")
+    print("\n[1/4] Operationen …")
     op_ev, op_part = load_operationen()
     print(f"      {op_ev} Events, {op_part} Participations")
 
-    print("[2/3] Verbrechen …")
+    print("[2/4] Verbrechen …")
     vb_ev, vb_part = load_verbrechen()
     print(f"      {vb_ev} Events, {vb_part} Participations")
 
-    print("[3/3] KZ-Lager …")
+    print("[3/4] KZ-Lager …")
     kz_ev, kz_part = load_kz_lager()
     print(f"      {kz_ev} Events, {kz_part} Participations")
 
-    total_ev   = op_ev + vb_ev + kz_ev
-    total_part = op_part + vb_part + kz_part
+    print("[4/4] Ghettos (EHRI) …")
+    gh_ev, gh_part = load_ghettos()
+    print(f"      {gh_ev} Events, {gh_part} Participations")
+
+    total_ev   = op_ev + vb_ev + kz_ev + gh_ev
+    total_part = op_part + vb_part + kz_part + gh_part
     print(f"\n  → {total_ev} Events gesamt geladen")
     print(f"  → {total_part} explizite Participations (Koppermann)")
 
