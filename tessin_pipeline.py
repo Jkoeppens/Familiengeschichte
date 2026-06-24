@@ -193,6 +193,10 @@ RE_AUFGESTELLT = re.compile(r'\*\s*(.+?)(?=\n[A-Z]|\nG:|\nU:|\nE:|\nUnterstellun
 
 # Unterstellung table line:  year  months  korps  armee  hgr  theater  ort
 RE_USTERZ_YEAR = re.compile(r'^(\d{4})\s')
+MONAT_RE = re.compile(
+    r'^(Jan|Febr?|Mär|Apr|Mai|Juni?|Juli?|Aug|Sept?|Okt|Nov|Dez|Früh|Herb)',
+    re.IGNORECASE,
+)
 RE_USTERZ_ROW = re.compile(
     r'^(\d{4})?\s+'               # optional year
     r'(\w+(?:\./\w+)?)\s+'        # month(s), e.g. "Jan." or "Jan./Febr."
@@ -274,13 +278,15 @@ def parse_unterstellung_table(block: str) -> list[dict]:
         if tidx >= len(tokens):
             continue
 
-        # Month token: starts with a German month abbreviation
+        # Month token: prefix-match, OCR-Verschmelzungen (z.B. "Novemberwiederdurchdie") abschneiden
         month_tok = tokens[tidx]
-        if not re.match(r'^(Jan|Febr?|Mär|Apr|Mai|Juni?|Juli?|Aug|Sept?|Okt|Nov|Dez|Früh|Herb)', month_tok, re.IGNORECASE):
+        m = MONAT_RE.match(month_tok)
+        if not m:
             continue
+        monat = m.group(1) if len(month_tok) > 15 else month_tok
 
         rest = ' '.join(tokens[tidx + 1:])
-        rows.append({'jahr': year, 'monat': month_tok, 'detail': rest})
+        rows.append({'jahr': year, 'monat': monat, 'detail': rest})
 
     return rows
 

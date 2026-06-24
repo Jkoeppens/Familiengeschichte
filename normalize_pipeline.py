@@ -40,11 +40,18 @@ VALID_ROMAN = {
     'XL','XLI','XLII','XLIII','XLIV','XLV','XLVI',
     'XLVII','XLVIII','XLIX','L','LI','LII','LIII','LIV','LV','LVI',
     'LVII','LVIII','LIX','LX','LXI','LXII','LXIII','LXIV','LXV','LXVI',
+    # LXVII–XCI (fehlende hohe Korps-Nummern)
+    'LXVII','LXVIII','LXIX','LXX','LXXI','LXXII','LXXIII','LXXIV',
+    'LXXV','LXXVI','LXXVII','LXXVIII','LXXIX','LXXX','LXXXI','LXXXII',
+    'LXXXIII','LXXXIV','LXXXV','LXXXVI','LXXXVII','LXXXVIII','LXXXIX',
+    'XC','XCI',
     # SS-Korps (selten)
     'I.SS','II.SS','III.SS','IV.SS','V.SS','VI.SS','VII.SS',
-    'XI.SS','XII.SS','XIII.SS',
+    'VIII.SS','IX.SS','X.SS',
+    'XI.SS','XII.SS','XIII.SS','XIV.SS','XV.SS','XVI.SS',
     # Fallschirm
-    'I.Fsch','I.Fs','I.Fallsch','I.Esch',
+    'I.Fsch','I.Fs','I.Fs.','I.Fallsch','I.Esch',
+    'II.Fs.','II.Fs','II.Fsch','II.Fsch.',
     # Luftwaffe
     'I.Lw','II.Lw','III.Lw','IV.Lw',
 }
@@ -56,6 +63,7 @@ KNOWN_NON_KORPS = {
     'Heimat', 'Kreta', 'Befh.', 'W.Befh.', 'nichtgenannt',
     '(Rest)', '(Reste)', '(Kampfgr.)', '(Rgt.Gr.)', '(Stab)',
 }
+_KNOWN_NON_KORPS_LOWER: frozenset[str] = frozenset(k.lower() for k in KNOWN_NON_KORPS)
 
 # Bekannte Eineindeutige OCR-Korrekturen (Reihenfolge wichtig: längste zuerst)
 REGEX_RULES: list[tuple[str, str]] = [
@@ -119,7 +127,7 @@ def first_token_suspicious(detail: str) -> bool:
     if not detail:
         return False
     tok = detail.split()[0]
-    if tok in KNOWN_NON_KORPS:
+    if tok.lower() in _KNOWN_NON_KORPS_LOWER:
         return False
     # Bekannte SS-/Lw-Suffixe
     base = re.sub(r'\.(SS|Lw|Fs|Fsch|Fallsch|Kav|Pz).*', '', tok)
@@ -294,7 +302,7 @@ def fix_roman_ocr(s: str) -> str:
     return _RE_ROMAN_DOT.sub(_replacer, s)
 
 
-def regex_parse_fields(detail: str) -> dict | None:
+def regex_parse_fields(detail: str, prev_fields: dict | None = None) -> dict | None:
     """Schneller Regex-Parser. Gibt None zurück wenn nicht eindeutig."""
     # Führende (Stab)/(Rest)/... vor dem Korps-Token entfernen
     detail_clean = re.sub(r'^\s*\([^)]+\)\s*', '', detail)
@@ -302,16 +310,38 @@ def regex_parse_fields(detail: str) -> dict | None:
     if not tokens:
         return {'korps': '', 'armee': '', 'hgr': '', 'theater': '', 'ort': ''}
 
+    tok0 = tokens[0]
+
+    # _ oder = bedeutet "wie Vormonat" — Korps/Armee/HGR aus prev_fields übernehmen
+    if tok0 in ('_', '=') and prev_fields:
+        result = dict(prev_fields)
+        rest = ' '.join(tokens[1:])
+        m_th = RE_THEATER.search(rest)
+        if m_th:
+            result['theater'] = m_th.group(1)
+        return result
+
     korps = ''
-    rest = detail_clean
+    n_tok = 1  # Anzahl verbrauchter Tokens für korps
+
+    # "in Aufst." → "inAufst." zusammenführen (OCR-Leerzeichen)
+    if tokens[0].lower() == 'in' and len(tokens) > 1 and tokens[1].startswith('Aufst'):
+        tok0 = 'inAufst.'
+        tokens = [tok0] + tokens[2:]
+
+    # "XII. SS" → "XII.SS": zwei Tokens zusammenführen wenn Lücke durch OCR
+    if len(tokens) >= 2:
+        merged = tokens[0].rstrip() + tokens[1]
+        if merged in VALID_ROMAN:
+            tok0 = merged
+            n_tok = 2
 
     # Korps-Token: erster Token wenn gültige römische Zahl
-    tok0 = tokens[0]
     base0 = re.sub(r'\.(SS|Lw|Fs|Fsch|Fallsch|Kav|Pz).*', '', tok0)
     if base0 in VALID_ROMAN or tok0 in VALID_ROMAN:
         korps = tok0
-        rest = detail_clean[len(tok0):].strip()
-    elif tok0 in KNOWN_NON_KORPS:
+        rest = ' '.join(tokens[n_tok:])
+    elif tok0.lower() in _KNOWN_NON_KORPS_LOWER:
         korps = tok0   # z.Vfg. etc.
         rest = detail[len(tok0):].strip()
     else:
@@ -360,12 +390,13 @@ def normalize_entry(entry: dict, use_llm: bool = True) -> dict:
         return entry
 
     new_entry = {**entry, 'unterstellungen': []}
+    prev_fields: dict | None = None
     for row in entry['unterstellungen']:
         raw = row['detail']
         cleaned, regex_changes = regex_normalize(raw)
 
-        # Feld-Parsing: erst Regex versuchen
-        fields = regex_parse_fields(cleaned)
+        # Feld-Parsing: erst Regex versuchen; prev_fields für _ / = Zeilen
+        fields = regex_parse_fields(cleaned, prev_fields)
         llm_used = False
 
         if fields is None and use_llm:
@@ -379,6 +410,10 @@ def normalize_entry(entry: dict, use_llm: bool = True) -> dict:
         ort_fb = extract_ort_from_right(raw)
         if ort_fb:
             fields = {**fields, 'ort': ort_fb}
+
+        # Vormonat-Kontext für _ / = merken (nur wenn valide Felder vorhanden)
+        if fields.get('korps') or fields.get('armee'):
+            prev_fields = fields
 
         new_row = {
             **row,
