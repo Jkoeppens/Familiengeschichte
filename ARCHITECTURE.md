@@ -304,7 +304,17 @@ load_a4.py    load_hierarchy.py    load_koppermann.py
 
 - **Fuzzy-Matching-Schwelle** — `_FUZZY_THRESHOLD = 85` in `entity_linking.py` führt zu False-Negatives bei stark abgekürzten WASt-Einheitsnamen (z.B. `"N.A. 20"` → kein Fuzzy-Match auf `"20. Nachrichten-Abteilung"`). Wird durch `UNIT_NORMALIZATIONS` teilweise abgefangen.
 
-- **Geocoding-Lücken** — `nicht_aufgeloest.json` (551 Einträge) enthält Ortsnamen die weder in der internen DB noch in `gazeteer_historisch.json` sind. `normalize_with_llm.py` kann diese via Ollama + GeoNames nachschlagen.
+- **Geocoding-Lücken** — `nicht_aufgeloest.json` (494 einzigartige Namen, ~400 betroffene Events) nach Geocoding-Lauf vom 2026-06-24. Aktuell 75% geocodiert (3.832/5.086 UnitJoining-Events).
+
+  Top-Probleme:
+  - `'Hgr'`, `'Her'`, `'Lw.:'` → Abkürzungen, keine Orte → in `ORT_BLACKLIST` ergänzen
+  - `'OKHHeimat'`, `'unbekannt"'` → OCR-Verschmelzungen → in `ORT_BLACKLIST`
+  - `'Wiasma'` (5×), weitere echte Ostfront-Orte → in `gazeteer_historisch.json` eintragen
+
+  Fix: `ORT_BLACKLIST` in `normalize_pipeline.py` erweitern,
+  `gazeteer_historisch.json` um fehlende Ostfront-Orte ergänzen,
+  dann `geocode.py --all` neu laufen lassen.
+  Erwartet: ~400 zusätzliche Events geocodiert.
 
 - **Umbenennung als verlorene Unterstellungszeilen** — `19.Grenadier-Division` (Bd. 4,
   Seite 126): Unterstellungstabelle steht nach dem Umbenennungsabsatz `19. Volks-Grenadier-Division`
