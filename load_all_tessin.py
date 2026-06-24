@@ -59,12 +59,15 @@ def _norm(s: str) -> str:
 
 
 def make_actor_id(nummer: str, einheit: str) -> str:
-    key = (nummer.strip(), einheit.strip())
+    n = nummer.strip()
+    e = einheit.strip()
+    # Wenn einheit bereits die führende Nummer enthält (Fix 2), für Lookup und ID-Generierung strippen
+    if n and (e.startswith(f'{n}.') or e.startswith(f'{n} ')):
+        e = re.sub(r'^\d+\.?\s*', '', e).strip()
+    key = (n, e)
     if key in KNOWN_ACTOR_IDS:
         return KNOWN_ACTOR_IDS[key]
-    n = _norm(nummer)
-    e = _norm(einheit)
-    return f"unit_{n}_{e}" if n else f"unit_{e}"
+    return f"unit_{_norm(n)}_{_norm(e)}" if n else f"unit_{_norm(e)}"
 
 
 def make_unitjoining_id(actor_id: str, jahr: int, m_begin: int, counter: int = 0) -> str:
@@ -396,7 +399,13 @@ def place_for_schema(p: dict | None) -> dict | None:
 
 def make_pref_label(nummer: str, einheit: str) -> str:
     n = nummer.strip()
-    return f"{n}. {einheit.strip()}" if n else einheit.strip()
+    e = einheit.strip()
+    if not n:
+        return e
+    # Vermeide Doppel-Prefix "20. 20.Infanterie-Division" wenn einheit die Nummer schon enthält
+    if e.startswith(f'{n}.') or e.startswith(f'{n} '):
+        return e
+    return f"{n}. {e}"
 
 
 def actor_exists(actor_id: str) -> bool:
