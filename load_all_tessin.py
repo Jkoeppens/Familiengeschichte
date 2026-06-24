@@ -398,14 +398,13 @@ def place_for_schema(p: dict | None) -> dict | None:
 # ─── Actor-Builder ─────────────────────────────────────────────────────────────
 
 def make_pref_label(nummer: str, einheit: str) -> str:
-    n = nummer.strip()
-    e = einheit.strip()
-    if not n:
-        return e
-    # Vermeide Doppel-Prefix "20. 20.Infanterie-Division" wenn einheit die Nummer schon enthält
-    if e.startswith(f'{n}.') or e.startswith(f'{n} '):
-        return e
-    return f"{n}. {e}"
+    if not nummer:
+        return einheit
+    # Nummer-Prefix aus einheit strippen falls vorhanden (Fix 2: name_raw enthält führende Nummer)
+    prefix = re.match(r'^\d+\.\s*', einheit)
+    if prefix:
+        einheit = einheit[prefix.end():]
+    return f"{nummer}. {einheit}"
 
 
 def actor_exists(actor_id: str) -> bool:

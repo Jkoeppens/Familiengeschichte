@@ -391,7 +391,52 @@ def parse_chunk(chunk: dict) -> dict:
     }
 
 
-# ── 4. main ───────────────────────────────────────────────────────────────────
+# ── 4. QC filter + merge ──────────────────────────────────────────────────────
+
+def is_valid_einheit(einheit: str) -> bool:
+    if not einheit or len(einheit.strip()) < 5:
+        return False
+    e = einheit.strip()
+    # Erlaubt: Großbuchstabe oder führende Zahl (z.B. "20.Infanterie-Division")
+    if not e[0].isupper() and not e[0].isdigit():
+        return False
+    if ' ' not in e and '-' not in e and '.' not in e:
+        return False
+    # Ein einzelnes Wort das auf Punkt endet = Ortsname oder Fragment
+    stripped = e.rstrip('.')
+    if ' ' not in e and '-' not in e and '/' not in e and stripped.isalpha():
+        return False
+    # Zu lang = Fließtext-Fragment
+    if len(e) > 60:
+        return False
+    # Enthält Satzzeichen die in Einheitsnamen nicht vorkommen
+    if ':' in e or '=' in e:
+        return False
+    # Wehrkreis-Fragmente aus U:/E:-Zeilen
+    if re.fullmatch(r'WK\s+[IVXLC]+\.?', e.strip()):
+        return False
+    return True
+
+
+def merge_invalid_chunks(records: list[dict]) -> tuple[list[dict], int]:
+    """Ungültige Chunks an den _raw_text des Vorgängers anhängen statt verwerfen.
+
+    Gibt (merged_records, anzahl_angehängt) zurück.
+    """
+    merged: list[dict] = []
+    appended = 0
+    for rec in records:
+        if not is_valid_einheit(rec.get('einheit', '')):
+            if merged:
+                merged[-1]['_raw_text'] += '\n' + rec.get('_raw_text', rec.get('raw', ''))
+                appended += 1
+            # kein Vorgänger → wirklich verwerfen
+        else:
+            merged.append(rec)
+    return merged, appended
+
+
+# ── 5. main ───────────────────────────────────────────────────────────────────
 
 def main():
     # Pfade band-agnostisch aus --input ableiten
@@ -418,39 +463,13 @@ def main():
     print("Schritt 3: Strukturierte Extraktion …")
     records = [parse_chunk(c) for c in chunks]
 
-    def is_valid_einheit(einheit: str) -> bool:
-        if not einheit or len(einheit.strip()) < 5:
-            return False
-        e = einheit.strip()
-        # Erlaubt: Großbuchstabe oder führende Zahl (z.B. "20.Infanterie-Division")
-        if not e[0].isupper() and not e[0].isdigit():
-            return False
-        if ' ' not in e and '-' not in e and '.' not in e:
-            return False
-        # Ein einzelnes Wort das auf Punkt endet = Ortsname oder Fragment
-        # z.B. "Italien.", "Ungarn.", "Frankreich." → verwerfen
-        # Aber "Inf.Rgt.712." bleibt (enthält mehrere Punkte als Trennzeichen)
-        stripped = e.rstrip('.')
-        if ' ' not in e and '-' not in e and '/' not in e and stripped.isalpha():
-            return False
-        # Zu lang = Fließtext-Fragment
-        if len(e) > 60:
-            return False
-        # Enthält Satzzeichen die in Einheitsnamen nicht vorkommen
-        if ':' in e or '=' in e:
-            return False
-        # Wehrkreis-Fragmente aus U:/E:-Zeilen
-        if re.fullmatch(r'WK\s+[IVXLC]+\.?', e.strip()):
-            return False
-        return True
-
-    filtered = [r for r in records if is_valid_einheit(r.get('einheit', ''))]
-    removed = len(records) - len(filtered)
+    filtered, appended = merge_invalid_chunks(records)
+    removed = len(records) - len(filtered) - appended
 
     with_table = sum(1 for r in filtered if r['unterstellungen'])
     print(f"\n── QC ──────────────────────────────")
     print(f"  Einträge gesamt:        {len(records)}")
-    print(f"  Gültig (nach Filter):   {len(filtered)}  ({removed} verworfen)")
+    print(f"  Gültig (nach Filter):   {len(filtered)}  ({removed} verworfen, {appended} angehängt)")
     print(f"  Mit Unterstellungstab.: {with_table}")
 
     print("Schritt 4: Ausgabe …")
