@@ -160,6 +160,9 @@ def find_chunks(full_text: str) -> list[dict]:
                 and not line.strip().startswith('(')):
             chunk_starts.add(loff[i])
             continue
+        # WK in E:/U:/G:-Feldzeilen ist kein Einheits-Signal
+        if _FIELD_LINE.match(line.strip()):
+            continue
         # Line-start case: WK on its own line — name is on a preceding line
         for back in range(1, 4):
             if i - back < 0:
@@ -303,7 +306,7 @@ def parse_chunk(chunk: dict) -> dict:
     m_hdr = re.match(r'^(\d{1,3})\.\s*(.+)', name_line)
     if m_hdr:
         nummer = m_hdr.group(1)
-        name_raw = m_hdr.group(2).strip()   # strip leading "20." prefix
+        name_raw = name_line   # vollständigen Namen behalten inkl. führender Nummer
     else:
         # Pattern B: "Feldersatz-Btl.20" — number at end
         # Extract the last number in range 15-30 as the unit number
@@ -419,7 +422,8 @@ def main():
         if not einheit or len(einheit.strip()) < 5:
             return False
         e = einheit.strip()
-        if not e[0].isupper():
+        # Erlaubt: Großbuchstabe oder führende Zahl (z.B. "20.Infanterie-Division")
+        if not e[0].isupper() and not e[0].isdigit():
             return False
         if ' ' not in e and '-' not in e and '.' not in e:
             return False
