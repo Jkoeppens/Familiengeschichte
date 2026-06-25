@@ -612,11 +612,17 @@ def _parse_date_partial(s: str) -> tuple[Optional[str], str]:
     return None, "unknown"
 
 
-def _classify_meldung(inhalt: str) -> tuple[str, Optional[str]]:
+def _classify_meldung(
+    inhalt: str,
+    datum_iso: Optional[str] = None,
+) -> tuple[str, Optional[str]]:
     """Meldungsinhalt → (event_type, subtype).
 
     Gibt ("Unknown", None) für nicht klassifizierbare Einträge.
+    Post-Kriegs-Daten (> 1945-05-09) → DocumentCreation / WASt-Nachkriegsbearbeitung.
     """
+    if datum_iso and datum_iso > "1945-05-09":
+        return "DocumentCreation", "WASt-Nachkriegsbearbeitung"
     il = inhalt.lower()
     if re.search(r"gr\.spli\.", il):
         return "Wounding", "Granatsplitter-Verwundung"
@@ -767,31 +773,17 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
     for page in data["pages"]:
         for m in page.get("meldungen", []):
             inhalt = m.get("inhalt_original", "")
-            etype, subtype = _classify_meldung(inhalt)
+            date_iso = m.get("datum_iso")
+            precision = m.get("datum_precision", "unknown")
+            etype, subtype = _classify_meldung(inhalt, date_iso)
 
             if etype == "Unknown":
                 # Ort für gleichdatierte Events merken
                 raw_ort = m.get("ort")
                 if raw_ort and raw_ort.strip().lower() not in ("", "null", "none"):
-                    d_iso = m.get("datum_iso")
-                    if d_iso and d_iso not in _ort_by_date:
-                        _ort_by_date[d_iso] = raw_ort.strip()
+                    if date_iso and date_iso not in _ort_by_date:
+                        _ort_by_date[date_iso] = raw_ort.strip()
                 continue
-
-            date_iso = m.get("datum_iso")
-            precision = m.get("datum_precision", "unknown")
-
-            # WASt-Karten enthalten Post-War-Bearbeitungsvermerke mit späten Daten
-            # (z.B. "25.7.80" = WASt-Bearbeitungsdatum). Wenn das extrahierte Datum
-            # nach Kriegsende liegt, Datum aus inhalt_original retten.
-            if date_iso and date_iso > "1945-05-09":
-                m_date = re.search(r'\b(\d{1,2}\.\d{1,2}\.\d{2,4})\b', inhalt)
-                if m_date:
-                    recovered, rec_prec = _parse_date_partial(m_date.group(1))
-                    if recovered and recovered <= "1945-05-09":
-                        date_iso, precision = recovered, rec_prec
-                if date_iso > "1945-05-09":
-                    continue  # Kein Kriegsdatum rekonstruierbar → Event überspringen
 
             date_slug = date_iso.replace("-", "_") if date_iso else "unbekannt"
 
@@ -800,7 +792,8 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
             n = _id_seen[base_id]
             event_id = base_id if n == 1 else f"{base_id}_{n}"
 
-            place = _extract_place_from_meldung(inhalt, m.get("ort"))
+            is_postwar = etype == "DocumentCreation"
+            place = None if is_postwar else _extract_place_from_meldung(inhalt, m.get("ort"))
 
             event: dict = {
                 "id": event_id,
@@ -815,7 +808,7 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
                 "source": {
                     "type": "wast",
                     "reference": data["source"]["reference"],
-                    "certainty": 5,
+                    "certainty": 1 if is_postwar else 5,
                     "generated_by": "direkt",
                 },
                 "created_at": today,
