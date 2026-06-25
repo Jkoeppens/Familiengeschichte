@@ -128,16 +128,20 @@ def get_weg(person_id):
                 place = ev.get('place') or {}
                 lat, lon = place.get('lat'), place.get('lon')
                 if lat and lon:
+                    src = ev.get('source') or {}
                     inferred.append({
                         'type':         ev.get('type'),
                         'datum':        monat,
                         'ort':          place.get('name'),
                         'lat':          lat,
                         'lon':          lon,
-                        'certainty':    (ev.get('source') or {}).get('certainty'),
+                        'certainty':    src.get('certainty'),
                         'einheit':      ev.get('einheit_original'),
                         'inferred':     True,
-                        'generated_by': (ev.get('source') or {}).get('generated_by'),
+                        'generated_by': src.get('generated_by'),
+                        'via_unit':     ev.get('_via_unit'),
+                        'inferred_unit': ev.get('_inferred_unit_id'),
+                        'note':         src.get('note'),
                     })
                     break  # verorte() liefert nach certainty DESC — ersten nehmen
         m += 1

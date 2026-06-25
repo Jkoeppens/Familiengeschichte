@@ -128,6 +128,57 @@
     background: #60a5fa; border: 3px solid #fff;
     box-shadow: 0 0 10px rgba(96,165,250,0.85);
   }
+
+  /* ── Wegpunkte-Panel ─────────────────────────────────────────────────── */
+  #weg-panel {
+    position: absolute;
+    bottom: 30px; left: 16px;
+    background: rgba(20,20,40,0.95);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    z-index: 10;
+    backdrop-filter: blur(6px);
+    width: 300px;
+  }
+  #weg-toggle {
+    width: 100%; background: none; border: none; color: #a0aec0;
+    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 9px 14px; cursor: pointer; text-align: left;
+    display: flex; align-items: center; gap: 6px;
+  }
+  #weg-toggle:hover { color: #fff; }
+  #weg-toggle .arrow { transition: transform 0.2s; display: inline-block; }
+  #weg-toggle.open .arrow { transform: rotate(90deg); }
+  #weg-list {
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 6px 0;
+  }
+  #weg-list.open { display: block; }
+  .weg-item {
+    padding: 7px 14px;
+    font-size: 11px;
+    line-height: 1.5;
+    border-left: 3px solid transparent;
+    cursor: default;
+    transition: background 0.15s;
+  }
+  .weg-item:hover { background: rgba(255,255,255,0.05); }
+  .weg-item.active {
+    background: rgba(96,165,250,0.12);
+    border-left-color: #60a5fa;
+  }
+  .weg-item .weg-datum { font-weight: 600; color: #e2e8f0; }
+  .weg-item .weg-ort   { color: #cbd5e0; }
+  .weg-item .weg-badge {
+    display: inline-block; padding: 1px 5px; border-radius: 3px;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
+    vertical-align: middle; margin-left: 4px;
+  }
+  .weg-item .weg-meta  { color: #718096; font-size: 10px; margin-top: 2px; }
+  .weg-item .weg-einheit { color: #90cdf4; font-size: 10px; }
 </style>
 </head>
 <body>
@@ -173,6 +224,11 @@
   <div class="legend-row"><div class="legend-dot" style="background:#22c55e"></div>Weg — Primärquelle</div>
   <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>Weg — unsicher</div>
   <div class="legend-row"><div class="legend-dot" style="background:#60a5fa;border:2px solid #fff;width:12px;height:12px"></div>Aktueller Standort</div>
+</div>
+
+<div id="weg-panel">
+  <button id="weg-toggle"><span class="arrow">▶</span> Wegpunkte (<span id="weg-count">0</span>)</button>
+  <div id="weg-list"></div>
 </div>
 
 <div id="popup"></div>
@@ -674,6 +730,81 @@ function wireToggle(id, layerId) {
 wireToggle('chk-kz',         'kz-circle');
 wireToggle('chk-ghettos',    'ghettos-circle');
 wireToggle('chk-schlachten', 'schlachten-circle');
+
+// ── Wegpunkte-Panel ────────────────────────────────────────────────────────
+const wegToggleBtn = document.getElementById('weg-toggle');
+const wegList      = document.getElementById('weg-list');
+const wegCount     = document.getElementById('weg-count');
+
+wegToggleBtn.addEventListener('click', () => {
+  const open = wegList.classList.toggle('open');
+  wegToggleBtn.classList.toggle('open', open);
+});
+
+function _certBadge(c) {
+  if (c >= 5) return '<span class="weg-badge" style="background:#22c55e22;color:#22c55e;border:1px solid #22c55e44">direkt ●</span>';
+  if (c >= 3) return '<span class="weg-badge" style="background:#f9731622;color:#f97316;border:1px solid #f9731644">mittel ●</span>';
+  return '<span class="weg-badge" style="background:#94a3b822;color:#94a3b8;border:1px solid #94a3b844">erschlossen ●</span>';
+}
+
+function _sourceLabel(wp) {
+  if (!wp.inferred) return '<span style="color:#22c55e">WASt-Karte direkt</span>';
+  if (wp.note) {
+    // "Standort via unit_pzgrenrgt90 → unit_20_pz_gren_div"
+    const m = wp.note.match(/via\s+(\S+)\s*→\s*(\S+)/);
+    if (m) {
+      const via = m[1].replace(/^unit_/, '').replace(/_/g, ' ');
+      const hier = m[2].replace(/^unit_/, '').replace(/_/g, ' ');
+      return `<span style="color:#94a3b8">Erschlossen: ${via} → ${hier}</span>`;
+    }
+  }
+  return '<span style="color:#94a3b8">Bundesarchiv → Tessin erschlossen</span>';
+}
+
+function buildWegPanel(currentDateStr) {
+  const withGeo = biografieData.filter(p => p.lat && p.lon);
+  wegCount.textContent = withGeo.length;
+
+  const currentYM = currentDateStr ? currentDateStr.slice(0, 7) : '';
+
+  wegList.innerHTML = withGeo.map((wp, i) => {
+    const wpYM = (wp.datum || '').slice(0, 7);
+    const isActive = wpYM === currentYM;
+    const einheitHtml = wp.einheit
+      ? `<div class="weg-einheit">⬦ ${wp.einheit}</div>`
+      : '';
+    return `
+      <div class="weg-item${isActive ? ' active' : ''}" data-idx="${i}" data-ym="${wpYM}">
+        <div>
+          <span class="weg-datum">${wp.datum || '—'}</span>
+          ${_certBadge(wp.certainty)}
+        </div>
+        <div class="weg-ort">${wp.ort || '—'}</div>
+        ${einheitHtml}
+        <div class="weg-meta">${_sourceLabel(wp)}</div>
+      </div>`;
+  }).join('');
+}
+
+function updateWegPanelActive(dateStr) {
+  const currentYM = dateStr ? dateStr.slice(0, 7) : '';
+  wegList.querySelectorAll('.weg-item').forEach(el => {
+    const active = el.dataset.ym === currentYM;
+    el.classList.toggle('active', active);
+    if (active && wegList.classList.contains('open')) {
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  });
+}
+
+// Panel nach Laden neu aufbauen, bei Slider nur aktiven Punkt aktualisieren
+const _origLoadBiografie = loadBiografie;
+loadBiografie = async function(personId) {
+  await _origLoadBiografie(personId);
+  buildWegPanel(dates[+slider.value]);
+};
+
+slider.addEventListener('input', () => updateWegPanelActive(dates[+slider.value]));
 </script>
 </body>
 </html>
