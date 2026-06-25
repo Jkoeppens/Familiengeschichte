@@ -9,6 +9,7 @@ Endpoints:
 """
 
 import json
+import calendar
 from pathlib import Path
 from flask import Flask, jsonify, send_from_directory
 
@@ -51,7 +52,8 @@ def list_persons():
 
 @app.route('/api/person/<person_id>/weg')
 def get_weg(person_id):
-    """Alle verorteten Events der Person, flach."""
+    """Verortete Events der Person: direkte Koordinaten + verorte()-Lücken."""
+    # ── Schritt 1: direkte Events mit Koordinaten ──────────────────────────
     with db._get_conn() as conn:
         rows = conn.execute(
             """
@@ -65,18 +67,84 @@ def get_weg(person_id):
             (person_id,),
         ).fetchall()
 
+        joining_dates = conn.execute(
+            """
+            SELECT json_extract(e.data,'$.time_span.begin')
+            FROM events e
+            JOIN participations p ON p.event_id = e.id
+            WHERE p.actor_id = ?
+              AND json_extract(e.data,'$.type') = 'PersonJoining'
+              AND json_extract(e.data,'$.time_span.begin') IS NOT NULL
+            ORDER BY json_extract(e.data,'$.time_span.begin')
+            """,
+            (person_id,),
+        ).fetchall()
+
     result = []
+    direct_months = set()
     for r in rows:
-        data = json.loads(r['data'])
+        data  = json.loads(r['data'])
+        datum = data.get('time_span', {}).get('begin')
+        if datum:
+            direct_months.add(datum[:7])
         result.append({
             'type':      r['type'],
-            'datum':     data.get('time_span', {}).get('begin'),
+            'datum':     datum,
             'ort':       (data.get('place') or {}).get('name'),
             'lat':       r['lat'],
             'lon':       r['lon'],
             'certainty': (data.get('source') or {}).get('certainty'),
             'einheit':   data.get('einheit_original'),
+            'inferred':  False,
         })
+
+    # ── Schritt 2: Lücken mit verorte() füllen ────────────────────────────
+    datums = [r['datum'] for r in result if r['datum']]
+    def _to_ym(s: str, last: bool = False) -> str:
+        """'1939' → '1939-01' (first) oder '1939-12' (last), '1943-08' bleibt."""
+        s = s[:7]
+        if len(s) == 4:
+            return s + ('-12' if last else '-01')
+        return s
+
+    if joining_dates:
+        first_ym = _to_ym(joining_dates[0][0])
+        last_ym  = _to_ym(joining_dates[-1][0], last=True)
+    else:
+        first_ym = _to_ym(datums[0]) if datums else None
+        last_ym  = _to_ym(datums[-1], last=True) if datums else None
+
+    if not first_ym:
+        return jsonify(result)
+
+    # Alle Monate zwischen erstem und letztem direkten Punkt
+    y, m = int(first_ym[:4]), int(first_ym[5:7])
+    y1, m1 = int(last_ym[:4]), int(last_ym[5:7])
+    inferred = []
+    while (y, m) <= (y1, m1):
+        monat = f"{y:04d}-{m:02d}"
+        if monat not in direct_months:
+            for ev in db.verorte(person_id, monat):
+                place = ev.get('place') or {}
+                lat, lon = place.get('lat'), place.get('lon')
+                if lat and lon:
+                    inferred.append({
+                        'type':         ev.get('type'),
+                        'datum':        monat,
+                        'ort':          place.get('name'),
+                        'lat':          lat,
+                        'lon':          lon,
+                        'certainty':    (ev.get('source') or {}).get('certainty'),
+                        'einheit':      ev.get('einheit_original'),
+                        'inferred':     True,
+                        'generated_by': (ev.get('source') or {}).get('generated_by'),
+                    })
+                    break  # verorte() liefert nach certainty DESC — ersten nehmen
+        m += 1
+        if m > 12:
+            m, y = 1, y + 1
+
+    result = sorted(result + inferred, key=lambda x: x['datum'] or '')
     return jsonify(result)
 
 
