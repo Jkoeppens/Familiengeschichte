@@ -31,7 +31,6 @@ _ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
 import db
 from abbreviations import resolve_abbreviations
-from canonicalize import kanonisiere as _kanonisiere
 from geocode import geocode as _geocode
 from entity_linking import link_unit
 
@@ -762,7 +761,6 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
     events: list[dict] = []
     participations: list[dict] = []
     _id_seen: dict[str, int] = defaultdict(int)
-    _pj_seen: set[str] = set()
     # Unknown-Meldungen mit ort-Angabe für nachträgliches Place-Enrichment
     _ort_by_date: dict[str, str] = {}
 
@@ -770,73 +768,6 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
         for m in page.get("meldungen", []):
             inhalt = m.get("inhalt_original", "")
             etype, subtype = _classify_meldung(inhalt)
-
-            # PersonJoining: Einheit aus jeder Meldung auflösen (unabhängig vom Ereignistyp)
-            einheit_raw = m.get("einheit")
-            if einheit_raw and einheit_raw.strip().lower() not in ("", "null", "none"):
-                m_date_iso = m.get("datum_iso")
-                m_jahr = int(m_date_iso[:4]) if m_date_iso and m_date_iso[:4].isdigit() else 1940
-                einheit_norm = _kanonisiere(einheit_raw.strip())
-                linked = link_unit(einheit_norm, m_jahr)
-
-                if linked.get("match_type") != "none":
-                    pj_unit_id = linked["actor_id"]
-                else:
-                    unit_slug = re.sub(r"[^a-z0-9]+", "_", einheit_norm.lower()).strip("_")
-                    pj_unit_id = f"unit_{unit_slug}"
-                    with db._get_conn() as conn:
-                        if not _actor_exists(conn, pj_unit_id):
-                            db.insert_actor({
-                                "id": pj_unit_id,
-                                "type": "MilitaryUnit",
-                                "pref_label": einheit_raw.strip(),
-                                "alt_labels": [],
-                                "branch": "Heer",
-                                "unit_type": "Unknown",
-                                "created_at": today,
-                            })
-
-                pj_date_slug = m_date_iso.replace("-", "_") if m_date_iso else "unbekannt"
-                pj_key = f"{pj_unit_id}|{pj_date_slug}"
-                if pj_key not in _pj_seen:
-                    _pj_seen.add(pj_key)
-                    pj_id = (
-                        f"event_wast_pj_{actor_short}"
-                        f"_{pj_unit_id.replace('unit_', '')}"
-                        f"_{pj_date_slug}"
-                    )
-                    events.append({
-                        "id": pj_id,
-                        "type": "PersonJoining",
-                        "label": f"{family}, {given} bei {einheit_raw.strip()}",
-                        "time_span": {
-                            "begin": m_date_iso,
-                            "end": m_date_iso,
-                            "precision": m.get("datum_precision", "unknown"),
-                        },
-                        "source": {
-                            "type": "wast",
-                            "reference": data["source"]["reference"],
-                            "certainty": 5,
-                            "generated_by": "direkt",
-                        },
-                        "created_at": today,
-                    })
-                    if actor_id:
-                        participations.append({
-                            "event_id": pj_id,
-                            "actor_id": actor_id,
-                            "relation": "had_participant",
-                            "role": "soldier",
-                            "created_at": today,
-                        })
-                    participations.append({
-                        "event_id": pj_id,
-                        "actor_id": pj_unit_id,
-                        "relation": "had_participant",
-                        "role": "unit",
-                        "created_at": today,
-                    })
 
             if etype == "Unknown":
                 # Ort für gleichdatierte Events merken
@@ -889,6 +820,9 @@ def ingest_wast(pdf_path: str | Path) -> list[str]:
                 },
                 "created_at": today,
             }
+            einheit_raw = m.get("einheit", "")
+            if einheit_raw and einheit_raw.strip().lower() not in ("", "null", "none"):
+                event["einheit_original"] = einheit_raw.strip()
             if place:
                 event["place"] = place
             events.append(event)

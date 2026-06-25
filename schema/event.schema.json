@@ -177,6 +177,11 @@
       }
     },
 
+    "einheit_original": {
+      "type": ["string", "null"],
+      "description": "Roher Einheitsname aus der Quelle (WASt-Karteikarte, Spalte Einheit) — nicht aufgelöst"
+    },
+
     "notes": {
       "type": ["string", "null"]
     }
