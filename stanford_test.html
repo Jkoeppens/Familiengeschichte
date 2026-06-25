@@ -103,6 +103,31 @@
     z-index: 10;
     pointer-events: none;
   }
+
+  #person-ui {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: rgba(20,20,40,0.92);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    z-index: 10;
+    backdrop-filter: blur(6px);
+    min-width: 210px;
+  }
+  #person-ui h3 { font-size: 11px; color: #a0aec0; margin-bottom: 7px; letter-spacing: 0.05em; text-transform: uppercase; }
+  #person-select {
+    width: 100%; background: rgba(255,255,255,0.08); color: #fff;
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;
+    padding: 4px 6px; font-size: 12px; cursor: pointer;
+  }
+  #person-select option { background: #1a1a2e; color: #fff; }
+  #person-status { margin-top: 6px; font-size: 10px; color: #718096; min-height: 14px; }
+  .bio-marker {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #60a5fa; border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(96,165,250,0.85);
+  }
 </style>
 </head>
 <body>
@@ -123,6 +148,12 @@
   <label class="toggle-row"><input type="checkbox" id="chk-schlachten" checked> <span style="color:#f59e0b">●</span> Schlachten</label>
 </div>
 
+<div id="person-ui">
+  <h3>Person</h3>
+  <select id="person-select"><option value="">— Laden …</option></select>
+  <div id="person-status"></div>
+</div>
+
 <div id="legend">
   <h3>Belegungsstatus</h3>
   <div class="legend-row"><div class="legend-swatch" style="background:#8B0000"></div>Achsenmächte / Belligerent</div>
@@ -137,6 +168,11 @@
   <div class="legend-row"><div class="legend-dot" style="background:#7f1d1d"></div>Vernichtungslager</div>
   <div class="legend-row"><div class="legend-dot" style="background:#a855f7"></div>Ghetto</div>
   <div class="legend-row"><div class="legend-dot" style="background:#f59e0b"></div>Schlacht / Operation</div>
+  <hr>
+  <h3>Person</h3>
+  <div class="legend-row"><div class="legend-dot" style="background:#22c55e"></div>Weg — Primärquelle</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>Weg — unsicher</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#60a5fa;border:2px solid #fff;width:12px;height:12px"></div>Aktueller Standort</div>
 </div>
 
 <div id="popup"></div>
@@ -221,8 +257,8 @@ const map = new maplibregl.Map({
         id: 'borders-label', type: 'symbol', source: 'stanford',
         'source-layer': 'stanford_combined_hires',
         filter: ['==', ['get', 'date'], dates[0]],
-        layout: { 'text-field': ['get', 'name'], 'text-size': 10, 'text-font': ['Noto Sans Regular'], 'text-max-width': 8 },
-        paint: { 'text-color': '#ffffff', 'text-halo-color': 'rgba(0,0,0,0.7)', 'text-halo-width': 1.5 }
+        layout: { 'visibility': 'none' },
+        paint: {}
       }
     ]
   },
@@ -231,6 +267,77 @@ const map = new maplibregl.Map({
 });
 
 map.addControl(new maplibregl.NavigationControl(), 'bottom-left');
+
+// ── Biografie-State ────────────────────────────────────────────────────────
+let biografieData = [];   // [{datum, lat, lon, type, ort, certainty, einheit}]
+let biografieMarker = null;
+
+function updateBiografieLayer(dateStr) {
+  if (!map.getSource('bio-waypoints')) return;
+
+  // Alle Waypoints als Punkte (Zukunft = transparent)
+  map.getSource('bio-waypoints').setData({
+    type: 'FeatureCollection',
+    features: biografieData.filter(p => p.lat && p.lon).map(p => ({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
+      properties: {
+        datum:     p.datum || '',
+        ort:       p.ort   || '—',
+        typ:       p.type  || '',
+        certainty: p.certainty || 3,
+        einheit:   p.einheit   || '',
+        future:    (p.datum && p.datum.slice(0, 7) > dateStr) ? 1 : 0,
+      }
+    }))
+  });
+
+  // Trajektorie: Linie bis zum aktuellen Datum, chronologisch sortiert
+  const bisJetzt = biografieData
+    .filter(p => p.lat && p.lon && p.datum && p.datum.slice(0, 7) <= dateStr)
+    .sort((a, b) => a.datum.localeCompare(b.datum));
+  const coords = bisJetzt.map(p => [p.lon, p.lat]);
+  map.getSource('bio-trajektorie').setData({
+    type: 'Feature',
+    geometry: coords.length >= 2
+      ? { type: 'LineString', coordinates: coords }
+      : { type: 'LineString', coordinates: [] },
+    properties: {}
+  });
+
+  // Aktueller Standort: letzter Wegpunkt bis jetzt
+  const last = bisJetzt.at(-1);
+  if (last) {
+    if (!biografieMarker) {
+      const el = document.createElement('div');
+      el.className = 'bio-marker';
+      biografieMarker = new maplibregl.Marker({ element: el });
+    }
+    biografieMarker.setLngLat([last.lon, last.lat]).addTo(map);
+  } else if (biografieMarker) {
+    biografieMarker.remove();
+    biografieMarker = null;
+  }
+}
+
+async function loadBiografie(personId) {
+  const status = document.getElementById('person-status');
+  biografieData = [];
+  updateBiografieLayer(dates[+slider.value]);
+  if (!personId) { status.textContent = ''; return; }
+  status.textContent = 'Lade …';
+  try {
+    const r = await fetch(`/api/person/${encodeURIComponent(personId)}/weg`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    biografieData = await r.json();
+    const n = biografieData.filter(p => p.lat).length;
+    status.textContent = `${n} Wegpunkt${n !== 1 ? 'e' : ''}`;
+    updateBiografieLayer(dates[+slider.value]);
+  } catch (e) {
+    status.textContent = 'Fehler beim Laden';
+    console.error(e);
+  }
+}
 
 // ── Daten laden und Layer hinzufügen ───────────────────────────────────────
 const layersReady = { kz: false, ghettos: false, schlachten: false };
@@ -356,6 +463,68 @@ map.on('load', async () => {
     // Initiale Filteranwendung nach Datenladen
     applyDateFilter(dates[+slider.value]);
 
+    // ── Biografie-Layer ────────────────────────────────────────────────────
+    map.addSource('bio-waypoints', {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: [] }
+    });
+    map.addSource('bio-trajektorie', {
+      type: 'geojson',
+      data: { type: 'Feature', geometry: { type: 'LineString', coordinates: [] }, properties: {} }
+    });
+
+    map.addLayer({
+      id: 'bio-trajektorie-line',
+      type: 'line',
+      source: 'bio-trajektorie',
+      paint: {
+        'line-color': '#60a5fa',
+        'line-width': 2.5,
+        'line-opacity': 0.75,
+        'line-dasharray': [3, 1.5],
+      }
+    });
+
+    map.addLayer({
+      id: 'bio-waypoints-circle',
+      type: 'circle',
+      source: 'bio-waypoints',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 5, 7, 9],
+        'circle-color': [
+          'interpolate', ['linear'], ['get', 'certainty'],
+          1, '#ef4444',
+          3, '#f97316',
+          5, '#22c55e'
+        ],
+        'circle-opacity': ['case', ['==', ['get', 'future'], 1], 0.25, 0.9],
+        'circle-stroke-width': 1.5,
+        'circle-stroke-color': '#fff',
+        'circle-stroke-opacity': ['case', ['==', ['get', 'future'], 1], 0.15, 0.9],
+      }
+    });
+
+    // ── Personen-Dropdown befüllen ─────────────────────────────────────────
+    const personSelect = document.getElementById('person-select');
+    try {
+      const personsResp = await fetch('/api/persons');
+      const persons = await personsResp.json();
+      personSelect.innerHTML = '';
+      persons.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.name;
+        personSelect.appendChild(opt);
+      });
+      const urlPersonId = new URLSearchParams(window.location.search).get('person_id');
+      if (urlPersonId) personSelect.value = urlPersonId;
+      await loadBiografie(personSelect.value);
+    } catch (e) {
+      console.error('Personen-Dropdown:', e);
+    }
+
+    personSelect.addEventListener('change', () => loadBiografie(personSelect.value));
+
     const kzN = kzRaw.features.length;
     const ghN = ghettosGeoJSON.features.length;
     const scN = schlachtenGeoJSON.features.length;
@@ -369,7 +538,7 @@ map.on('load', async () => {
 
   // ── Hover / Popup ──────────────────────────────────────────────────────
   const popup = document.getElementById('popup');
-  const HOVER_LAYERS = ['kz-circle', 'ghettos-circle', 'schlachten-circle'];
+  const HOVER_LAYERS = ['kz-circle', 'ghettos-circle', 'schlachten-circle', 'bio-waypoints-circle'];
 
   HOVER_LAYERS.forEach(layerId => {
     map.on('mouseenter', layerId, () => { map.getCanvas().style.cursor = 'pointer'; });
@@ -382,8 +551,22 @@ map.on('load', async () => {
       const layer = props._layer;
 
       let tagColor = '#ef4444', tagText = 'KZ / Lager';
-      if (layer === 'ghetto') { tagColor = '#a855f7'; tagText = 'Ghetto'; }
+      if (layer === 'ghetto')  { tagColor = '#a855f7'; tagText = 'Ghetto'; }
       if (layer === 'schlacht') { tagColor = '#f59e0b'; tagText = 'Schlacht'; }
+      if (!layer) {
+        // Bio-Waypoint
+        tagColor = '#60a5fa'; tagText = 'Personenweg';
+        popup.innerHTML = `
+          <span class="tag" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa44">${tagText}</span>
+          <b>${props.ort}</b>
+          ${props.einheit ? `<span style="color:#a0aec0;font-size:11px">${props.einheit}</span><br>` : ''}
+          <span style="color:#718096;font-size:11px">${props.datum} · Certainty ${props.certainty}/5</span>
+        `.trim();
+        popup.style.display = 'block';
+        popup.style.left = (e.point.x + 14) + 'px';
+        popup.style.top  = (e.point.y - 10) + 'px';
+        return;
+      }
 
       let dateStr = '';
       if (props.datum_von && props.datum_von !== '') {
@@ -453,6 +636,7 @@ function setDate(idx) {
   const d = dates[idx];
   dateDisplay.textContent = d;
   applyDateFilter(d);
+  updateBiografieLayer(d);
 }
 
 slider.addEventListener('input', () => setDate(+slider.value));
