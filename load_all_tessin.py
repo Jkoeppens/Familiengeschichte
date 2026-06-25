@@ -20,6 +20,22 @@ import db
 
 CREATED = "2026-06-11"
 
+_OFFSETS_PATH = Path(__file__).parent / "tessin_band_offsets.json"
+_BAND_OFFSETS: dict[str, int] = {}
+if _OFFSETS_PATH.exists():
+    _raw_offsets = json.loads(_OFFSETS_PATH.read_text(encoding="utf-8"))
+    _BAND_OFFSETS = {k: v["offset"] for k, v in _raw_offsets.items()}
+
+
+def _buchseite(band: int | str, pdf_seite: int | None) -> int | None:
+    if pdf_seite is None:
+        return None
+    offset = _BAND_OFFSETS.get(str(band))
+    if offset is None:
+        return None
+    result = pdf_seite - offset
+    return result if result > 0 else None
+
 # Garbage-Labels die niemals als Actor in die DB kommen sollen
 _GARBAGE_LABELS = {
     'unterstellung', 'i', 'ii', 'iii', 'iv', 'v',
@@ -488,7 +504,7 @@ def actor_exists(actor_id: str) -> bool:
 
 def make_actor(actor_id: str, nummer: str, einheit: str,
                wehrkreis: str, heimatgarnison: str, band: int,
-               raw_text: str = '') -> dict:
+               raw_text: str = '', pdf_seite: int | None = None) -> dict:
     if actor_id in KNOWN_ACTOR_IDS.values():
         with db._get_conn() as conn:
             row = conn.execute("SELECT data FROM actors WHERE id = ?", (actor_id,)).fetchone()
@@ -510,7 +526,7 @@ def make_actor(actor_id: str, nummer: str, einheit: str,
         "wehrkreis": wk,
         "parent_unit_id": None,
         "tessin_band": band,
-        "tessin_seite": None,
+        "tessin_seite": _buchseite(band, pdf_seite),
         "family_name": None,
         "given_name": None,
         "birth_date": None,
@@ -794,7 +810,8 @@ def load_band(path: Path, band: int) -> dict:
         actor = make_actor(actor_id, nummer, einheit,
                            entry.get('wehrkreis', ''),
                            entry.get('heimatgarnison', ''), band,
-                           entry.get('_raw_text', ''))
+                           entry.get('_raw_text', ''),
+                           entry.get('_pdf_seite'))
         if actor_exists(actor_id):
             db.update_actor_alt_labels(actor_id, actor['alt_labels'])
             stats['actors_existing'] += 1
@@ -913,7 +930,8 @@ def load_band(path: Path, band: int) -> dict:
             actor = make_actor(actor_id, nummer, einheit,
                                entry.get('wehrkreis', ''),
                                entry.get('heimatgarnison', ''), band,
-                               entry.get('_raw_text', ''))
+                               entry.get('_raw_text', ''),
+                               entry.get('_pdf_seite'))
             if actor_exists(actor_id):
                 db.update_actor_alt_labels(actor_id, actor['alt_labels'])
             else:

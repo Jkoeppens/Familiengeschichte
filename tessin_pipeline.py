@@ -468,6 +468,10 @@ def main():
     print("Schritt 3: Strukturierte Extraktion …")
     records = [parse_chunk(c) for c in chunks]
 
+    # PDF-Seitennummer: Anzahl '\f'-Trennzeichen vor dem Chunk-Offset + 1
+    for chunk, record in zip(chunks, records):
+        record['_pdf_seite'] = full_text[:chunk['offset']].count('\f') + 1
+
     filtered, appended = merge_invalid_chunks(records)
     removed = len(records) - len(filtered) - appended
 
