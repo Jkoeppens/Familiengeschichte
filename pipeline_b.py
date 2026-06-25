@@ -10,6 +10,7 @@ Drei öffentliche Funktionen:
 
 import base64
 import json as _json
+import os
 import re
 import sqlite3
 from collections import defaultdict
@@ -18,10 +19,15 @@ from pathlib import Path
 from typing import Optional
 
 import jsonschema
+from dotenv import load_dotenv
+
+load_dotenv()
 
 import fitz          # PyMuPDF
 import pdfplumber
 import anthropic as _anthropic
+
+_ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
 import db
 from abbreviations import resolve_abbreviations
@@ -548,7 +554,7 @@ def pdf_page_to_base64(pdf_path: str | Path, page_num: int, dpi: int = 300) -> s
 
 def _call_vision(b64: str, prompt: str) -> dict:
     """Claude Vision aufrufen und JSON-Antwort parsen."""
-    client = _anthropic.Anthropic()
+    client = _anthropic.Anthropic(api_key=_ANTHROPIC_API_KEY)
     msg = client.messages.create(
         model="claude-opus-4-5",
         max_tokens=2048,
