@@ -54,3 +54,4 @@ tessin_bd*_checkpoint.json
 tessin_bd*_report.json
 tessin_bd*.json
 !tessin_bd*_final.json
+.env
