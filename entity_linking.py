@@ -45,10 +45,10 @@ UNIT_NORMALIZATIONS: dict[str, str] = {
     "Nachr.Abt.":     "Nachrichten-Abt.",
 }
 
-# Sub-Einheits-Präfix: "1. Kompanie", "Stamm-Kompanie", "1. Genesenden-Kompanie" …
+# Sub-Einheits-Präfix: "1. Kompanie", "Stamm-Kp.", "1. Genesenden-Kompanie", "Marsch-Kp." …
 _SUBUNIT_RE = re.compile(
-    r'^(?:\d+\.\s+)?(?:[A-ZÄÖÜa-zäöüß]+-)?'
-    r'(?:Kompanie|Zug|Stab|Batterie|Schwadron)\s+',
+    r'^(?:\d+\.\s+)?(?:(?:[A-ZÄÖÜa-zäöüß]+-)+)?'
+    r'(?:Kompanie|Kp\.|Zug|Stab|Batterie|Schwadron)\s+',
 )
 
 _FUZZY_THRESHOLD = 88
