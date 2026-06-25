@@ -322,6 +322,20 @@ load_a4.py    load_hierarchy.py    load_koppermann.py
   verloren. Fix: Umbenennung (`„…wurde … umbenannt in …"` + nachfolgende `Unterstellung:`-Zeile)
   als Chunk-Signal erkennen (PENDING).
 
+### B5 — PersonJoining via WASt-Ingest fehlt
+
+`ingest_wast()` extrahiert `einheit` pro Meldungszeile (Vision-Spalte 3) aber ruft `link_unit()` nie auf.
+Der Bundesarchiv-Pfad macht es korrekt (`ingest_bundesarchiv()`, Zeile 366).
+
+Fehlender Datenfluss:
+
+```
+Vision-Transkript → canonicalize.kanonisiere() → link_unit() → PersonJoining-Event
+```
+
+Fix: in `ingest_wast()`, vor dem `if etype == "Unknown": continue`, `link_unit()` aufrufen
+und PersonJoining-Event + zwei Participations (soldier + unit) analog zu `ingest_bundesarchiv()` anlegen.
+
 ### Offen / In Arbeit
 
 - `load_hierarchy.py` — Status unklar; Hierarchie-Events noch nicht systematisch für alle Bände erzeugt.
