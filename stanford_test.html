@@ -179,6 +179,23 @@
   }
   .weg-item .weg-meta  { color: #718096; font-size: 10px; margin-top: 2px; }
   .weg-item .weg-einheit { color: #90cdf4; font-size: 10px; }
+  .weg-item .weg-tessin { color: #a3bffa; font-size: 10px; margin-top: 3px; }
+  .weg-item .weg-tessin a { color: #7f9cf5; text-decoration: none; }
+  .weg-volltext-btn {
+    display: inline-block; margin-top: 4px; padding: 1px 6px;
+    background: rgba(99,179,237,0.12); border: 1px solid rgba(99,179,237,0.3);
+    border-radius: 3px; font-size: 9px; color: #90cdf4; cursor: pointer;
+    user-select: none;
+  }
+  .weg-volltext-btn:hover { background: rgba(99,179,237,0.22); }
+  .weg-volltext {
+    display: none; margin-top: 5px; padding: 6px 8px;
+    background: rgba(0,0,0,0.35); border-radius: 4px;
+    font-size: 9px; color: #a0aec0; line-height: 1.5;
+    white-space: pre-wrap; word-break: break-word; max-height: 140px;
+    overflow-y: auto;
+  }
+  .weg-volltext.open { display: block; }
 </style>
 </head>
 <body>
@@ -747,16 +764,34 @@ function _certBadge(c) {
   return '<span class="weg-badge" style="background:#94a3b822;color:#94a3b8;border:1px solid #94a3b844">erschlossen ●</span>';
 }
 
+function _volltextBlock(uid, rawText) {
+  if (!rawText) return '';
+  const safe = rawText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<span class="weg-volltext-btn" onclick="
+    var el=this.nextElementSibling;
+    var open=el.classList.toggle('open');
+    this.textContent=open?'▼ Volltext':'▶ Volltext';
+  ">▶ Volltext</span><div class="weg-volltext">${safe}</div>`;
+}
+
+function _tessinInfo(info, label) {
+  if (!info) return '';
+  const ref = info.tessin_ref || (info.tessin_band ? `Tessin Bd. ${info.tessin_band}` : '');
+  const vt  = _volltextBlock(info.id, info.raw_text);
+  return `<div class="weg-tessin">${label}: <b>${info.pref_label || info.id}</b>${ref ? ' — ' + ref : ''}</div>${vt}`;
+}
+
 function _sourceLabel(wp) {
-  if (!wp.inferred) return '<span style="color:#22c55e">WASt-Karte direkt</span>';
-  if (wp.note) {
-    // "Standort via unit_pzgrenrgt90 → unit_20_pz_gren_div"
-    const m = wp.note.match(/via\s+(\S+)\s*→\s*(\S+)/);
-    if (m) {
-      const via = m[1].replace(/^unit_/, '').replace(/_/g, ' ');
-      const hier = m[2].replace(/^unit_/, '').replace(/_/g, ' ');
-      return `<span style="color:#94a3b8">Erschlossen: ${via} → ${hier}</span>`;
-    }
+  const cert = wp.certainty || 0;
+  if (!wp.inferred) {
+    const src = cert >= 5 ? 'WASt-Karte direkt' : 'Bundesarchiv';
+    return `<span style="color:#22c55e">${src}</span>`;
+  }
+  // Erschlossen via Einheit
+  const viaHtml      = _tessinInfo(wp.via_unit_info,      'via');
+  const inferredHtml = _tessinInfo(wp.inferred_unit_info,  'Standort aus');
+  if (viaHtml || inferredHtml) {
+    return `<span style="color:#94a3b8">Erschlossen:</span>${viaHtml}${inferredHtml}`;
   }
   return '<span style="color:#94a3b8">Bundesarchiv → Tessin erschlossen</span>';
 }

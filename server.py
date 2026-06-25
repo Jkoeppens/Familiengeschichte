@@ -117,6 +117,29 @@ def get_weg(person_id):
     if not first_ym:
         return jsonify(result)
 
+    def _unit_info(conn, unit_id):
+        if not unit_id:
+            return None
+        row = conn.execute(
+            """SELECT json_extract(a.data,'$.pref_label'),
+                      json_extract(a.data,'$.tessin_band'),
+                      json_extract(a.data,'$.tessin_seite'),
+                      json_extract(a.data,'$._raw_text')
+               FROM actors a WHERE a.id = ?""",
+            (unit_id,),
+        ).fetchone()
+        if not row:
+            return None
+        band, seite = row[1], row[2]
+        return {
+            'id':           unit_id,
+            'pref_label':   row[0],
+            'tessin_band':  band,
+            'tessin_seite': seite,
+            'tessin_ref':   f'Tessin Bd. {band}, S. {seite}' if band and seite else None,
+            'raw_text':     row[3],
+        }
+
     # Alle Monate zwischen erstem und letztem direkten Punkt
     y, m = int(first_ym[:4]), int(first_ym[5:7])
     y1, m1 = int(last_ym[:4]), int(last_ym[5:7])
@@ -129,19 +152,26 @@ def get_weg(person_id):
                 lat, lon = place.get('lat'), place.get('lon')
                 if lat and lon:
                     src = ev.get('source') or {}
+                    via_id      = ev.get('_via_unit')
+                    inferred_id = ev.get('_inferred_unit_id')
+                    with db._get_conn() as conn:
+                        via_info      = _unit_info(conn, via_id)
+                        inferred_info = _unit_info(conn, inferred_id)
                     inferred.append({
-                        'type':         ev.get('type'),
-                        'datum':        monat,
-                        'ort':          place.get('name'),
-                        'lat':          lat,
-                        'lon':          lon,
-                        'certainty':    src.get('certainty'),
-                        'einheit':      ev.get('einheit_original'),
-                        'inferred':     True,
-                        'generated_by': src.get('generated_by'),
-                        'via_unit':     ev.get('_via_unit'),
-                        'inferred_unit': ev.get('_inferred_unit_id'),
-                        'note':         src.get('note'),
+                        'type':           ev.get('type'),
+                        'datum':          monat,
+                        'ort':            place.get('name'),
+                        'lat':            lat,
+                        'lon':            lon,
+                        'certainty':      src.get('certainty'),
+                        'einheit':        ev.get('einheit_original'),
+                        'inferred':       True,
+                        'generated_by':   src.get('generated_by'),
+                        'via_unit':       via_id,
+                        'inferred_unit':  inferred_id,
+                        'note':           src.get('note'),
+                        'via_unit_info':      via_info,
+                        'inferred_unit_info': inferred_info,
                     })
                     break  # verorte() liefert nach certainty DESC — ersten nehmen
         m += 1
