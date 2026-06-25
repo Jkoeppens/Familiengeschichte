@@ -49,7 +49,9 @@
       "Uffz.": "Unteroffizier",
       "Lt.": "Leutnant",
       "Lt. d.R.": "Leutnant der Reserve",
-      "B.D.R.": "Beförderungsdatum der Reserve"
+      "B.D.R.": "Beförderungsdatum der Reserve",
+      "Ers.": "Ersatz-",
+      "Ausb.": "Ausbildungs"
     },
     "verwaltung": {
       "WASt": "Wehrmacht-Auskunftsstelle (Zentralkartei)",
