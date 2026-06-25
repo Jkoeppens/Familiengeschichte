@@ -45,25 +45,6 @@ UNIT_NORMALIZATIONS: dict[str, str] = {
     "Nachr.Abt.":     "Nachrichten-Abt.",
 }
 
-# Historisch belegte Vorgänger-/Nachfolgebezeichnungen die im Tessin-DB fehlen.
-# Einheiten wurden 1942/43 oft von Infanterie- zu Panzergrenadier-Regimentern
-# redesigniert; WASt-Karten verwenden noch die alte Bezeichnung.
-_ALT_LABEL_OVERRIDES: dict[str, list[str]] = {
-    "unit_pzgrenrgt90": ["Infanterie-Regiment 90"],           # Redesigniert 1942
-    "unit_na20": [                                            # DB-ID ist unit_20_nachrichten_abt_20
-        "Nachrichten-Abteilung 20",
-        "Nachrichten-Abt. 20",
-        "N.A. 20",
-    ],
-}
-
-# Für Override-Einheiten die nicht in der DB sind: explizite Parent-Zuordnung
-# damit der Standort-Fallback in _hit() über die Division greifen kann.
-_ALT_LABEL_PARENTS: dict[str, str] = {
-    "unit_pzgrenrgt90": "unit_20_pz_gren_div",
-    "unit_na20":        "unit_20_pz_gren_div",
-}
-
 # Sub-Einheits-Präfix: "1. Kompanie", "Stamm-Kompanie", "1. Genesenden-Kompanie" …
 _SUBUNIT_RE = re.compile(
     r'^(?:\d+\.\s+)?(?:[A-ZÄÖÜa-zäöüß]+-)?'
@@ -149,22 +130,15 @@ def _load_unit_index() -> list[tuple[str, str, list[str]]]:
             "SELECT id, pref_label, data FROM actors WHERE type='MilitaryUnit'"
         ).fetchall()
     db_entries: list[tuple] = []
-    seen: set[str] = set()
     for row in rows:
         data = json.loads(row["data"])
         alts = list(data.get("alt_labels", []))
         if not alts:
             alts = _expand_label(row["pref_label"])
-        alts += _ALT_LABEL_OVERRIDES.get(row["id"], [])
+        # Leerzeichen zwischen Buchstabe und Ziffer normalisieren ("Regiment90" → "Regiment 90")
+        alts = [re.sub(r'([a-zäöüß])(\d)', r'\1 \2', a) for a in alts]
         db_entries.append((row["id"], row["pref_label"], alts))
-        seen.add(row["id"])
-    # Override-Einheiten die nicht in der DB sind: nach vorne — gewinnen bei exaktem Match
-    overrides_only = [
-        (uid, uid, labels)
-        for uid, labels in _ALT_LABEL_OVERRIDES.items()
-        if uid not in seen
-    ]
-    return overrides_only + db_entries
+    return db_entries
 
 
 def _flat_labels(units: list[tuple]) -> list[tuple[str, str]]:
@@ -217,7 +191,7 @@ def link_unit(einheit_name: str, jahr: int) -> dict:
                     "SELECT json_extract(data, '$.parent_unit_id') FROM actors WHERE id = ?",
                     (uid,),
                 ).fetchone()
-            parent_id = (row[0] if row else None) or _ALT_LABEL_PARENTS.get(uid)
+            parent_id = row[0] if row else None
             if parent_id:
                 standort = db.verorte(parent_id, str(jahr))
         return {

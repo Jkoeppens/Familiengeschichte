@@ -424,6 +424,7 @@ def make_alt_labels(nummer: str, einheit: str) -> list[str]:
     body = einheit[prefix.end():] if prefix else einheit
 
     expanded = _expand_unit_name(body)
+    expanded = re.sub(r'([a-zäöüß])(\d)', r'\1 \2', expanded)
     pref = make_pref_label(nummer, einheit)
 
     labels: set[str] = set()
