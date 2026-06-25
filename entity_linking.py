@@ -460,6 +460,12 @@ def resolve_location(person_id: str, zeitpunkt: str) -> dict:
         e for e in events
         if e.get("source", {}).get("certainty", 0) >= 4
         and e.get("source", {}).get("generated_by") == "direkt"
+        # Undatierte Events (begin=None UND end=None) matchen via SQL jeden Zeitpunkt —
+        # sie sollen für datumsspezifische Abfragen aber nicht als "belegt" gelten.
+        and (
+            e.get("time_span", {}).get("begin") is not None
+            or e.get("time_span", {}).get("end") is not None
+        )
     ]
 
     if direct:
