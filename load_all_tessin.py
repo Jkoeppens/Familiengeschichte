@@ -436,6 +436,9 @@ def extract_umbenennungen(raw_text: str) -> list[str]:
         expanded = re.sub(r'([a-zäöüß)])(\d)', r'\1 \2', expanded)
         if len(expanded) >= 4:
             names.append(expanded)
+        ohne_klammer = re.sub(r'\s*\([^)]+\)', '', expanded).strip()
+        if ohne_klammer != expanded and len(ohne_klammer) >= 4:
+            names.append(ohne_klammer)
     return names
 
 
