@@ -18,6 +18,9 @@ from typing import Optional
 from rapidfuzz import fuzz, process
 
 import db
+from abbreviations import load_abbreviations
+
+_ABBREVS: dict[str, str] = load_abbreviations()
 
 # ─── Konfiguration ────────────────────────────────────────────────────────────
 
@@ -46,13 +49,19 @@ UNIT_NORMALIZATIONS: dict[str, str] = {
 # Einheiten wurden 1942/43 oft von Infanterie- zu Panzergrenadier-Regimentern
 # redesigniert; WASt-Karten verwenden noch die alte Bezeichnung.
 _ALT_LABEL_OVERRIDES: dict[str, list[str]] = {
-    "unit_pzgrenrgt90": ["Infanterie-Regiment 90"],  # Redesigniert 1942
+    "unit_pzgrenrgt90": ["Infanterie-Regiment 90"],           # Redesigniert 1942
+    "unit_na20": [                                            # DB-ID ist unit_20_nachrichten_abt_20
+        "Nachrichten-Abteilung 20",
+        "Nachrichten-Abt. 20",
+        "N.A. 20",
+    ],
 }
 
 # Für Override-Einheiten die nicht in der DB sind: explizite Parent-Zuordnung
 # damit der Standort-Fallback in _hit() über die Division greifen kann.
 _ALT_LABEL_PARENTS: dict[str, str] = {
     "unit_pzgrenrgt90": "unit_20_pz_gren_div",
+    "unit_na20":        "unit_20_pz_gren_div",
 }
 
 # Sub-Einheits-Präfix: "1. Kompanie", "Stamm-Kompanie", "1. Genesenden-Kompanie" …
@@ -61,7 +70,43 @@ _SUBUNIT_RE = re.compile(
     r'(?:Kompanie|Zug|Stab|Batterie|Schwadron)\s+',
 )
 
-_FUZZY_THRESHOLD = 85
+_FUZZY_THRESHOLD = 88
+
+
+def _expand_label(pref: str) -> list[str]:
+    """Generiert Suchvarianten aus pref_label zur Laufzeit (Fallback wenn alt_labels leer).
+
+    Behandelt zwei Fälle:
+    - "20. Nachrichten-Abt.20" → Trailing-Nummer strippen → expandieren → Varianten
+    - "20. Nachrichten-Abt."   → direkt expandieren → Varianten
+    """
+    variants: set[str] = set()
+    m = re.match(r'^(\d+)\.\s+(.+)$', pref)
+    if not m:
+        expanded = pref
+        for abk, lang in _ABBREVS.items():
+            expanded = expanded.replace(abk, lang)
+        if expanded != pref:
+            variants.add(expanded)
+        return list(variants)
+
+    num, name = m.group(1), m.group(2)
+
+    # Trailing-Nummer aus name strippen: "Nachrichten-Abt.20" → "Nachrichten-Abt."
+    # \b greift zwischen "." (non-word) und Ziffer (word) → korrekt für "Abt.20"
+    name_clean = re.sub(r'\s*\b' + re.escape(num) + r'\s*$', '', name).rstrip()
+
+    # Abkürzungen expandieren: "Nachrichten-Abt." → "Nachrichten-Abteilung"
+    name_exp = name_clean
+    for abk, lang in _ABBREVS.items():
+        name_exp = name_exp.replace(abk, lang)
+
+    for n in dict.fromkeys([name_clean, name_exp]):  # Reihenfolge, kein Duplikat
+        variants.add(f"{num}. {n}")   # "20. Nachrichten-Abt." / "20. Nachrichten-Abteilung"
+        variants.add(f"{n} {num}")    # "Nachrichten-Abt. 20"  / "Nachrichten-Abteilung 20"
+
+    variants.discard(pref)
+    return [v for v in variants if len(v) >= 4]
 
 
 # ─── Hilfsfunktionen ──────────────────────────────────────────────────────────
@@ -103,19 +148,23 @@ def _load_unit_index() -> list[tuple[str, str, list[str]]]:
         rows = conn.execute(
             "SELECT id, pref_label, data FROM actors WHERE type='MilitaryUnit'"
         ).fetchall()
-    result = []
+    db_entries: list[tuple] = []
     seen: set[str] = set()
     for row in rows:
         data = json.loads(row["data"])
         alts = list(data.get("alt_labels", []))
+        if not alts:
+            alts = _expand_label(row["pref_label"])
         alts += _ALT_LABEL_OVERRIDES.get(row["id"], [])
-        result.append((row["id"], row["pref_label"], alts))
+        db_entries.append((row["id"], row["pref_label"], alts))
         seen.add(row["id"])
-    # Override-Einheiten die (noch) nicht in der DB sind
-    for uid, labels in _ALT_LABEL_OVERRIDES.items():
-        if uid not in seen:
-            result.append((uid, uid, labels))
-    return result
+    # Override-Einheiten die nicht in der DB sind: nach vorne — gewinnen bei exaktem Match
+    overrides_only = [
+        (uid, uid, labels)
+        for uid, labels in _ALT_LABEL_OVERRIDES.items()
+        if uid not in seen
+    ]
+    return overrides_only + db_entries
 
 
 def _flat_labels(units: list[tuple]) -> list[tuple[str, str]]:

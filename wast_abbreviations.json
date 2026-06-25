@@ -31,6 +31,8 @@
     "einheiten": {
       "N.A.": "Nachrichten-Abteilung",
       "N.E.A.": "Nachrichten-Ersatz-Abteilung",
+      "Nachr.Abt.": "Nachrichten-Abteilung",
+      "Nachr.-Abt.": "Nachrichten-Abteilung",
       "I.R.": "Infanterie-Regiment",
       "Pz.Gren.Rgt.": "Panzergrenadier-Regiment",
       "Gren.Rgt.": "Grenadier-Regiment",
