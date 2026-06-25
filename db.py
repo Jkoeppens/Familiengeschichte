@@ -125,6 +125,19 @@ def insert_actor(actor: dict) -> None:
         )
 
 
+def update_actor_alt_labels(actor_id: str, alt_labels: list[str]) -> None:
+    with _get_conn() as conn:
+        row = conn.execute("SELECT data FROM actors WHERE id = ?", (actor_id,)).fetchone()
+        if not row:
+            return
+        data = json.loads(row["data"])
+        data["alt_labels"] = alt_labels
+        conn.execute(
+            "UPDATE actors SET data = ? WHERE id = ?",
+            (json.dumps(data, ensure_ascii=False), actor_id),
+        )
+
+
 def insert_event(event: dict) -> None:
     _validate(event, "event")
     ts = event["time_span"]
@@ -163,7 +176,12 @@ def insert_participation(participation: dict) -> None:
 # ─── Abfrageoperationen ───────────────────────────────────────────────────────
 
 def verorte(actor_id: str, zeitpunkt: str) -> list[dict]:
-    """Alle Events des Akteurs, die zeitpunkt enthalten, nach certainty absteigend."""
+    """Events des Akteurs zum Zeitpunkt, nach certainty DESC.
+
+    Pfad 1 (direkt): Events mit direkter Participation.
+    Pfad 2 (Einheit): Kein direkter Geo-Treffer → PersonJoining-Einheit suchen,
+    deren UnitJoining-Events (Tessin) Koordinaten liefern. certainty=2.
+    """
     z_begin, z_end = _zeitpunkt_range(zeitpunkt)
     with _get_conn() as conn:
         rows = conn.execute(
@@ -178,10 +196,18 @@ def verorte(actor_id: str, zeitpunkt: str) -> list[dict]:
             """,
             (actor_id, z_end, z_begin),
         ).fetchall()
-    return [
+    result = [
         {**json.loads(r["data"]), "_participation": json.loads(r["pdata"])}
         for r in rows
     ]
+
+    # Pfad 2: Einheits-Erschließung wenn kein direkter Geo-Treffer
+    if not any((ev.get("place") or {}).get("lat") for ev in result):
+        unit_ev = _verorte_via_einheit(actor_id, z_begin, z_end)
+        if unit_ev:
+            result.append(unit_ev)
+
+    return result
 
 
 def _haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -265,6 +291,55 @@ def get_hierarchy(unit_id: str) -> list[str]:
         current = parent_id
 
     return chain
+
+
+def _verorte_via_einheit(actor_id: str, z_begin: str, z_end: str) -> Optional[dict]:
+    """Erschließt Standort: PersonJoining → Einheit → get_hierarchy → UnitJoining (Tessin)."""
+    with _get_conn() as conn:
+        unit_rows = conn.execute(
+            """
+            SELECT DISTINCT p2.actor_id
+            FROM events e
+            JOIN participations p1 ON e.id = p1.event_id AND p1.actor_id = ?
+            JOIN participations p2 ON e.id = p2.event_id AND p2.role = 'unit'
+            WHERE e.type = 'PersonJoining'
+              AND (e.time_begin IS NULL OR e.time_begin <= ?)
+              AND (e.time_end   IS NULL OR e.time_end   >= ?)
+            """,
+            (actor_id, z_end, z_begin),
+        ).fetchall()
+
+    for urow in unit_rows:
+        unit_id = urow[0]
+        for hier_id in get_hierarchy(unit_id):
+            with _get_conn() as conn:
+                geo_row = conn.execute(
+                    """
+                    SELECT e.data
+                    FROM events e
+                    JOIN participations p ON e.id = p.event_id
+                    WHERE p.actor_id = ?
+                      AND e.type = 'UnitJoining'
+                      AND e.lat IS NOT NULL
+                      AND (e.time_begin IS NULL OR e.time_begin <= ?)
+                      AND (e.time_end   IS NULL OR e.time_end   >= ?)
+                    ORDER BY json_extract(e.data, '$.source.certainty') DESC
+                    LIMIT 1
+                    """,
+                    (hier_id, z_end, z_begin),
+                ).fetchone()
+            if geo_row:
+                ev = json.loads(geo_row["data"])
+                ev["source"] = {
+                    **ev.get("source", {}),
+                    "certainty": 2,
+                    "generated_by": "entity_linking",
+                    "note": f"Standort via {unit_id} → {hier_id}",
+                }
+                ev["_inferred_unit_id"] = hier_id
+                ev["_via_unit"] = unit_id
+                return ev
+    return None
 
 
 def kontext(actor_id: str, zeitpunkt: str, radius_km: float = 50.0) -> list[dict]:

@@ -788,13 +788,14 @@ def load_band(path: Path, band: int) -> dict:
         if not is_valid_actor(label):
             continue
         actor_id = make_actor_id(nummer, einheit)
+        actor = make_actor(actor_id, nummer, einheit,
+                           entry.get('wehrkreis', ''),
+                           entry.get('heimatgarnison', ''), band,
+                           entry.get('_raw_text', ''))
         if actor_exists(actor_id):
+            db.update_actor_alt_labels(actor_id, actor['alt_labels'])
             stats['actors_existing'] += 1
         else:
-            actor = make_actor(actor_id, nummer, einheit,
-                               entry.get('wehrkreis', ''),
-                               entry.get('heimatgarnison', ''), band,
-                               entry.get('_raw_text', ''))
             try:
                 db.insert_actor(actor)
                 stats['actors_new'] += 1
@@ -905,12 +906,14 @@ def load_band(path: Path, band: int) -> dict:
         naming_pairs = extract_naming_events(entry, actor_id, actor_label,
                                               band, naming_id_counter)
         for event, participation in naming_pairs:
-            # Actor ggf. anlegen (für Einträge ohne Unterstellungen)
-            if not actor_exists(actor_id):
-                actor = make_actor(actor_id, nummer, einheit,
-                                   entry.get('wehrkreis', ''),
-                                   entry.get('heimatgarnison', ''), band,
-                                   entry.get('_raw_text', ''))
+            # Actor ggf. anlegen oder alt_labels aktualisieren
+            actor = make_actor(actor_id, nummer, einheit,
+                               entry.get('wehrkreis', ''),
+                               entry.get('heimatgarnison', ''), band,
+                               entry.get('_raw_text', ''))
+            if actor_exists(actor_id):
+                db.update_actor_alt_labels(actor_id, actor['alt_labels'])
+            else:
                 try:
                     db.insert_actor(actor)
                     stats['actors_new'] += 1
