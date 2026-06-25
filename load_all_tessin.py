@@ -417,7 +417,29 @@ def _expand_unit_name(s: str) -> str:
     return s
 
 
-def make_alt_labels(nummer: str, einheit: str) -> list[str]:
+UMBENENNUNG_RE = re.compile(r'\n([A-ZÄÖÜ][^\n]+?\d+)\s*seit\s*\d')
+
+
+def extract_umbenennungen(raw_text: str) -> list[str]:
+    """Extrahiert spätere Bezeichnungen aus Tessin-Fließtext.
+
+    Muster: 'NeuerName seit Datum' — Name steht nach Zeilenumbruch,
+    Datum direkt nach 'seit' (kein Leerzeichen nötig).
+    Komposita wie 'Ers.bzw.Ausb.' werden auf den ersten Typ reduziert.
+    """
+    names = []
+    for name in UMBENENNUNG_RE.findall(raw_text):
+        name = re.sub(r'\s*bzw\.\s*\w+\.', '', name)
+        name = re.sub(r'\s*und\s*\w+\.', '', name)
+        name = re.sub(r'\s{2,}', ' ', name).strip()
+        expanded = _expand_unit_name(name)
+        expanded = re.sub(r'([a-zäöüß)])(\d)', r'\1 \2', expanded)
+        if len(expanded) >= 4:
+            names.append(expanded)
+    return names
+
+
+def make_alt_labels(nummer: str, einheit: str, raw_text: str = '') -> list[str]:
     """Erzeugt alle Schreibvarianten für entity_linking."""
     # Führende Nummer aus einheit strippen (Pattern A: "20.Infanterie-Division")
     prefix = re.match(r'^\d+\.\s*', einheit)
@@ -436,6 +458,9 @@ def make_alt_labels(nummer: str, einheit: str) -> list[str]:
     else:
         labels.add(body)
         labels.add(expanded)
+
+    for umb in extract_umbenennungen(raw_text):
+        labels.add(umb)
 
     labels.discard(pref)            # pref_label nicht doppelt speichern
     labels.discard("")
@@ -459,7 +484,8 @@ def actor_exists(actor_id: str) -> bool:
 
 
 def make_actor(actor_id: str, nummer: str, einheit: str,
-               wehrkreis: str, heimatgarnison: str, band: int) -> dict:
+               wehrkreis: str, heimatgarnison: str, band: int,
+               raw_text: str = '') -> dict:
     if actor_id in KNOWN_ACTOR_IDS.values():
         with db._get_conn() as conn:
             row = conn.execute("SELECT data FROM actors WHERE id = ?", (actor_id,)).fetchone()
@@ -473,7 +499,7 @@ def make_actor(actor_id: str, nummer: str, einheit: str,
         "id": actor_id,
         "type": "MilitaryUnit",
         "pref_label": label,
-        "alt_labels": make_alt_labels(nummer, einheit),
+        "alt_labels": make_alt_labels(nummer, einheit, raw_text),
         "abbr": None,
         "branch": derive_branch(einheit),
         "unit_type": derive_unit_type(einheit),
@@ -767,7 +793,8 @@ def load_band(path: Path, band: int) -> dict:
         else:
             actor = make_actor(actor_id, nummer, einheit,
                                entry.get('wehrkreis', ''),
-                               entry.get('heimatgarnison', ''), band)
+                               entry.get('heimatgarnison', ''), band,
+                               entry.get('_raw_text', ''))
             try:
                 db.insert_actor(actor)
                 stats['actors_new'] += 1
@@ -882,7 +909,8 @@ def load_band(path: Path, band: int) -> dict:
             if not actor_exists(actor_id):
                 actor = make_actor(actor_id, nummer, einheit,
                                    entry.get('wehrkreis', ''),
-                                   entry.get('heimatgarnison', ''), band)
+                                   entry.get('heimatgarnison', ''), band,
+                                   entry.get('_raw_text', ''))
                 try:
                     db.insert_actor(actor)
                     stats['actors_new'] += 1
