@@ -9607,5 +9607,759 @@
     "radius_km": 20,
     "precision": "stadt",
     "source": "internal_via_llm"
+  },
+  "ostpreußen,narew,bug": {
+    "lat": 54.22,
+    "lon": 21.02,
+    "precision": "region",
+    "radius_km": 150,
+    "source": "gazeteer_regionen"
+  },
+  "lettland,estland": {
+    "lat": 57.0,
+    "lon": 25.0,
+    "radius_km": 150,
+    "precision": "region",
+    "source": "internal"
+  },
+  "italien(apennin": {
+    "lat": 42.83,
+    "lon": 12.56,
+    "precision": "region",
+    "radius_km": 450,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "ungarn(stuhlweißenburg": {
+    "lat": 47.16,
+    "lon": 19.5,
+    "precision": "region",
+    "radius_km": 250,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "südostenkärnten": {
+    "lat": 46.7,
+    "lon": 13.8,
+    "precision": "region",
+    "radius_km": 100,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "südostenepirus,korfu": {
+    "lat": 39.62,
+    "lon": 19.92,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "hgr.süd": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "ssw": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "ilmensee,waldai-höhen": {
+    "lat": 58.2,
+    "lon": 31.3,
+    "radius_km": 60,
+    "precision": "region",
+    "source": "internal"
+  },
+  "hgr.weichsel": {
+    "lat": 51.5,
+    "lon": 21.5,
+    "radius_km": 150,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "fest.stettin": {
+    "lat": 53.428,
+    "lon": 14.553,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "transnistrien:": {
+    "lat": 45.2,
+    "lon": 13.9,
+    "radius_km": 60,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "belgien,aisne": {
+    "lat": 50.5,
+    "lon": 4.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal"
+  },
+  "donez,don": {
+    "lat": 48.0,
+    "lon": 37.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal"
+  },
+  "charkow,dnjepr": {
+    "lat": 49.99,
+    "lon": 36.23,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "oranienbaum(b.leningrad": {
+    "lat": 59.95,
+    "lon": 30.32,
+    "radius_km": 30,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "italien(volturno": {
+    "lat": 42.83,
+    "lon": 12.56,
+    "precision": "region",
+    "radius_km": 450,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "italien(nördl.rom": {
+    "lat": 42.83,
+    "lon": 12.56,
+    "precision": "region",
+    "radius_km": 450,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "italien(aprilia": {
+    "lat": 42.83,
+    "lon": 12.56,
+    "precision": "region",
+    "radius_km": 450,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "aachen,ardennen": {
+    "lat": 50.78,
+    "lon": 6.09,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "3161": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "10-": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "belgien,loire": {
+    "lat": 50.5,
+    "lon": 4.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal"
+  },
+  "westgalizien,lemberg": {
+    "lat": 49.839,
+    "lon": 24.029,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "südfrankreich(montpellier": {
+    "lat": 43.61,
+    "lon": 3.88,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "ungarn(plattensee": {
+    "lat": 47.16,
+    "lon": 19.5,
+    "precision": "region",
+    "radius_km": 250,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "555": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "709-": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "320": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "275-": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "serbien(nisch": {
+    "lat": 44.0,
+    "lon": 21.0,
+    "radius_km": 150,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "ostmark": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "168": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "schlesien(breslau": {
+    "lat": 51.107,
+    "lon": 17.038,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "belgien,frankreich": {
+    "lat": 50.5,
+    "lon": 4.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal"
+  },
+  "828": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "86-": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "87,26-": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "4517": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "ilmensee,starajarussa": {
+    "lat": 58.2,
+    "lon": 31.3,
+    "radius_km": 60,
+    "precision": "region",
+    "source": "internal"
+  },
+  "res.marburg": {
+    "lat": 50.81,
+    "lon": 8.77,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "bessarabien(jassy": {
+    "lat": 47.162,
+    "lon": 27.589,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "beskiden,slowakei": {
+    "lat": 49.5,
+    "lon": 22.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal"
+  },
+  "belgien,lille": {
+    "lat": 50.5,
+    "lon": 4.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal"
+  },
+  "serbien:": {
+    "lat": 44.0,
+    "lon": 21.0,
+    "radius_km": 150,
+    "precision": "region",
+    "source": "internal"
+  },
+  "rheinundruhr": {
+    "lat": 50.0,
+    "lon": 7.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "nordungarn": {
+    "lat": 47.16,
+    "lon": 19.5,
+    "precision": "region",
+    "radius_km": 250,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "riga,kurland": {
+    "lat": 56.946,
+    "lon": 24.106,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch"
+  },
+  "rumänienrumänien": {
+    "lat": 45.94,
+    "lon": 24.96,
+    "precision": "region",
+    "radius_km": 350,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "schlesien(schweidnitz": {
+    "lat": 51.1,
+    "lon": 17.0,
+    "precision": "region",
+    "radius_km": 120,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "heeresgruppekurland": {
+    "lat": 57.0,
+    "lon": 23.0,
+    "precision": "region",
+    "radius_km": 100,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "ssbr.2,58,225,121,sspol.,215,ssnorwegen—xxvi:": {
+    "lat": 64.5,
+    "lon": 17.5,
+    "precision": "region",
+    "radius_km": 500,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "oboberrhein": {
+    "lat": 50.0,
+    "lon": 7.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "elbe": {
+    "lat": 52.0,
+    "lon": 12.0,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal"
+  },
+  "italien(adria": {
+    "lat": 42.83,
+    "lon": 12.56,
+    "precision": "region",
+    "radius_km": 450,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "ardennen,arras,dünkirchen": {
+    "lat": 50.0,
+    "lon": 5.5,
+    "radius_km": 80,
+    "precision": "region",
+    "source": "internal"
+  },
+  "ostpreußen,kowno": {
+    "lat": 54.22,
+    "lon": 21.02,
+    "precision": "region",
+    "radius_km": 150,
+    "source": "gazeteer_regionen"
+  },
+  "befh.d.dt.truppendänemark": {
+    "lat": 56.0,
+    "lon": 10.0,
+    "radius_km": 200,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "luzk": {
+    "lat": 50.74,
+    "lon": 25.33,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "oder(glogau": {
+    "lat": 52.0,
+    "lon": 14.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "frankreich(maas": {
+    "lat": 46.23,
+    "lon": 2.21,
+    "precision": "region",
+    "radius_km": 500,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "frankreich(aisne": {
+    "lat": 49.39,
+    "lon": 3.5,
+    "radius_km": 60,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "newel,orscha": {
+    "lat": 56.01,
+    "lon": 29.94,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "oder(zur": {
+    "lat": 52.0,
+    "lon": 14.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "bde/hrüstlüneburgerheide": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "kowno,nowgorod": {
+    "lat": 58.52,
+    "lon": 31.27,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "südhannover-braunschweigbis": {
+    "lat": 52.27,
+    "lon": 10.52,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "perekop,krim": {
+    "lat": 45.0,
+    "lon": 34.0,
+    "precision": "region",
+    "radius_km": 100,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "südsteiermark": {
+    "lat": 47.5,
+    "lon": 14.5,
+    "precision": "region",
+    "radius_km": 100,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "ostfrankreich(dijon": {
+    "lat": 47.32,
+    "lon": 5.05,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "wijasma,moskau": {
+    "lat": 55.75,
+    "lon": 37.62,
+    "radius_km": 50,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "smolensk,kiew": {
+    "lat": 54.78,
+    "lon": 32.04,
+    "radius_km": 30,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "mons": {
+    "lat": 50.45,
+    "lon": 3.95,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "weichsel(baranow": {
+    "lat": 50.49,
+    "lon": 21.54,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "westkarpathen": {
+    "lat": 37.984,
+    "lon": 23.728,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "dnjestr(kischinew": {
+    "lat": 47.005,
+    "lon": 28.857,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "bug,shitomir,kiew": {
+    "lat": 51.35,
+    "lon": 23.65,
+    "radius_km": 80,
+    "precision": "region",
+    "source": "internal"
+  },
+  "don(woronesch": {
+    "lat": 51.672,
+    "lon": 39.214,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "brjansk,mogilew": {
+    "lat": 53.24,
+    "lon": 34.37,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "pripjet,narew": {
+    "lat": 52.88,
+    "lon": 22.9,
+    "radius_km": 60,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "auffrischung": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "pruth(roman": {
+    "lat": 41.894,
+    "lon": 12.482,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "schlesien(hirschberg": {
+    "lat": 50.91,
+    "lon": 15.72,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "südfrankreich(toulouse": {
+    "lat": 43.6,
+    "lon": 1.44,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "südungarn": {
+    "lat": 47.16,
+    "lon": 19.5,
+    "precision": "region",
+    "radius_km": 250,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "ungarn(gran": {
+    "lat": 47.793,
+    "lon": 18.737,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "westfrankreich(poitiers": {
+    "lat": 47.5,
+    "lon": -1.0,
+    "radius_km": 200,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "nordfrankreich(rouen": {
+    "lat": 49.44,
+    "lon": 1.1,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "südfrankreich,belfort": {
+    "lat": 44.0,
+    "lon": 4.0,
+    "precision": "region",
+    "radius_km": 250,
+    "source": "gazeteer_regionen"
+  },
+  "südwestfrankreich(dax": {
+    "lat": 47.5,
+    "lon": -1.0,
+    "radius_km": 200,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "=armeeligurien": {
+    "lat": 44.3,
+    "lon": 8.3,
+    "radius_km": 80,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "niederlande(utrecht": {
+    "lat": 52.2,
+    "lon": 5.3,
+    "radius_km": 150,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "saarpfalz(zabern": {
+    "lat": 49.3,
+    "lon": 7.1,
+    "radius_km": 60,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "ungvar(karpaten": {
+    "lat": 48.5,
+    "lon": 24.0,
+    "radius_km": 150,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "narew(ostenburg": {
+    "lat": 52.88,
+    "lon": 22.9,
+    "radius_km": 60,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "staatsstreichbudapest": {
+    "lat": 47.5,
+    "lon": 19.04,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "rumänien,bulgarien": {
+    "lat": 45.94,
+    "lon": 24.96,
+    "precision": "region",
+    "radius_km": 350,
+    "source": "gazeteer_regionen"
+  },
+  "frankreich(reims": {
+    "lat": 49.25,
+    "lon": 4.03,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal_fuzzy"
+  },
+  "umgliederungzurfest.div.kreta": {
+    "lat": 35.24,
+    "lon": 24.81,
+    "radius_km": 120,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "warschau,1945westpreußen": {
+    "lat": 52.229,
+    "lon": 21.012,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch"
+  },
+  "narew(lomza": {
+    "lat": 52.88,
+    "lon": 22.9,
+    "radius_km": 60,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "bretagne(brest": {
+    "lat": 52.093,
+    "lon": 23.689,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "donez(slawiansk": {
+    "lat": 48.0,
+    "lon": 37.5,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "donez(isjum": {
+    "lat": 49.209,
+    "lon": 37.275,
+    "precision": "stadt",
+    "radius_km": 20,
+    "source": "gazeteer_historisch_fuzzy"
+  },
+  "bretagne(quimper": {
+    "lat": 48.0,
+    "lon": -2.75,
+    "radius_km": 100,
+    "precision": "region",
+    "source": "internal_fuzzy"
+  },
+  "korps-abt": {
+    "precision": "schauplatz",
+    "source": "blacklist"
+  },
+  "norwegen(molde": {
+    "lat": 64.5,
+    "lon": 17.5,
+    "precision": "region",
+    "radius_km": 500,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "westungarn": {
+    "lat": 47.16,
+    "lon": 19.5,
+    "precision": "region",
+    "radius_km": 250,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "umgliederungostpreußen": {
+    "lat": 54.22,
+    "lon": 21.02,
+    "precision": "region",
+    "radius_km": 150,
+    "source": "gazeteer_regionen_fuzzy"
+  },
+  "saloniki:": {
+    "lat": 40.64,
+    "lon": 22.94,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "kreta:": {
+    "lat": 35.24,
+    "lon": 24.81,
+    "radius_km": 120,
+    "precision": "region",
+    "source": "internal"
+  },
+  "orscha,mogilew": {
+    "lat": 54.51,
+    "lon": 30.42,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "obojan": {
+    "lat": 51.21,
+    "lon": 36.27,
+    "radius_km": 20,
+    "precision": "stadt",
+    "source": "internal"
+  },
+  "nordfrankreich;": {
+    "lat": 50.2,
+    "lon": 2.5,
+    "precision": "region",
+    "radius_km": 200,
+    "source": "gazeteer_regionen"
+  },
+  "besatzungniederlande": {
+    "lat": 52.2,
+    "lon": 5.3,
+    "radius_km": 150,
+    "precision": "region",
+    "source": "internal_fuzzy"
   }
 }

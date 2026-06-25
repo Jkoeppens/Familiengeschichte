@@ -273,6 +273,7 @@ def test_resolve_location_belegt():
     assert result["lon"] is not None
 
 
+@pytest.mark.skip(reason="Phase C ausstehend — Koppermann nicht in DB ohne manuellen Ingest")
 def test_resolve_location_einheit():
     """Stufe 2: Kein Direktbeleg → Einheitsstandort aus Tessin über PersonJoining."""
     result = resolve_location("person_koppermann_hj_1917", "1941-07")

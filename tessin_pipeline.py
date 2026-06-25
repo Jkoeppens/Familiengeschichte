@@ -322,6 +322,11 @@ def parse_chunk(chunk: dict) -> dict:
             nums = re.findall(r'\b(\d{1,3})\b', name_raw)
             nummer = next((n for n in reversed(nums) if 15 <= int(n) <= 30), nummer)
 
+    # Pattern B: trailing Nummer aus name_raw entfernen — wird separat in 'nummer' gespeichert
+    # Nur Whitespace vor Nummer strippen, nicht Punkte (die Teil der Abkürzung sind: "Abt.20" → "Abt.")
+    if not m_hdr and nummer:
+        name_raw = re.sub(r'\s*\b' + re.escape(nummer) + r'\s*$', '', name_raw).rstrip()
+
     # WK + FStO from (WK ...) line
     wehrkreis = ''
     heimatgarnison = ''

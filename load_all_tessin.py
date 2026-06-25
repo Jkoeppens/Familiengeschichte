@@ -42,7 +42,8 @@ KNOWN_ACTOR_IDS: dict[tuple, str] = {
     ('20', 'Infanterie-Division (motorisiert)'): 'unit_20_inf_div_mot',
     ('20', 'Panzergrenadier-Division'): 'unit_20_pz_gren_div',
     ('20', 'Panzer-Division'): 'unit_20_pz_div',
-    ('20', 'Nachrichten-Abteilung'): 'unit_na20',
+    ('20', 'Nachrichten-Abteilung'): 'unit_na20',   # Langform (aus Normalisierung)
+    ('20', 'Nachrichten-Abt.'): 'unit_na20',         # Tessin-Kurzform (nach trailing-Num-Strip)
     ('90', 'Grenadier-Regiment'): 'unit_pzgrenrgt90',
     ('90', 'Panzergrenadier-Regiment'): 'unit_pzgrenrgt90',
     ('90', 'Infanterie-Regiment'): 'unit_pzgrenrgt90',
@@ -397,6 +398,49 @@ def place_for_schema(p: dict | None) -> dict | None:
 
 # ─── Actor-Builder ─────────────────────────────────────────────────────────────
 
+_UNIT_EXPANSIONS: dict[str, str] = {}
+
+def _get_unit_expansions() -> dict[str, str]:
+    global _UNIT_EXPANSIONS
+    if not _UNIT_EXPANSIONS:
+        p = Path(__file__).parent / "wast_abbreviations.json"
+        data = json.loads(p.read_text(encoding="utf-8"))
+        _UNIT_EXPANSIONS = data["kategorien"]["einheiten"]
+    return _UNIT_EXPANSIONS
+
+
+def _expand_unit_name(s: str) -> str:
+    """Ersetzt Abkürzungen: 'Nachrichten-Abt.' → 'Nachrichten-Abteilung'."""
+    exp = _get_unit_expansions()
+    for key in sorted(exp, key=len, reverse=True):
+        s = s.replace(key, exp[key])
+    return s
+
+
+def make_alt_labels(nummer: str, einheit: str) -> list[str]:
+    """Erzeugt alle Schreibvarianten für entity_linking."""
+    # Führende Nummer aus einheit strippen (Pattern A: "20.Infanterie-Division")
+    prefix = re.match(r'^\d+\.\s*', einheit)
+    body = einheit[prefix.end():] if prefix else einheit
+
+    expanded = _expand_unit_name(body)
+    pref = make_pref_label(nummer, einheit)
+
+    labels: set[str] = set()
+    if nummer:
+        labels.add(f"{body} {nummer}")        # "Nachrichten-Abt. 20"
+        labels.add(f"{nummer}. {body}")       # "20. Nachrichten-Abt."
+        labels.add(f"{expanded} {nummer}")    # "Nachrichten-Abteilung 20"  ← primärer Query-Treffer
+        labels.add(f"{nummer}. {expanded}")   # "20. Nachrichten-Abteilung"
+    else:
+        labels.add(body)
+        labels.add(expanded)
+
+    labels.discard(pref)            # pref_label nicht doppelt speichern
+    labels.discard("")
+    return sorted(l for l in labels if len(l) >= 4)
+
+
 def make_pref_label(nummer: str, einheit: str) -> str:
     if not nummer:
         return einheit
@@ -428,7 +472,7 @@ def make_actor(actor_id: str, nummer: str, einheit: str,
         "id": actor_id,
         "type": "MilitaryUnit",
         "pref_label": label,
-        "alt_labels": [],
+        "alt_labels": make_alt_labels(nummer, einheit),
         "abbr": None,
         "branch": derive_branch(einheit),
         "unit_type": derive_unit_type(einheit),
