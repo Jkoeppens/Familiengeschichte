@@ -383,7 +383,7 @@ def load_yahad_sites() -> tuple[int, int]:
         if not (-90 <= lat <= 90) or not (-180 <= lon <= 180):
             continue
 
-        event_id = f"event_yahad_{s['id']}"
+        event_id = f"event_{s['id']}"
         name     = s.get("execution_title") or s["name"]
 
         victims_raw = s.get("number_of_victims")
