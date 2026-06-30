@@ -12,6 +12,7 @@
   body { font-family: system-ui, sans-serif; background: #1a1a2e; color: #eee; }
   #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
+  /* ── Slider / Datum (oben mittig) ──────────────────────────────────────── */
   #ui {
     position: absolute;
     top: 16px; left: 50%;
@@ -34,23 +35,7 @@
   }
   #play-btn:hover { background: #2c5282; }
 
-  #legend {
-    position: absolute;
-    bottom: 30px; right: 16px;
-    background: rgba(20,20,40,0.92);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    padding: 12px 16px;
-    z-index: 10;
-    backdrop-filter: blur(6px);
-    min-width: 220px;
-  }
-  #legend h3 { font-size: 11px; color: #a0aec0; margin-bottom: 8px; letter-spacing: 0.06em; text-transform: uppercase; }
-  #legend hr { border: none; border-top: 1px solid rgba(255,255,255,0.12); margin: 8px 0; }
-  .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 12px; }
-  .legend-swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; opacity: 0.85; }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; opacity: 0.9; }
-
+  /* ── Hover-Popup ──────────────────────────────────────────────────────── */
   #popup {
     position: absolute;
     background: rgba(10,10,25,0.95);
@@ -76,21 +61,7 @@
     letter-spacing: 0.04em;
   }
 
-  #layer-toggles {
-    position: absolute;
-    top: 16px; left: 16px;
-    background: rgba(20,20,40,0.92);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    padding: 10px 14px;
-    z-index: 10;
-    backdrop-filter: blur(6px);
-    font-size: 12px;
-  }
-  #layer-toggles h3 { font-size: 11px; color: #a0aec0; margin-bottom: 7px; letter-spacing: 0.05em; text-transform: uppercase; }
-  .toggle-row { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; cursor: pointer; }
-  .toggle-row input { cursor: pointer; accent-color: #4299e1; }
-
+  /* ── Status-Bar (unten mittig) ────────────────────────────────────────── */
   #status {
     position: absolute;
     bottom: 10px; left: 50%;
@@ -104,18 +75,66 @@
     pointer-events: none;
   }
 
-  #person-ui {
+  /* ── Bio-Marker ───────────────────────────────────────────────────────── */
+  .bio-marker {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #60a5fa; border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(96,165,250,0.85);
+  }
+
+  /* ── Rechtes Panel (oben rechts) ──────────────────────────────────────── */
+  #right-panel {
     position: absolute;
     top: 16px; right: 16px;
-    background: rgba(20,20,40,0.92);
+    background: rgba(20,20,40,0.95);
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 8px;
-    padding: 10px 14px;
     z-index: 10;
     backdrop-filter: blur(6px);
-    min-width: 210px;
+    width: 290px;
   }
-  #person-ui h3 { font-size: 11px; color: #a0aec0; margin-bottom: 7px; letter-spacing: 0.05em; text-transform: uppercase; }
+  #right-panel.collapsed { border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+
+  #right-panel-header {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  #right-panel.collapsed #right-panel-header { border-bottom: none; }
+
+  .tab-btn {
+    flex: 1;
+    background: none; border: none; border-bottom: 2px solid transparent;
+    color: #718096; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 9px 4px; cursor: pointer; font-family: inherit;
+    margin-bottom: -1px;
+  }
+  .tab-btn:hover { color: #a0aec0; }
+  .tab-btn.active { color: #e2e8f0; border-bottom-color: #4299e1; }
+
+  #panel-collapse-btn {
+    background: none; border: none; border-left: 1px solid rgba(255,255,255,0.08);
+    color: #718096; font-size: 11px; cursor: pointer; padding: 0 10px;
+    flex-shrink: 0; font-family: inherit;
+  }
+  #panel-collapse-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.04); }
+
+  #panel-body {
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── Person-Tab ───────────────────────────────────────────────────────── */
+  .panel-section {
+    padding: 10px 14px;
+  }
+  .panel-section-label {
+    font-size: 10px; color: #718096; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 6px;
+  }
   #person-select {
     width: 100%; background: rgba(255,255,255,0.08); color: #fff;
     border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;
@@ -123,40 +142,16 @@
   }
   #person-select option { background: #1a1a2e; color: #fff; }
   #person-status { margin-top: 6px; font-size: 10px; color: #718096; min-height: 14px; }
-  .bio-marker {
-    width: 16px; height: 16px; border-radius: 50%;
-    background: #60a5fa; border: 3px solid #fff;
-    box-shadow: 0 0 10px rgba(96,165,250,0.85);
-  }
 
-  /* ── Wegpunkte-Panel ─────────────────────────────────────────────────── */
-  #weg-panel {
-    position: absolute;
-    bottom: 30px; left: 16px;
-    background: rgba(20,20,40,0.95);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    z-index: 10;
-    backdrop-filter: blur(6px);
-    width: 300px;
+  #weg-header {
+    padding: 6px 14px 4px;
+    font-size: 10px; color: #718096; text-transform: uppercase; letter-spacing: 0.06em;
+    border-top: 1px solid rgba(255,255,255,0.07);
   }
-  #weg-toggle {
-    width: 100%; background: none; border: none; color: #a0aec0;
-    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 9px 14px; cursor: pointer; text-align: left;
-    display: flex; align-items: center; gap: 6px;
-  }
-  #weg-toggle:hover { color: #fff; }
-  #weg-toggle .arrow { transition: transform 0.2s; display: inline-block; }
-  #weg-toggle.open .arrow { transform: rotate(90deg); }
-  #weg-list {
-    display: none;
-    max-height: 300px;
-    overflow-y: auto;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding: 6px 0;
-  }
-  #weg-list.open { display: block; }
+  #weg-header span { font-weight: 700; color: #a0aec0; }
+
+  #weg-list { padding-bottom: 6px; }
+
   .weg-item {
     padding: 7px 14px;
     font-size: 11px;
@@ -170,16 +165,16 @@
     background: rgba(96,165,250,0.12);
     border-left-color: #60a5fa;
   }
-  .weg-item .weg-datum { font-weight: 600; color: #e2e8f0; }
-  .weg-item .weg-ort   { color: #cbd5e0; }
-  .weg-item .weg-badge {
+  .weg-item .weg-datum  { font-weight: 600; color: #e2e8f0; }
+  .weg-item .weg-ort    { color: #cbd5e0; }
+  .weg-item .weg-badge  {
     display: inline-block; padding: 1px 5px; border-radius: 3px;
     font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
     vertical-align: middle; margin-left: 4px;
   }
-  .weg-item .weg-meta  { color: #718096; font-size: 10px; margin-top: 2px; }
+  .weg-item .weg-meta    { color: #718096; font-size: 10px; margin-top: 2px; }
   .weg-item .weg-einheit { color: #90cdf4; font-size: 10px; }
-  .weg-item .weg-tessin { color: #a3bffa; font-size: 10px; margin-top: 3px; }
+  .weg-item .weg-tessin  { color: #a3bffa; font-size: 10px; margin-top: 3px; }
   .weg-item .weg-tessin a { color: #7f9cf5; text-decoration: none; }
   .weg-volltext-btn {
     display: inline-block; margin-top: 4px; padding: 1px 6px;
@@ -196,12 +191,45 @@
     overflow-y: auto;
   }
   .weg-volltext.open { display: block; }
+
+  /* ── Karte-Tab ────────────────────────────────────────────────────────── */
+  .layer-group {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .layer-group:last-child { border-bottom: none; }
+
+  .layer-group-header {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12px; cursor: pointer; margin-bottom: 0;
+    user-select: none;
+  }
+  .layer-group-header input { cursor: pointer; accent-color: #4299e1; flex-shrink: 0; }
+  .layer-group-header .layer-color-dot { font-size: 11px; }
+
+  .layer-legend-title {
+    font-size: 10px; color: #a0aec0; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 6px;
+  }
+
+  .layer-legend-sub {
+    margin-top: 6px;
+    padding-left: 22px;
+  }
+
+  .legend-row {
+    display: flex; align-items: center; gap: 7px;
+    margin-bottom: 4px; font-size: 11px; color: #a0aec0;
+  }
+  .legend-swatch { width: 13px; height: 13px; border-radius: 2px; flex-shrink: 0; opacity: 0.85; }
+  .legend-dot    { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; opacity: 0.9; }
 </style>
 </head>
 <body>
 
 <div id="map"></div>
 
+<!-- Datum / Slider (oben mittig) -->
 <div id="ui">
   <h2>EUROPÄISCHE GRENZEN 1939–1945</h2>
   <div id="date-display">1939-01</div>
@@ -209,44 +237,91 @@
   <button id="play-btn">▶ Abspielen</button>
 </div>
 
-<div id="layer-toggles">
-  <h3>Layer</h3>
-  <label class="toggle-row"><input type="checkbox" id="chk-kz" checked> <span style="color:#ef4444">●</span> KZ &amp; Lager</label>
-  <label class="toggle-row"><input type="checkbox" id="chk-ghettos" checked> <span style="color:#a855f7">●</span> Ghettos</label>
-  <label class="toggle-row"><input type="checkbox" id="chk-schlachten" checked> <span style="color:#f59e0b">●</span> Schlachten</label>
-</div>
+<!-- Rechtes Panel (oben rechts) -->
+<div id="right-panel">
+  <div id="right-panel-header">
+    <button class="tab-btn" data-tab="person">Person</button>
+    <button class="tab-btn active" data-tab="karte">Karte</button>
+    <button id="panel-collapse-btn" title="Panel einklappen">◀</button>
+  </div>
+  <div id="panel-body">
 
-<div id="person-ui">
-  <h3>Person</h3>
-  <select id="person-select"><option value="">— Laden …</option></select>
-  <div id="person-status"></div>
-</div>
+    <!-- Tab: Person -->
+    <div class="tab-content" id="tab-person">
+      <div class="panel-section">
+        <div class="panel-section-label">Person auswählen</div>
+        <select id="person-select"><option value="">— Laden …</option></select>
+        <div id="person-status"></div>
+      </div>
+      <div id="weg-header"><span id="weg-count">0</span> Wegpunkte</div>
+      <div id="weg-list"></div>
+    </div>
 
-<div id="legend">
-  <h3>Belegungsstatus</h3>
-  <div class="legend-row"><div class="legend-swatch" style="background:#8B0000"></div>Achsenmächte / Belligerent</div>
-  <div class="legend-row"><div class="legend-swatch" style="background:#c0392b"></div>Deutsch besetzt / Protektorat</div>
-  <div class="legend-row"><div class="legend-swatch" style="background:#c0731a"></div>Italienisch besetzt</div>
-  <div class="legend-row"><div class="legend-swatch" style="background:#1a5276"></div>Alliierte</div>
-  <div class="legend-row"><div class="legend-swatch" style="background:#5D6D7E"></div>Sowjetunion</div>
-  <div class="legend-row"><div class="legend-swatch" style="background:#7f8c8d"></div>Neutral</div>
-  <hr>
-  <h3>Ereignisse</h3>
-  <div class="legend-row"><div class="legend-dot" style="background:#ef4444"></div>KZ / Außenlager</div>
-  <div class="legend-row"><div class="legend-dot" style="background:#7f1d1d"></div>Vernichtungslager</div>
-  <div class="legend-row"><div class="legend-dot" style="background:#a855f7"></div>Ghetto</div>
-  <div class="legend-row"><div class="legend-dot" style="background:#f59e0b"></div>Schlacht / Operation</div>
-  <hr>
-  <h3>Person</h3>
-  <div class="legend-row"><div class="legend-dot" style="background:#22c55e"></div>Weg — Primärquelle</div>
-  <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>Weg — unsicher</div>
-  <div class="legend-row"><div class="legend-dot" style="background:#60a5fa;border:2px solid #fff;width:12px;height:12px"></div>Aktueller Standort</div>
-</div>
+    <!-- Tab: Karte -->
+    <div class="tab-content active" id="tab-karte">
 
-<div id="weg-panel">
-  <button id="weg-toggle"><span class="arrow">▶</span> Wegpunkte (<span id="weg-count">0</span>)</button>
-  <div id="weg-list"></div>
-</div>
+      <!-- KZ & Lager -->
+      <div class="layer-group">
+        <label class="layer-group-header">
+          <input type="checkbox" id="chk-kz" checked>
+          <span class="layer-color-dot" style="color:#ef4444">●</span>
+          KZ &amp; Lager
+        </label>
+        <div class="layer-legend-sub">
+          <div class="legend-row"><div class="legend-dot" style="background:#7f1d1d"></div>Vernichtungslager / Sterbelager</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#b91c1c"></div>KZ / Hauptlager</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#ef4444"></div>KZ / Außenlager</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>Durchgangslager</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#f59e0b"></div>Jugendlager</div>
+        </div>
+      </div>
+
+      <!-- Ghettos -->
+      <div class="layer-group">
+        <label class="layer-group-header">
+          <input type="checkbox" id="chk-ghettos" checked>
+          <span class="layer-color-dot" style="color:#a855f7">●</span>
+          Ghettos
+        </label>
+        <div class="layer-legend-sub">
+          <div class="legend-row"><div class="legend-dot" style="background:#a855f7"></div>Ghetto</div>
+        </div>
+      </div>
+
+      <!-- Schlachten -->
+      <div class="layer-group">
+        <label class="layer-group-header">
+          <input type="checkbox" id="chk-schlachten" checked>
+          <span class="layer-color-dot" style="color:#f59e0b">●</span>
+          Schlachten &amp; Operationen
+        </label>
+        <div class="layer-legend-sub">
+          <div class="legend-row"><div class="legend-dot" style="background:#f59e0b"></div>Schlacht / Operation</div>
+        </div>
+      </div>
+
+      <!-- Grenzen (Stanford-Layer, kein Toggle — immer sichtbar) -->
+      <div class="layer-group">
+        <div class="layer-legend-title">Grenzen (Stanford-Layer)</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#8B0000"></div>Achsenmächte / Belligerent</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#c0392b"></div>Deutsch besetzt / Protektorat</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#c0731a"></div>Italienisch besetzt</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#1a5276"></div>Alliierte</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#5D6D7E"></div>Sowjetunion</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#7f8c8d"></div>Neutral</div>
+      </div>
+
+      <!-- Personenweg -->
+      <div class="layer-group">
+        <div class="layer-legend-title">Personenweg</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#22c55e"></div>Weg — Primärquelle (WASt/BA)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>Weg — erschlossen (Tessin)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#60a5fa;border:2px solid #fff;width:10px;height:10px"></div>Aktueller Standort</div>
+      </div>
+
+    </div><!-- /tab-karte -->
+  </div><!-- /panel-body -->
+</div><!-- /right-panel -->
 
 <div id="popup"></div>
 <div id="status">Lade Daten …</div>
@@ -342,13 +417,12 @@ const map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl(), 'bottom-left');
 
 // ── Biografie-State ────────────────────────────────────────────────────────
-let biografieData = [];   // [{datum, lat, lon, type, ort, certainty, einheit}]
+let biografieData = [];
 let biografieMarker = null;
 
 function updateBiografieLayer(dateStr) {
   if (!map.getSource('bio-waypoints')) return;
 
-  // Alle Waypoints als Punkte (Zukunft = transparent)
   map.getSource('bio-waypoints').setData({
     type: 'FeatureCollection',
     features: biografieData.filter(p => p.lat && p.lon).map(p => ({
@@ -418,7 +492,6 @@ const layersReady = { kz: false, ghettos: false, schlachten: false };
 map.on('load', async () => {
   const status = document.getElementById('status');
 
-  // Border-Filter sofort auf aktuellen Slider-Stand setzen
   applyDateFilter(dates[+slider.value]);
 
   try {
@@ -440,7 +513,7 @@ map.on('load', async () => {
           properties: {
             name: g.name || g.name_de || g.name_en || '—',
             ehri_id: g.ehri_id || '',
-            datum_von: '',   // EHRI-Daten haben keine Datumsangaben
+            datum_von: '',
             datum_bis: '',
             _layer: 'ghetto',
           }
@@ -466,24 +539,19 @@ map.on('load', async () => {
     };
 
     // ── KZ: properties anreichern ─────────────────────────────────────────
-    // datum_eroeffnung / datum_schliessung sind bereits in properties
-    // Sicherheitshalber leere Strings statt null
     kzRaw.features.forEach(f => {
-      f.properties.datum_eroeffnung = f.properties.datum_eroeffnung || '';
+      f.properties.datum_eroeffnung  = f.properties.datum_eroeffnung  || '';
       f.properties.datum_schliessung = f.properties.datum_schliessung || '';
       f.properties._layer = 'kz';
     });
 
-    // ── Quellen hinzufügen ─────────────────────────────────────────────────
     map.addSource('kz',        { type: 'geojson', data: kzRaw });
     map.addSource('ghettos',   { type: 'geojson', data: ghettosGeoJSON });
     map.addSource('schlachten',{ type: 'geojson', data: schlachtenGeoJSON });
 
     // ── KZ-Layer ──────────────────────────────────────────────────────────
     map.addLayer({
-      id: 'kz-circle',
-      type: 'circle',
-      source: 'kz',
+      id: 'kz-circle', type: 'circle', source: 'kz',
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 2.5, 7, 5],
         'circle-color': [
@@ -505,9 +573,7 @@ map.on('load', async () => {
 
     // ── Ghettos-Layer ──────────────────────────────────────────────────────
     map.addLayer({
-      id: 'ghettos-circle',
-      type: 'circle',
-      source: 'ghettos',
+      id: 'ghettos-circle', type: 'circle', source: 'ghettos',
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 2.5, 7, 5],
         'circle-color': '#a855f7',
@@ -519,9 +585,7 @@ map.on('load', async () => {
 
     // ── Schlachten-Layer ───────────────────────────────────────────────────
     map.addLayer({
-      id: 'schlachten-circle',
-      type: 'circle',
-      source: 'schlachten',
+      id: 'schlachten-circle', type: 'circle', source: 'schlachten',
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 4, 7, 7],
         'circle-color': '#f59e0b',
@@ -532,8 +596,6 @@ map.on('load', async () => {
     });
 
     layersReady.kz = layersReady.ghettos = layersReady.schlachten = true;
-
-    // Initiale Filteranwendung nach Datenladen
     applyDateFilter(dates[+slider.value]);
 
     // ── Biografie-Layer ────────────────────────────────────────────────────
@@ -547,28 +609,20 @@ map.on('load', async () => {
     });
 
     map.addLayer({
-      id: 'bio-trajektorie-line',
-      type: 'line',
-      source: 'bio-trajektorie',
+      id: 'bio-trajektorie-line', type: 'line', source: 'bio-trajektorie',
       paint: {
-        'line-color': '#60a5fa',
-        'line-width': 2.5,
-        'line-opacity': 0.75,
-        'line-dasharray': [3, 1.5],
+        'line-color': '#60a5fa', 'line-width': 2.5,
+        'line-opacity': 0.75, 'line-dasharray': [3, 1.5],
       }
     });
 
     map.addLayer({
-      id: 'bio-waypoints-circle',
-      type: 'circle',
-      source: 'bio-waypoints',
+      id: 'bio-waypoints-circle', type: 'circle', source: 'bio-waypoints',
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 5, 7, 9],
         'circle-color': [
           'interpolate', ['linear'], ['get', 'certainty'],
-          1, '#ef4444',
-          3, '#f97316',
-          5, '#22c55e'
+          1, '#ef4444', 3, '#f97316', 5, '#22c55e'
         ],
         'circle-opacity': ['case', ['==', ['get', 'future'], 1], 0.25, 0.9],
         'circle-stroke-width': 1.5,
@@ -624,10 +678,9 @@ map.on('load', async () => {
       const layer = props._layer;
 
       let tagColor = '#ef4444', tagText = 'KZ / Lager';
-      if (layer === 'ghetto')  { tagColor = '#a855f7'; tagText = 'Ghetto'; }
+      if (layer === 'ghetto')   { tagColor = '#a855f7'; tagText = 'Ghetto'; }
       if (layer === 'schlacht') { tagColor = '#f59e0b'; tagText = 'Schlacht'; }
       if (!layer) {
-        // Bio-Waypoint
         tagColor = '#60a5fa'; tagText = 'Personenweg';
         popup.innerHTML = `
           <span class="tag" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa44">${tagText}</span>
@@ -653,7 +706,6 @@ map.on('load', async () => {
       }
 
       const typ = props.typ || props.kategorie || '';
-
       popup.innerHTML = `
         <span class="tag" style="background:${tagColor}22;color:${tagColor};border:1px solid ${tagColor}44">${tagText}</span>
         <b>${props.name}</b>
@@ -670,9 +722,8 @@ map.on('load', async () => {
 
 // ── Datum setzen + Filter anwenden ─────────────────────────────────────────
 function applyDateFilter(d) {
-  if (!map.isStyleLoaded()) return;  // Style noch nicht bereit → abwarten
+  if (!map.isStyleLoaded()) return;
 
-  // Stanford-Grenzen
   const borderFilter = ['==', ['get', 'date'], d];
   map.setFilter('borders-fill',  borderFilter);
   map.setFilter('borders-line',  borderFilter);
@@ -680,29 +731,18 @@ function applyDateFilter(d) {
 
   if (!layersReady.kz) return;
 
-  // Monats-Anfang und -Ende für Vergleiche
   const start = d + '-01';
-  const end   = d + '-31';  // Lexikographisch sicher: '1941-06-31' > '1941-06-28'
+  const end   = d + '-31';
 
-  // KZ: Lager die in diesem Monat geöffnet waren
   map.setFilter('kz-circle', ['all',
-    ['any',
-      ['==', ['get', 'datum_eroeffnung'], ''],
-      ['<=', ['get', 'datum_eroeffnung'], end]
-    ],
-    ['any',
-      ['==', ['get', 'datum_schliessung'], ''],
-      ['>=', ['get', 'datum_schliessung'], start]
-    ]
+    ['any', ['==', ['get', 'datum_eroeffnung'], ''],  ['<=', ['get', 'datum_eroeffnung'], end]],
+    ['any', ['==', ['get', 'datum_schliessung'], ''], ['>=', ['get', 'datum_schliessung'], start]]
   ]);
 
-  // Schlachten: aktiv in diesem Monat
   map.setFilter('schlachten-circle', ['all',
     ['<=', ['get', 'datum_von'], end],
     ['>=', ['get', 'datum_bis'], start],
   ]);
-
-  // Ghettos: keine Datumsinformation → immer sichtbar (kein Filter nötig)
 }
 
 function setDate(idx) {
@@ -714,7 +754,6 @@ function setDate(idx) {
 
 slider.addEventListener('input', () => setDate(+slider.value));
 
-// Startdatum auf 1939-09 setzen (Kriegsbeginn)
 const startIdx = dates.indexOf('1939-09');
 if (startIdx >= 0) { slider.value = startIdx; setDate(startIdx); }
 
@@ -749,14 +788,8 @@ wireToggle('chk-ghettos',    'ghettos-circle');
 wireToggle('chk-schlachten', 'schlachten-circle');
 
 // ── Wegpunkte-Panel ────────────────────────────────────────────────────────
-const wegToggleBtn = document.getElementById('weg-toggle');
-const wegList      = document.getElementById('weg-list');
-const wegCount     = document.getElementById('weg-count');
-
-wegToggleBtn.addEventListener('click', () => {
-  const open = wegList.classList.toggle('open');
-  wegToggleBtn.classList.toggle('open', open);
-});
+const wegList  = document.getElementById('weg-list');
+const wegCount = document.getElementById('weg-count');
 
 function _certBadge(c) {
   if (c >= 5) return '<span class="weg-badge" style="background:#22c55e22;color:#22c55e;border:1px solid #22c55e44">direkt ●</span>';
@@ -787,9 +820,8 @@ function _sourceLabel(wp) {
     const src = cert >= 5 ? 'WASt-Karte direkt' : 'Bundesarchiv';
     return `<span style="color:#22c55e">${src}</span>`;
   }
-  // Erschlossen via Einheit
-  const viaHtml      = _tessinInfo(wp.via_unit_info,      'via');
-  const inferredHtml = _tessinInfo(wp.inferred_unit_info,  'Standort aus');
+  const viaHtml      = _tessinInfo(wp.via_unit_info,     'via');
+  const inferredHtml = _tessinInfo(wp.inferred_unit_info, 'Standort aus');
   if (viaHtml || inferredHtml) {
     return `<span style="color:#94a3b8">Erschlossen:</span>${viaHtml}${inferredHtml}`;
   }
@@ -823,10 +855,11 @@ function buildWegPanel(currentDateStr) {
 
 function updateWegPanelActive(dateStr) {
   const currentYM = dateStr ? dateStr.slice(0, 7) : '';
+  const personTabActive = document.getElementById('tab-person').classList.contains('active');
   wegList.querySelectorAll('.weg-item').forEach(el => {
     const active = el.dataset.ym === currentYM;
     el.classList.toggle('active', active);
-    if (active && wegList.classList.contains('open')) {
+    if (active && personTabActive) {
       el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
   });
@@ -840,6 +873,33 @@ loadBiografie = async function(personId) {
 };
 
 slider.addEventListener('input', () => updateWegPanelActive(dates[+slider.value]));
+
+// ── Rechtes Panel: Tabs + Collapse ────────────────────────────────────────
+const panelBody        = document.getElementById('panel-body');
+const panelCollapseBtn = document.getElementById('panel-collapse-btn');
+const rightPanel       = document.getElementById('right-panel');
+const tabBtns          = document.querySelectorAll('#right-panel .tab-btn');
+const tabContents      = document.querySelectorAll('#right-panel .tab-content');
+
+function setTab(name) {
+  tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  tabContents.forEach(t => t.classList.toggle('active', t.id === 'tab-' + name));
+}
+
+// Person-Tab wenn URL-Parameter gesetzt, sonst Karte
+if (new URLSearchParams(window.location.search).has('person_id')) {
+  setTab('person');
+}
+
+tabBtns.forEach(btn => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
+
+let panelOpen = true;
+panelCollapseBtn.addEventListener('click', () => {
+  panelOpen = !panelOpen;
+  panelBody.style.display = panelOpen ? '' : 'none';
+  panelCollapseBtn.textContent = panelOpen ? '◀' : '▶';
+  rightPanel.classList.toggle('collapsed', !panelOpen);
+});
 </script>
 </body>
 </html>
