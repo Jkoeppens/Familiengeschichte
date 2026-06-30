@@ -21,11 +21,13 @@ import urllib.request
 import urllib.parse
 from pathlib import Path
 
-DB_PATH      = Path(__file__).parent / "familiengeschichte.db"
-CACHE_FILE   = Path(__file__).parent / "gazeteer_cache.json"
-HISTORISCH   = Path(__file__).parent / "gazeteer_historisch.json"
-REGIONEN     = Path(__file__).parent / "gazeteer_regionen.json"
-UNRESOLVED   = Path(__file__).parent / "nicht_aufgeloest.json"
+_CODE_DIR    = Path(__file__).parent
+_DATA_DIR    = Path(os.environ.get('DATA_DIR', _CODE_DIR))
+DB_PATH      = _DATA_DIR / "familiengeschichte.db"
+CACHE_FILE   = _DATA_DIR / "gazeteer_cache.json"
+HISTORISCH   = _CODE_DIR / "gazeteer_historisch.json"   # read-only, im Code-Dir
+REGIONEN     = _CODE_DIR / "gazeteer_regionen.json"     # read-only, im Code-Dir
+UNRESOLVED   = _DATA_DIR / "nicht_aufgeloest.json"      # write-only log
 
 GEONAMES_USER = os.environ.get("GEONAMES_USER", "")
 

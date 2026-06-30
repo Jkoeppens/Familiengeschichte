@@ -24,9 +24,40 @@ from flask import Flask, jsonify, redirect, request, send_from_directory, sessio
 import db
 from pipeline_b import classify_pdf, ingest_bundesarchiv, ingest_wast
 
-ROOT = Path(__file__).parent
+ROOT     = Path(__file__).parent
+DATA_DIR = Path(os.environ.get('DATA_DIR', ROOT))
+
+# Große Datendateien die auf Railway im Volume liegen (DATA_DIR),
+# lokal aber neben dem Code liegen (ROOT = DATA_DIR per Default).
+_DATA_FILES = {
+    'familiengeschichte.db',
+    'stanford_borders_hires.pmtiles',
+    'kz_lager.geojson',
+    'ghettos_new.json',
+    'operationen_wk2_new.json',
+    'yahad_killing_sites_new.json',
+    'gazeteer_cache.json',
+}
 
 app = Flask(__name__)
+
+# ── Startup-Check: Pflicht-Datendateien im DATA_DIR vorhanden? ────────────────
+_REQUIRED_DATA = {
+    'familiengeschichte.db',
+    'stanford_borders_hires.pmtiles',
+    'kz_lager.geojson',
+    'ghettos_new.json',
+    'operationen_wk2_new.json',
+    'yahad_killing_sites_new.json',
+}
+_missing = [f for f in _REQUIRED_DATA if not (DATA_DIR / f).exists()]
+if _missing:
+    import sys
+    print(f"FEHLER: Folgende Datendateien fehlen in DATA_DIR={DATA_DIR}:", file=sys.stderr)
+    for f in sorted(_missing):
+        print(f"  - {f}", file=sys.stderr)
+    print("Tipp: DATA_DIR korrekt setzen oder Dateien ins Verzeichnis kopieren.", file=sys.stderr)
+    sys.exit(1)
 
 # ── Sicherheits-Konfiguration ─────────────────────────────────────────────────
 # WICHTIG: debug=False muss bei jedem öffentlichen Zugriff (ngrok o.ä.) gesetzt
@@ -220,11 +251,12 @@ def static_files(filename='person_karte.html'):
     suffix = Path(filename).suffix.lower()
     if suffix not in ALLOWED_EXTENSIONS:
         return '', 404
-    # Path-Traversal-Schutz: aufgelöster Pfad muss unter ROOT liegen
-    target = (ROOT / filename).resolve()
-    if not str(target).startswith(str(ROOT.resolve())):
+    # Datendateien aus DATA_DIR (auf Railway: Volume), Quellcode-Assets aus ROOT
+    base = DATA_DIR if filename in _DATA_FILES else ROOT
+    target = (base / filename).resolve()
+    if not str(target).startswith(str(base.resolve())):
         return '', 404
-    return send_from_directory(ROOT, filename)
+    return send_from_directory(base, filename)
 
 
 # Event-Typ → WASt-Karteikarten-Typ (für die Karte)
