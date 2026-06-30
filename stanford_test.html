@@ -297,6 +297,15 @@
         </label>
       </div>
 
+      <!-- Yahad-In Unum -->
+      <div class="layer-group">
+        <label class="layer-group-header">
+          <input type="checkbox" id="chk-yahad" checked>
+          <span class="layer-color-dot" style="color:#9f1239">●</span>
+          Erschießungsorte (Yahad-In Unum)
+        </label>
+      </div>
+
       <!-- Grenzen (Stanford-Layer, kein Toggle — immer sichtbar) -->
       <div class="layer-group">
         <div class="layer-legend-title">Grenzen (Stanford-Layer)</div>
@@ -484,7 +493,7 @@ async function loadBiografie(personId) {
 }
 
 // ── Daten laden und Layer hinzufügen ───────────────────────────────────────
-const layersReady = { kz: false, ghettos: false, schlachten: false };
+const layersReady = { kz: false, ghettos: false, schlachten: false, yahad: false };
 
 map.on('load', async () => {
   const status = document.getElementById('status');
@@ -492,10 +501,11 @@ map.on('load', async () => {
   applyDateFilter(dates[+slider.value]);
 
   try {
-    const [kzRaw, ghettosRaw, opsRaw] = await Promise.all([
+    const [kzRaw, ghettosRaw, opsRaw, yahadRaw] = await Promise.all([
       fetch('kz_lager.geojson').then(r => r.json()),
       fetch('ghettos_new.json').then(r => r.json()),
       fetch('operationen_wk2_new.json').then(r => r.json()),
+      fetch('yahad_killing_sites_new.json').then(r => r.json()),
     ]);
     status.textContent = 'Daten geladen — Layer werden gebaut …';
 
@@ -590,7 +600,40 @@ map.on('load', async () => {
       }
     });
 
-    layersReady.kz = layersReady.ghettos = layersReady.schlachten = true;
+    // ── Yahad-In Unum Erschießungsorte → GeoJSON ──────────────────────────
+    const yahadGeoJSON = {
+      type: 'FeatureCollection',
+      features: yahadRaw
+        .filter(s => s.lat && s.lon && Math.abs(s.lat) <= 90 && Math.abs(s.lon) <= 180)
+        .map(s => ({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [s.lon, s.lat] },
+          properties: {
+            name:              s.execution_title || s.name || '—',
+            country:           s.country || '',
+            number_of_victims: s.number_of_victims || '',
+            period_of_occupation: s.period_of_occupation || '',
+            portal_url:        (s.source && s.source.reference) ? s.source.reference : '',
+            _layer:            'yahad',
+          }
+        }))
+    };
+
+    map.addSource('yahad', { type: 'geojson', data: yahadGeoJSON });
+
+    // ── Yahad-Layer ────────────────────────────────────────────────────────
+    map.addLayer({
+      id: 'yahad-circle', type: 'circle', source: 'yahad',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 1, 6, 3, 9, 6],
+        'circle-color': '#9f1239',
+        'circle-opacity': ['interpolate', ['linear'], ['zoom'], 3, 0.5, 7, 0.85],
+        'circle-stroke-width': 0.5,
+        'circle-stroke-color': 'rgba(0,0,0,0.4)',
+      }
+    });
+
+    layersReady.kz = layersReady.ghettos = layersReady.schlachten = layersReady.yahad = true;
     applyDateFilter(dates[+slider.value]);
 
     // ── Biografie-Layer ────────────────────────────────────────────────────
@@ -660,7 +703,7 @@ map.on('load', async () => {
 
   // ── Hover / Popup ──────────────────────────────────────────────────────
   const popup = document.getElementById('popup');
-  const HOVER_LAYERS = ['kz-circle', 'ghettos-circle', 'schlachten-circle', 'bio-waypoints-circle'];
+  const HOVER_LAYERS = ['kz-circle', 'ghettos-circle', 'schlachten-circle', 'yahad-circle', 'bio-waypoints-circle'];
 
   HOVER_LAYERS.forEach(layerId => {
     map.on('mouseenter', layerId, () => { map.getCanvas().style.cursor = 'pointer'; });
@@ -675,6 +718,25 @@ map.on('load', async () => {
       let tagColor = '#ef4444', tagText = 'KZ / Lager';
       if (layer === 'ghetto')   { tagColor = '#a855f7'; tagText = 'Ghetto'; }
       if (layer === 'schlacht') { tagColor = '#f59e0b'; tagText = 'Schlacht'; }
+      if (layer === 'yahad') {
+        tagColor = '#9f1239'; tagText = 'Erschießungsort';
+        const p = props;
+        const linkHtml = p.portal_url
+          ? `<a href="${p.portal_url}" target="_blank" rel="noopener" style="color:#f9a8d4;font-size:11px">Yahad-In Unum →</a>`
+          : '';
+        popup.innerHTML = `
+          <span class="tag" style="background:#9f123922;color:#9f1239;border:1px solid #9f123944">${tagText}</span>
+          <b>${p.name}</b>
+          <span style="color:#a0aec0;font-size:11px">${p.country}</span><br>
+          ${p.number_of_victims ? `<span style="color:#718096;font-size:11px">Opfer: ${p.number_of_victims}</span><br>` : ''}
+          ${p.period_of_occupation ? `<span style="color:#718096;font-size:11px">Besatzung: ${p.period_of_occupation}</span><br>` : ''}
+          ${linkHtml}
+        `.trim();
+        popup.style.display = 'block';
+        popup.style.left = (e.point.x + 14) + 'px';
+        popup.style.top  = (e.point.y - 10) + 'px';
+        return;
+      }
       if (!layer) {
         tagColor = '#60a5fa'; tagText = 'Personenweg';
         popup.innerHTML = `
@@ -786,6 +848,7 @@ function wireToggle(id, layerId) {
 wireToggle('chk-kz',         'kz-circle');
 wireToggle('chk-ghettos',    'ghettos-circle');
 wireToggle('chk-schlachten', 'schlachten-circle');
+wireToggle('chk-yahad',      'yahad-circle');
 
 // ── Wegpunkte-Panel ────────────────────────────────────────────────────────
 const wegList  = document.getElementById('weg-list');
