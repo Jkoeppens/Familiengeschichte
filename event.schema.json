@@ -161,7 +161,11 @@
           "type": ["string", "null"],
           "enum": ["Vernichtungslager", "Konzentrationslager", "Arbeitslager",
                    "Durchgangslager", "Ghetto", "Sterbelager", null]
-        }
+        },
+        "kind_of_place":        { "type": ["string", "null"] },
+        "memorials":            { "type": ["string", "null"] },
+        "period_of_occupation": { "type": ["string", "null"] },
+        "witness_interview":    { "type": ["string", "null"] }
       }
     },
 
@@ -191,7 +195,8 @@
         "type": {
           "type": "string",
           "enum": ["wast", "bundesarchiv", "tessin", "drk", "brief",
-                   "ushmm", "stanford", "sekundaer", "manuell"],
+                   "ushmm", "stanford", "sekundaer", "manuell",
+                   "wikidata", "ehri", "yahad"],
           "description": "Quellentyp aus festgelegter Liste"
         },
         "certainty": {
@@ -202,7 +207,8 @@
         },
         "generated_by": {
           "type": "string",
-          "enum": ["direkt", "entity_linking", "manuell"],
+          "enum": ["direkt", "entity_linking", "manuell",
+                   "wikidata_sparql", "ehri_api", "yahad_in_unum"],
           "description": "direkt=in Quelle belegt | entity_linking=erschlossen | manuell=eingetragen"
         },
         "reference": {
