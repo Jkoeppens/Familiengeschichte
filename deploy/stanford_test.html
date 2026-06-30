@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>WWII Kriegsverlauf 1939–1945</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@3/dist/pmtiles.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #1a1a2e; color: #eee; }
+  #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+  /* ── Slider-Leiste (oben mittig) ────────────────────────────────────────── */
+  #ui {
+    position: absolute;
+    top: 16px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(20,20,40,0.92);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 0 16px 0 10px;
+    height: 38px;
+    min-width: 320px;
+    z-index: 10;
+    backdrop-filter: blur(6px);
+  }
+  #ui-play-btn {
+    background: none; border: none; color: #4299e1;
+    font-size: 15px; cursor: pointer; padding: 2px 4px; line-height: 1;
+    flex-shrink: 0;
+  }
+  #ui-play-btn:hover { color: #63b3ed; }
+  #ui-date {
+    font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 0.06em;
+    min-width: 56px; text-align: center; flex-shrink: 0;
+  }
+  #slider { flex: 1; accent-color: #4299e1; cursor: pointer; min-width: 0; }
+
+  /* ── Hover-Popup ──────────────────────────────────────────────────────── */
+  #popup {
+    position: absolute;
+    background: rgba(10,10,25,0.95);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 7px;
+    font-size: 12px;
+    pointer-events: none;
+    display: none;
+    z-index: 20;
+    max-width: 260px;
+    border: 1px solid rgba(255,255,255,0.18);
+    line-height: 1.5;
+  }
+  #popup b { font-size: 13px; display: block; margin-bottom: 2px; }
+  #popup .tag {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Status-Bar (unten mittig) ────────────────────────────────────────── */
+  #status {
+    position: absolute;
+    bottom: 10px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20,20,40,0.85);
+    color: #a0aec0;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  /* ── Bio-Marker ───────────────────────────────────────────────────────── */
+  .bio-marker {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #60a5fa; border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(96,165,250,0.85);
+  }
+
+  /* ── Rechtes Panel (oben rechts) ──────────────────────────────────────── */
+  #right-panel {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: rgba(20,20,40,0.95);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    z-index: 10;
+    backdrop-filter: blur(6px);
+    width: 290px;
+  }
+  #right-panel.collapsed { border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+
+  #right-panel-header {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  #right-panel.collapsed #right-panel-header { border-bottom: none; }
+
+  .tab-btn {
+    flex: 1;
+    background: none; border: none; border-bottom: 2px solid transparent;
+    color: #718096; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 9px 4px; cursor: pointer; font-family: inherit;
+    margin-bottom: -1px;
+  }
+  .tab-btn:hover { color: #a0aec0; }
+  .tab-btn.active { color: #e2e8f0; border-bottom-color: #4299e1; }
+
+  #panel-collapse-btn {
+    background: none; border: none; border-left: 1px solid rgba(255,255,255,0.08);
+    color: #718096; font-size: 11px; cursor: pointer; padding: 0 10px;
+    flex-shrink: 0; font-family: inherit;
+  }
+  #panel-collapse-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.04); }
+
+  #panel-body {
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── Person-Tab ───────────────────────────────────────────────────────── */
+  .panel-section {
+    padding: 10px 14px;
+  }
+  .panel-section-label {
+    font-size: 10px; color: #718096; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 6px;
+  }
+  #person-select {
+    width: 100%; background: rgba(255,255,255,0.08); color: #fff;
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;
+    padding: 4px 6px; font-size: 12px; cursor: pointer;
+  }
+  #person-select option { background: #1a1a2e; color: #fff; }
+  #person-status { margin-top: 6px; font-size: 10px; color: #718096; min-height: 14px; }
+
+  #weg-header {
+    padding: 6px 14px 4px;
+    font-size: 10px; color: #718096; text-transform: uppercase; letter-spacing: 0.06em;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  #weg-header span { font-weight: 700; color: #a0aec0; }
+
+  #weg-list { padding-bottom: 6px; }
+
+  .weg-item {
+    padding: 7px 14px;
+    font-size: 11px;
+    line-height: 1.5;
+    border-left: 3px solid transparent;
+    cursor: default;
+    transition: background 0.15s;
+  }
+  .weg-item:hover { background: rgba(255,255,255,0.05); }
+  .weg-item.active {
+    background: rgba(96,165,250,0.12);
+    border-left-color: #60a5fa;
+  }
+  .weg-item .weg-datum  { font-weight: 600; color: #e2e8f0; }
+  .weg-item .weg-ort    { color: #cbd5e0; }
+  .weg-item .weg-badge  {
+    display: inline-block; padding: 1px 5px; border-radius: 3px;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
+    vertical-align: middle; margin-left: 4px;
+  }
+  .weg-item .weg-meta    { color: #718096; font-size: 10px; margin-top: 2px; }
+  .weg-item .weg-einheit { color: #90cdf4; font-size: 10px; }
+  .weg-item .weg-tessin  { color: #a3bffa; font-size: 10px; margin-top: 3px; }
+  .weg-item .weg-tessin a { color: #7f9cf5; text-decoration: none; }
+  .weg-volltext-btn {
+    display: inline-block; margin-top: 4px; padding: 1px 6px;
+    background: rgba(99,179,237,0.12); border: 1px solid rgba(99,179,237,0.3);
+    border-radius: 3px; font-size: 9px; color: #90cdf4; cursor: pointer;
+    user-select: none;
+  }
+  .weg-volltext-btn:hover { background: rgba(99,179,237,0.22); }
+  .weg-volltext {
+    display: none; margin-top: 5px; padding: 6px 8px;
+    background: rgba(0,0,0,0.35); border-radius: 4px;
+    font-size: 9px; color: #a0aec0; line-height: 1.5;
+    white-space: pre-wrap; word-break: break-word; max-height: 140px;
+    overflow-y: auto;
+  }
+  .weg-volltext.open { display: block; }
+
+  /* ── Karte-Tab ────────────────────────────────────────────────────────── */
+  .layer-group {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .layer-group:last-child { border-bottom: none; }
+
+  .layer-group-header {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12px; cursor: pointer; margin-bottom: 0;
+    user-select: none;
+  }
+  .layer-group-header input { cursor: pointer; accent-color: #4299e1; flex-shrink: 0; }
+  .layer-group-header .layer-color-dot { font-size: 11px; }
+
+  .layer-legend-title {
+    font-size: 10px; color: #a0aec0; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 6px;
+  }
+
+  .layer-legend-sub {
+    margin-top: 6px;
+    padding-left: 22px;
+  }
+
+  .legend-row {
+    display: flex; align-items: center; gap: 7px;
+    margin-bottom: 4px; font-size: 11px; color: #a0aec0;
+  }
+  .legend-swatch { width: 13px; height: 13px; border-radius: 2px; flex-shrink: 0; opacity: 0.85; }
+  .legend-dot    { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; opacity: 0.9; }
+
+  /* ── Upload-Button ──────────────────────────────────────────────────────── */
+  #upload-btn {
+    display: flex; align-items: center; gap: 5px;
+    margin-top: 8px; width: 100%;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 4px; color: #a0aec0; font-size: 11px; font-family: inherit;
+    padding: 5px 8px; cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  #upload-btn:hover { background: rgba(255,255,255,0.13); color: #e2e8f0; }
+  #upload-btn svg { flex-shrink: 0; }
+
+  /* ── Upload-Modal ───────────────────────────────────────────────────────── */
+  #upload-modal {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(3px);
+    align-items: center; justify-content: center;
+  }
+  #upload-modal.open { display: flex; }
+
+  #upload-box {
+    background: #1a1a2e; border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px; width: 420px; max-width: 94vw;
+    padding: 22px 22px 18px; position: relative; color: #e2e8f0;
+  }
+  #upload-box h3 {
+    margin: 0 0 16px; font-size: 14px; font-weight: 600;
+    color: #e2e8f0; letter-spacing: 0.02em;
+  }
+  #upload-close {
+    position: absolute; top: 14px; right: 14px;
+    background: none; border: none; color: #718096; font-size: 16px;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px;
+    line-height: 1; font-family: inherit;
+  }
+  #upload-close:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
+
+  #upload-drop {
+    border: 2px dashed rgba(255,255,255,0.25); border-radius: 7px;
+    padding: 28px 16px; text-align: center; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    color: #718096; font-size: 12px; line-height: 1.6;
+  }
+  #upload-drop.drag-over { border-color: #4299e1; background: rgba(66,153,225,0.07); color: #90cdf4; }
+  #upload-drop svg { display: block; margin: 0 auto 8px; opacity: 0.5; }
+  #upload-file-input { display: none; }
+
+  #upload-file-list { margin-top: 10px; }
+  .upload-file-row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px; color: #a0aec0;
+  }
+  .upload-file-row:last-child { border-bottom: none; }
+  .upload-file-row svg { flex-shrink: 0; color: #fc8181; }
+  .upload-file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-file-remove {
+    background: none; border: none; color: #718096; cursor: pointer;
+    font-size: 14px; padding: 0 3px; line-height: 1; font-family: inherit;
+  }
+  .upload-file-remove:hover { color: #fc8181; }
+
+  #upload-submit {
+    margin-top: 14px; width: 100%;
+    background: #2b4c7e; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 5px; color: #e2e8f0; font-size: 12px; font-family: inherit;
+    padding: 8px 12px; cursor: pointer; transition: background 0.15s;
+  }
+  #upload-submit:hover:not(:disabled) { background: #3a6198; }
+  #upload-submit:disabled { opacity: 0.4; cursor: default; }
+
+  /* ── Status-Ansicht ─────────────────────────────────────────────────────── */
+  #upload-status-view { display: none; }
+  #upload-status-view.active { display: block; }
+
+  .upload-step {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; font-size: 12px; color: #718096;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .upload-step:last-child { border-bottom: none; }
+  .upload-step.done { color: #68d391; }
+  .upload-step.current { color: #e2e8f0; }
+  .step-icon { width: 18px; text-align: center; flex-shrink: 0; font-size: 13px; }
+
+  @keyframes _spin { to { transform: rotate(360deg); } }
+  .step-spinner {
+    display: inline-block; width: 13px; height: 13px;
+    border: 2px solid rgba(255,255,255,0.15); border-top-color: #4299e1;
+    border-radius: 50%; animation: _spin 0.7s linear infinite;
+    vertical-align: middle;
+  }
+  .upload-step-dots { letter-spacing: 3px; color: rgba(255,255,255,0.2); }
+
+  #upload-error-msg {
+    margin-top: 12px; padding: 10px 12px;
+    background: rgba(252,129,74,0.1); border: 1px solid rgba(252,129,74,0.3);
+    border-radius: 5px; color: #fc8d62; font-size: 11px; line-height: 1.5; display: none;
+  }
+  #upload-retry {
+    margin-top: 12px; width: 100%;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 5px; color: #a0aec0; font-size: 12px; font-family: inherit;
+    padding: 7px 12px; cursor: pointer; display: none;
+  }
+  #upload-retry:hover { background: rgba(255,255,255,0.13); color: #e2e8f0; }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Datum / Slider (oben mittig) -->
+<div id="ui">
+  <button id="ui-play-btn" title="Play/Pause">▶</button>
+  <span id="ui-date">1939-09</span>
+  <input type="range" id="slider" min="0" max="72" value="0" step="1">
+</div>
+
+<!-- Rechtes Panel (oben rechts) -->
+<div id="right-panel">
+  <div id="right-panel-header">
+    <button class="tab-btn" data-tab="person">Person</button>
+    <button class="tab-btn active" data-tab="karte">Karte</button>
+    <button id="panel-collapse-btn" title="Panel einklappen">◀</button>
+  </div>
+  <div id="panel-body">
+
+    <!-- Tab: Person -->
+    <div class="tab-content" id="tab-person">
+      <div class="panel-section">
+        <div class="panel-section-label">Person auswählen</div>
+        <select id="person-select"><option value="">— Laden …</option></select>
+        <div id="person-status"></div>
+        <button id="upload-btn" title="Dokumente hochladen">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 11V3M4 6l4-4 4 4"/><rect x="2" y="12" width="12" height="2" rx="1"/>
+          </svg>
+          Dateien hochladen
+        </button>
+      </div>
+      <div id="weg-header"><span id="weg-count">0</span> Wegpunkte</div>
+      <div id="weg-list"></div>
+    </div>
+
+    <!-- Tab: Karte -->
+    <div class="tab-content active" id="tab-karte">
+
+      <!-- KZ & Lager -->
+      <div class="layer-group">
+        <label class="layer-group-header">
+          <input type="checkbox" id="chk-kz" checked>
+          <span class="layer-color-dot" style="color:#ef4444">●</span>
+          KZ &amp; Lager
+        </label>
+        <div class="layer-legend-sub">
+          <div class="legend-row"><div class="legend-dot" style="background:#ef4444"></div>KZ / Außenlager</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#b91c1c"></div>Frühes KZ</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>SS-Baubrigade</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#7f1d1d"></div>Sterbelager</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#f59e0b"></div>Jugendlager</div>
+        </div>
+      </div>
+
+      <!-- Ghettos -->
+      <div class="layer-group">
+        <label class="layer-group-header">
+          <input type="checkbox" id="chk-ghettos" checked>
+          <span class="layer-color-dot" style="color:#a855f7">●</span>
+          Ghettos
+        </label>
+      </div>
+
+      <!-- Schlachten -->
+      <div class="layer-group">
+        <label class="layer-group-header">
+          <input type="checkbox" id="chk-schlachten" checked>
+          <span class="layer-color-dot" style="color:#f59e0b">●</span>
+          Schlachten &amp; Operationen
+        </label>
+      </div>
+
+      <!-- Yahad-In Unum -->
+      <div class="layer-group">
+        <label class="layer-group-header">
+          <input type="checkbox" id="chk-yahad" checked>
+          <span class="layer-color-dot" style="color:#9f1239">●</span>
+          Erschießungsorte (Yahad-In Unum)
+        </label>
+      </div>
+
+      <!-- Grenzen (Stanford-Layer, kein Toggle — immer sichtbar) -->
+      <div class="layer-group">
+        <div class="layer-legend-title">Grenzen (Stanford-Layer)</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#8B0000"></div>Achsenmächte / Belligerent</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#c0392b"></div>Deutsch besetzt / Protektorat</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#c0731a"></div>Italienisch besetzt</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#1a5276"></div>Alliierte</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#5D6D7E"></div>Sowjetunion</div>
+        <div class="legend-row"><div class="legend-swatch" style="background:#7f8c8d"></div>Neutral</div>
+      </div>
+
+      <!-- Personenweg -->
+      <div class="layer-group">
+        <div class="layer-legend-title">Personenweg</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#22c55e"></div>Weg — Primärquelle (WASt/BA)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>Weg — erschlossen (Tessin)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#60a5fa;border:2px solid #fff;width:10px;height:10px"></div>Aktueller Standort</div>
+      </div>
+
+    </div><!-- /tab-karte -->
+  </div><!-- /panel-body -->
+</div><!-- /right-panel -->
+
+<!-- ── Upload-Modal ──────────────────────────────────────────────────────── -->
+<div id="upload-modal">
+  <div id="upload-box">
+    <button id="upload-close" title="Schließen">✕</button>
+    <h3>Dokumente hochladen</h3>
+
+    <!-- Drop-Zone-Ansicht -->
+    <div id="upload-drop-view">
+      <div id="upload-drop">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        Dateien hier ablegen oder klicken zum Auswählen<br>
+        <span style="font-size:10px;opacity:0.6">WASt-Karteikarten und Bundesarchiv-Schreiben (PDF)</span>
+        <input id="upload-file-input" type="file" multiple accept="application/pdf">
+      </div>
+      <div id="upload-file-list"></div>
+      <button id="upload-submit" disabled>Hochladen und verarbeiten</button>
+    </div>
+
+    <!-- Status-Ansicht -->
+    <div id="upload-status-view">
+      <div class="upload-step" id="step-0">
+        <span class="step-icon upload-step-dots">···</span>
+        <span class="step-label">Dokumente werden gelesen</span>
+      </div>
+      <div class="upload-step" id="step-1">
+        <span class="step-icon upload-step-dots">···</span>
+        <span class="step-label">Wird verarbeitet …</span>
+      </div>
+      <div class="upload-step" id="step-2">
+        <span class="step-icon upload-step-dots">···</span>
+        <span class="step-label">Fertig</span>
+      </div>
+      <div id="upload-error-msg"></div>
+      <button id="upload-retry">↩ Erneut versuchen</button>
+    </div>
+  </div>
+</div>
+
+<div id="popup"></div>
+<div id="status">Lade Daten …</div>
+
+<script>
+// ── PMTiles-Protokoll registrieren ─────────────────────────────────────────
+const protocol = new pmtiles.Protocol();
+maplibregl.addProtocol("pmtiles", protocol.tile);
+
+// ── Datumsliste ────────────────────────────────────────────────────────────
+const dates = ["1938-02","1938-03","1938-04","1938-05","1938-06","1938-07","1938-08","1938-09","1938-10","1938-11","1938-12","1939-01","1939-02","1939-03","1939-04","1939-05","1939-06","1939-07","1939-08","1939-09","1939-10","1939-11","1939-12","1940-01","1940-02","1940-03","1940-04","1940-05","1940-06","1940-07","1940-08","1940-09","1940-10","1940-11","1940-12","1941-01","1941-02","1941-03","1941-04","1941-05","1941-06","1941-07","1941-08","1941-09","1941-10","1941-11","1941-12","1942-01","1942-02","1942-03","1942-04","1942-05","1942-06","1942-07","1942-08","1942-09","1942-10","1942-11","1942-12","1943-01","1943-02","1943-03","1943-04","1943-05","1943-06","1943-07","1943-08","1943-09","1943-10","1943-11","1943-12","1944-01","1944-02","1944-03","1944-04","1944-05","1944-06","1944-07","1944-08","1944-09","1944-10","1944-11","1944-12","1945-01","1945-02","1945-03","1945-04","1945-05"];
+const slider = document.getElementById('slider');
+slider.max = dates.length - 1;
+const uiDate = document.getElementById('ui-date');
+
+// ── Farbzuordnung (Stanford-Grenzen) ──────────────────────────────────────
+const COLOR_EXPR = [
+  "case",
+  ["all", ["==", ["get", "name"], "Soviet Union"], ["<", ["get", "date"], "1941-06"]], "#4a235a",
+  ["==", ["get", "name"], "Soviet Union"],          "#5D6D7E",
+  ["==", ["get", "name"], "Germany"],               "#8B0000",
+  ["==", ["get", "foreign_po"], "Axis"],            "#8B0000",
+  ["==", ["get", "foreign_po"], "Axis-aligned"],    "#8B0000",
+  ["==", ["get", "foreign_po"], "Belligerent"],     "#8B0000",
+  ["==", ["get", "foreign_po"], "War with Soviet Union"], "#8B0000",
+  ["==", ["get", "foreign_po"], "German-occupied"],                    "#c0392b",
+  ["==", ["get", "foreign_po"], "German Protectorate"],                "#c0392b",
+  ["==", ["get", "foreign_po"], "German,Soviet-occupied"],             "#c0392b",
+  ["==", ["get", "foreign_po"], "Axis and German-occupied"],           "#c0392b",
+  ["==", ["get", "foreign_po"], "Axis and German, Italian-occupied"],  "#c0392b",
+  ["==", ["get", "foreign_po"], "Axis, German, Italian-occupied"],     "#c0392b",
+  ["==", ["get", "foreign_po"], "German, Italian-occupied"],           "#c0392b",
+  ["==", ["get", "foreign_po"], "German, Bulgarian-occupied"],         "#c0392b",
+  ["==", ["get", "foreign_po"], "German, Italian, Bulgarian-occupied"],"#c0392b",
+  ["==", ["get", "foreign_po"], "Romanian-occupied"],                  "#c0392b",
+  ["==", ["get", "foreign_po"], "Italian Protectorate"],  "#c0731a",
+  ["==", ["get", "foreign_po"], "Italian-occupied"],      "#c0731a",
+  ["==", ["get", "foreign_po"], "Allies"],          "#1a5276",
+  ["==", ["get", "foreign_po"], "Allied"],          "#1a5276",
+  ["==", ["get", "foreign_po"], "Allied-occupied"], "#1a5276",
+  ["==", ["get", "foreign_po"], "Soviet-occupied"], "#5D6D7E",
+  ["==", ["get", "foreign_po"], "Neutral"],         "#7f8c8d",
+  "#bdc3c7"
+];
+
+// ── Karte initialisieren ───────────────────────────────────────────────────
+const map = new maplibregl.Map({
+  container: 'map',
+  style: {
+    version: 8,
+    glyphs: "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+    sources: {
+      'osm-bg': {
+        type: 'raster',
+        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+        tileSize: 256,
+        attribution: '© OpenStreetMap',
+        maxzoom: 19
+      },
+      'stanford': {
+        type: 'vector',
+        url: 'pmtiles://stanford_borders_hires.pmtiles',
+        attribution: 'Stanford WWII Borders'
+      }
+    },
+    layers: [
+      { id: 'osm-background', type: 'raster', source: 'osm-bg', paint: { 'raster-opacity': 0.25 } },
+      {
+        id: 'borders-fill', type: 'fill', source: 'stanford',
+        'source-layer': 'stanford_combined_hires',
+        filter: ['==', ['get', 'date'], dates[0]],
+        paint: { 'fill-color': COLOR_EXPR, 'fill-opacity': 0.55 }
+      },
+      {
+        id: 'borders-line', type: 'line', source: 'stanford',
+        'source-layer': 'stanford_combined_hires',
+        filter: ['==', ['get', 'date'], dates[0]],
+        paint: { 'line-color': '#ffffff', 'line-width': 0.6, 'line-opacity': 0.4 }
+      },
+      {
+        id: 'borders-label', type: 'symbol', source: 'stanford',
+        'source-layer': 'stanford_combined_hires',
+        filter: ['==', ['get', 'date'], dates[0]],
+        layout: { 'visibility': 'none' },
+        paint: {}
+      }
+    ]
+  },
+  center: [22, 50],
+  zoom: 4.2
+});
+
+map.addControl(new maplibregl.NavigationControl(), 'bottom-left');
+
+// ── Biografie-State ────────────────────────────────────────────────────────
+let biografieData = [];
+let biografieMarker = null;
+
+function updateBiografieLayer(dateStr) {
+  if (!map.getSource('bio-waypoints')) return;
+
+  map.getSource('bio-waypoints').setData({
+    type: 'FeatureCollection',
+    features: biografieData.filter(p => p.lat && p.lon).map(p => ({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
+      properties: {
+        datum:     p.datum || '',
+        ort:       p.ort   || '—',
+        typ:       p.type  || '',
+        certainty: p.certainty || 3,
+        einheit:   p.einheit   || '',
+        future:    (p.datum && p.datum.slice(0, 7) > dateStr) ? 1 : 0,
+      }
+    }))
+  });
+
+  // Trajektorie: Linie bis zum aktuellen Datum, chronologisch sortiert
+  const bisJetzt = biografieData
+    .filter(p => p.lat && p.lon && p.datum && p.datum.slice(0, 7) <= dateStr)
+    .sort((a, b) => a.datum.localeCompare(b.datum));
+  const coords = bisJetzt.map(p => [p.lon, p.lat]);
+  map.getSource('bio-trajektorie').setData({
+    type: 'Feature',
+    geometry: coords.length >= 2
+      ? { type: 'LineString', coordinates: coords }
+      : { type: 'LineString', coordinates: [] },
+    properties: {}
+  });
+
+  // Aktueller Standort: letzter Wegpunkt bis jetzt
+  const last = bisJetzt.at(-1);
+  if (last) {
+    if (!biografieMarker) {
+      const el = document.createElement('div');
+      el.className = 'bio-marker';
+      biografieMarker = new maplibregl.Marker({ element: el });
+    }
+    biografieMarker.setLngLat([last.lon, last.lat]).addTo(map);
+  } else if (biografieMarker) {
+    biografieMarker.remove();
+    biografieMarker = null;
+  }
+}
+
+async function loadBiografie(personId) {
+  const status = document.getElementById('person-status');
+  biografieData = [];
+  updateBiografieLayer(dates[+slider.value]);
+  if (!personId) { status.textContent = ''; return; }
+  status.textContent = 'Lade …';
+  try {
+    const r = await fetch(`/api/person/${encodeURIComponent(personId)}/weg`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    biografieData = await r.json();
+    const n = biografieData.filter(p => p.lat).length;
+    status.textContent = `${n} Wegpunkt${n !== 1 ? 'e' : ''}`;
+    updateBiografieLayer(dates[+slider.value]);
+  } catch (e) {
+    status.textContent = 'Fehler beim Laden';
+    console.error(e);
+  }
+}
+
+// ── Daten laden und Layer hinzufügen ───────────────────────────────────────
+const layersReady = { kz: false, ghettos: false, schlachten: false, yahad: false };
+
+map.on('load', async () => {
+  const status = document.getElementById('status');
+
+  applyDateFilter(dates[+slider.value]);
+
+  try {
+    const [kzRaw, ghettosRaw, opsRaw, yahadRaw] = await Promise.all([
+      fetch('kz_lager.geojson').then(r => r.json()),
+      fetch('ghettos_new.json').then(r => r.json()),
+      fetch('operationen_wk2_new.json').then(r => r.json()),
+      fetch('yahad_killing_sites_new.json').then(r => r.json()),
+    ]);
+    status.textContent = 'Daten geladen — Layer werden gebaut …';
+
+    // ── Ghettos → GeoJSON ─────────────────────────────────────────────────
+    const ghettosGeoJSON = {
+      type: 'FeatureCollection',
+      features: ghettosRaw
+        .filter(g => g.lat && g.lon)
+        .map(g => ({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [g.lon, g.lat] },
+          properties: {
+            name: g.name || g.name_de || g.name_en || '—',
+            ehri_id: g.ehri_id || '',
+            datum_von: '',
+            datum_bis: '',
+            _layer: 'ghetto',
+          }
+        }))
+    };
+
+    // ── Schlachten → GeoJSON (nur datierte) ───────────────────────────────
+    const schlachtenGeoJSON = {
+      type: 'FeatureCollection',
+      features: opsRaw
+        .filter(o => o.lat && o.lon && o.datum_von && o.datum_von !== '')
+        .map(o => ({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [o.lon, o.lat] },
+          properties: {
+            name: o.name || '—',
+            datum_von: o.datum_von || '',
+            datum_bis: o.datum_bis || o.datum_von || '',
+            wikidata_id: o.wikidata_id || '',
+            _layer: 'schlacht',
+          }
+        }))
+    };
+
+    // ── KZ: properties anreichern ─────────────────────────────────────────
+    kzRaw.features.forEach(f => {
+      f.properties.datum_eroeffnung  = f.properties.datum_eroeffnung  || '';
+      f.properties.datum_schliessung = f.properties.datum_schliessung || '';
+      f.properties._layer = 'kz';
+    });
+
+    map.addSource('kz',        { type: 'geojson', data: kzRaw });
+    map.addSource('ghettos',   { type: 'geojson', data: ghettosGeoJSON });
+    map.addSource('schlachten',{ type: 'geojson', data: schlachtenGeoJSON });
+
+    // ── KZ-Layer ──────────────────────────────────────────────────────────
+    map.addLayer({
+      id: 'kz-circle', type: 'circle', source: 'kz',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 2.5, 7, 5],
+        'circle-color': [
+          'match', ['get', 'typ'],
+          'KZ / Außenlager', '#ef4444',
+          'Frühes KZ',       '#b91c1c',  // Errichtungsphase 1933–1937 — historisch zu prüfen
+          'SS-Baubrigade',   '#f97316',  // Mobile Bautrupps der SS im Krieg — historisch zu prüfen
+          'Sterbelager',     '#7f1d1d',
+          'Jugendlager',     '#f59e0b',
+          '#ef4444'
+        ],
+        'circle-opacity': 0.85,
+        'circle-stroke-width': 0.5,
+        'circle-stroke-color': 'rgba(0,0,0,0.4)',
+      }
+    });
+
+    // ── Ghettos-Layer ──────────────────────────────────────────────────────
+    map.addLayer({
+      id: 'ghettos-circle', type: 'circle', source: 'ghettos',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 2.5, 7, 5],
+        'circle-color': '#a855f7',
+        'circle-opacity': 0.75,
+        'circle-stroke-width': 0.5,
+        'circle-stroke-color': 'rgba(0,0,0,0.4)',
+      }
+    });
+
+    // ── Schlachten-Layer ───────────────────────────────────────────────────
+    map.addLayer({
+      id: 'schlachten-circle', type: 'circle', source: 'schlachten',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 4, 7, 7],
+        'circle-color': '#f59e0b',
+        'circle-opacity': 0.9,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': 'rgba(0,0,0,0.5)',
+      }
+    });
+
+    // ── Yahad-In Unum Erschießungsorte → GeoJSON ──────────────────────────
+    const yahadGeoJSON = {
+      type: 'FeatureCollection',
+      features: yahadRaw
+        .filter(s => s.lat && s.lon && Math.abs(s.lat) <= 90 && Math.abs(s.lon) <= 180)
+        .map(s => ({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [s.lon, s.lat] },
+          properties: {
+            name:              s.execution_title || s.name || '—',
+            country:           s.country || '',
+            number_of_victims: s.number_of_victims || '',
+            period_of_occupation: s.period_of_occupation || '',
+            portal_url:        (s.source && s.source.reference) ? s.source.reference : '',
+            occ_begin:         s.occ_begin || '',
+            occ_end:           s.occ_end   || '',
+            _layer:            'yahad',
+          }
+        }))
+    };
+
+    map.addSource('yahad', { type: 'geojson', data: yahadGeoJSON });
+
+    // ── Yahad-Layer ────────────────────────────────────────────────────────
+    map.addLayer({
+      id: 'yahad-circle', type: 'circle', source: 'yahad',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 1, 6, 3, 9, 6],
+        'circle-color': '#9f1239',
+        'circle-opacity': ['interpolate', ['linear'], ['zoom'], 3, 0.5, 7, 0.85],
+        'circle-stroke-width': 0.5,
+        'circle-stroke-color': 'rgba(0,0,0,0.4)',
+      }
+    });
+
+    layersReady.kz = layersReady.ghettos = layersReady.schlachten = layersReady.yahad = true;
+    applyDateFilter(dates[+slider.value]);
+
+    // ── Biografie-Layer ────────────────────────────────────────────────────
+    map.addSource('bio-waypoints', {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: [] }
+    });
+    map.addSource('bio-trajektorie', {
+      type: 'geojson',
+      data: { type: 'Feature', geometry: { type: 'LineString', coordinates: [] }, properties: {} }
+    });
+
+    map.addLayer({
+      id: 'bio-trajektorie-line', type: 'line', source: 'bio-trajektorie',
+      paint: {
+        'line-color': '#60a5fa', 'line-width': 2.5,
+        'line-opacity': 0.75, 'line-dasharray': [3, 1.5],
+      }
+    });
+
+    map.addLayer({
+      id: 'bio-waypoints-circle', type: 'circle', source: 'bio-waypoints',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 5, 7, 9],
+        'circle-color': [
+          'interpolate', ['linear'], ['get', 'certainty'],
+          1, '#ef4444', 3, '#f97316', 5, '#22c55e'
+        ],
+        'circle-opacity': ['case', ['==', ['get', 'future'], 1], 0.25, 0.9],
+        'circle-stroke-width': 1.5,
+        'circle-stroke-color': '#fff',
+        'circle-stroke-opacity': ['case', ['==', ['get', 'future'], 1], 0.15, 0.9],
+      }
+    });
+
+    // ── Personen-Dropdown befüllen ─────────────────────────────────────────
+    const personSelect = document.getElementById('person-select');
+    try {
+      const personsResp = await fetch('/api/persons');
+      const persons = await personsResp.json();
+      personSelect.innerHTML = '';
+      persons.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.name;
+        personSelect.appendChild(opt);
+      });
+      const urlPersonId = new URLSearchParams(window.location.search).get('person_id');
+      if (urlPersonId) personSelect.value = urlPersonId;
+      await loadBiografie(personSelect.value);
+    } catch (e) {
+      console.error('Personen-Dropdown:', e);
+    }
+
+    personSelect.addEventListener('change', () => loadBiografie(personSelect.value));
+
+    const kzN = kzRaw.features.length;
+    const ghN = ghettosGeoJSON.features.length;
+    const scN = schlachtenGeoJSON.features.length;
+    status.textContent = `${kzN} KZ/Lager · ${ghN} Ghettos · ${scN} datierte Schlachten`;
+    setTimeout(() => { status.style.display = 'none'; }, 4000);
+
+  } catch (err) {
+    status.textContent = `Fehler: ${err.message}`;
+    console.error(err);
+  }
+
+  // ── Hover / Popup ──────────────────────────────────────────────────────
+  const popup = document.getElementById('popup');
+  const HOVER_LAYERS = ['kz-circle', 'ghettos-circle', 'schlachten-circle', 'yahad-circle', 'bio-waypoints-circle'];
+
+  HOVER_LAYERS.forEach(layerId => {
+    map.on('mouseenter', layerId, () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', layerId, () => {
+      map.getCanvas().style.cursor = '';
+      popup.style.display = 'none';
+    });
+    map.on('mousemove', layerId, e => {
+      const props = e.features[0].properties;
+      const layer = props._layer;
+
+      let tagColor = '#ef4444', tagText = 'KZ / Lager';
+      if (layer === 'ghetto')   { tagColor = '#a855f7'; tagText = 'Ghetto'; }
+      if (layer === 'schlacht') { tagColor = '#f59e0b'; tagText = 'Schlacht'; }
+      if (layer === 'yahad') {
+        tagColor = '#9f1239'; tagText = 'Erschießungsort';
+        const p = props;
+        const linkHtml = p.portal_url
+          ? `<a href="${p.portal_url}" target="_blank" rel="noopener" style="color:#f9a8d4;font-size:11px">Yahad-In Unum →</a>`
+          : '';
+        popup.innerHTML = `
+          <span class="tag" style="background:#9f123922;color:#9f1239;border:1px solid #9f123944">${tagText}</span>
+          <b>${p.name}</b>
+          <span style="color:#a0aec0;font-size:11px">${p.country}</span><br>
+          ${p.number_of_victims ? `<span style="color:#718096;font-size:11px">Opfer: ${p.number_of_victims}</span><br>` : ''}
+          ${p.period_of_occupation ? `<span style="color:#718096;font-size:11px">Besatzung: ${p.period_of_occupation}</span><br>` : ''}
+          ${linkHtml}
+        `.trim();
+        popup.style.display = 'block';
+        popup.style.left = (e.point.x + 14) + 'px';
+        popup.style.top  = (e.point.y - 10) + 'px';
+        return;
+      }
+      if (!layer) {
+        tagColor = '#60a5fa'; tagText = 'Personenweg';
+        popup.innerHTML = `
+          <span class="tag" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa44">${tagText}</span>
+          <b>${props.ort}</b>
+          ${props.einheit ? `<span style="color:#a0aec0;font-size:11px">${props.einheit}</span><br>` : ''}
+          <span style="color:#718096;font-size:11px">${props.datum} · Certainty ${props.certainty}/5</span>
+        `.trim();
+        popup.style.display = 'block';
+        popup.style.left = (e.point.x + 14) + 'px';
+        popup.style.top  = (e.point.y - 10) + 'px';
+        return;
+      }
+
+      let dateStr = '';
+      if (props.datum_von && props.datum_von !== '') {
+        dateStr = props.datum_von === props.datum_bis
+          ? props.datum_von
+          : `${props.datum_von} – ${props.datum_bis}`;
+      } else if (props.datum_eroeffnung) {
+        const oe = props.datum_eroeffnung || '';
+        const cl = props.datum_schliessung || 'offen';
+        dateStr = oe ? `${oe} – ${cl}` : '';
+      }
+
+      const typ = props.typ || props.kategorie || '';
+      popup.innerHTML = `
+        <span class="tag" style="background:${tagColor}22;color:${tagColor};border:1px solid ${tagColor}44">${tagText}</span>
+        <b>${props.name}</b>
+        ${typ ? `<span style="color:#a0aec0;font-size:11px">${typ}</span><br>` : ''}
+        ${dateStr ? `<span style="color:#718096;font-size:11px">${dateStr}</span>` : ''}
+      `.trim();
+
+      popup.style.display = 'block';
+      popup.style.left = (e.point.x + 14) + 'px';
+      popup.style.top  = (e.point.y - 10) + 'px';
+    });
+  });
+});
+
+// ── Datum setzen + Filter anwenden ─────────────────────────────────────────
+function applyDateFilter(d) {
+  if (!map.isStyleLoaded()) return;
+
+  const borderFilter = ['==', ['get', 'date'], d];
+  map.setFilter('borders-fill',  borderFilter);
+  map.setFilter('borders-line',  borderFilter);
+  map.setFilter('borders-label', borderFilter);
+
+  if (!layersReady.kz) return;
+
+  const start = d + '-01';
+  const end   = d + '-31';
+
+  map.setFilter('kz-circle', ['all',
+    ['any', ['==', ['get', 'datum_eroeffnung'], ''],  ['<=', ['get', 'datum_eroeffnung'], end]],
+    ['any', ['==', ['get', 'datum_schliessung'], ''], ['>=', ['get', 'datum_schliessung'], start]]
+  ]);
+
+  map.setFilter('schlachten-circle', ['all',
+    ['<=', ['get', 'datum_von'], end],
+    ['>=', ['get', 'datum_bis'], start],
+  ]);
+
+  map.setFilter('yahad-circle', ['all',
+    ['any', ['==', ['get', 'occ_begin'], ''], ['<=', ['get', 'occ_begin'], end]],
+    ['any', ['==', ['get', 'occ_end'],   ''], ['>=', ['get', 'occ_end'],   start]],
+  ]);
+}
+
+function setDate(idx) {
+  const d = dates[idx];
+  uiDate.textContent = d;
+  applyDateFilter(d);
+  updateBiografieLayer(d);
+}
+
+slider.addEventListener('input', () => setDate(+slider.value));
+
+const startIdx = dates.indexOf('1939-09');
+if (startIdx >= 0) { slider.value = startIdx; setDate(startIdx); }
+
+// ── Autoplay ───────────────────────────────────────────────────────────────
+let playing = false, timer = null;
+const playBtn = document.getElementById('ui-play-btn');
+
+function _syncPlayIcons() {
+  playBtn.textContent = playing ? '⏸' : '▶';
+}
+
+playBtn.addEventListener('click', () => {
+  playing = !playing;
+  _syncPlayIcons();
+  if (playing) {
+    timer = setInterval(() => {
+      let v = +slider.value + 1;
+      if (v >= dates.length) { v = dates.indexOf('1939-09') || 0; }
+      slider.value = v;
+      setDate(v);
+    }, 600);
+  } else {
+    clearInterval(timer);
+  }
+  _syncPlayIcons();
+});
+
+// ── Layer-Toggles ──────────────────────────────────────────────────────────
+function wireToggle(id, layerId) {
+  document.getElementById(id).addEventListener('change', e => {
+    if (!layersReady.kz) return;
+    map.setLayoutProperty(layerId, 'visibility', e.target.checked ? 'visible' : 'none');
+  });
+}
+wireToggle('chk-kz',         'kz-circle');
+wireToggle('chk-ghettos',    'ghettos-circle');
+wireToggle('chk-schlachten', 'schlachten-circle');
+wireToggle('chk-yahad',      'yahad-circle');
+
+// ── Wegpunkte-Panel ────────────────────────────────────────────────────────
+const wegList  = document.getElementById('weg-list');
+const wegCount = document.getElementById('weg-count');
+
+function _certBadge(c) {
+  if (c >= 5) return '<span class="weg-badge" style="background:#22c55e22;color:#22c55e;border:1px solid #22c55e44">direkt ●</span>';
+  if (c >= 3) return '<span class="weg-badge" style="background:#f9731622;color:#f97316;border:1px solid #f9731644">mittel ●</span>';
+  return '<span class="weg-badge" style="background:#94a3b822;color:#94a3b8;border:1px solid #94a3b844">erschlossen ●</span>';
+}
+
+function _volltextBlock(uid, rawText) {
+  if (!rawText) return '';
+  const safe = rawText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<span class="weg-volltext-btn" onclick="
+    var el=this.nextElementSibling;
+    var open=el.classList.toggle('open');
+    this.textContent=open?'▼ Volltext':'▶ Volltext';
+  ">▶ Volltext</span><div class="weg-volltext">${safe}</div>`;
+}
+
+function _tessinInfo(info, label) {
+  if (!info) return '';
+  const ref = info.tessin_ref || (info.tessin_band ? `Tessin Bd. ${info.tessin_band}` : '');
+  const vt  = _volltextBlock(info.id, info.raw_text);
+  return `<div class="weg-tessin">${label}: <b>${info.pref_label || info.id}</b>${ref ? ' — ' + ref : ''}</div>${vt}`;
+}
+
+function _sourceLabel(wp) {
+  const cert = wp.certainty || 0;
+  if (!wp.inferred) {
+    const src = cert >= 5 ? 'WASt-Karte direkt' : 'Bundesarchiv';
+    return `<span style="color:#22c55e">${src}</span>`;
+  }
+  const viaHtml      = _tessinInfo(wp.via_unit_info,     'via');
+  const inferredHtml = _tessinInfo(wp.inferred_unit_info, 'Standort aus');
+  if (viaHtml || inferredHtml) {
+    return `<span style="color:#94a3b8">Erschlossen:</span>${viaHtml}${inferredHtml}`;
+  }
+  return '<span style="color:#94a3b8">Bundesarchiv → Tessin erschlossen</span>';
+}
+
+function buildWegPanel(currentDateStr) {
+  const withGeo = biografieData.filter(p => p.lat && p.lon);
+  wegCount.textContent = withGeo.length;
+
+  const currentYM = currentDateStr ? currentDateStr.slice(0, 7) : '';
+
+  wegList.innerHTML = withGeo.map((wp, i) => {
+    const wpYM = (wp.datum || '').slice(0, 7);
+    const isActive = wpYM === currentYM;
+    const einheitHtml = wp.einheit
+      ? `<div class="weg-einheit">⬦ ${wp.einheit}</div>`
+      : '';
+    return `
+      <div class="weg-item${isActive ? ' active' : ''}" data-idx="${i}" data-ym="${wpYM}">
+        <div>
+          <span class="weg-datum">${wp.datum || '—'}</span>
+          ${_certBadge(wp.certainty)}
+        </div>
+        <div class="weg-ort">${wp.ort || '—'}</div>
+        ${einheitHtml}
+        <div class="weg-meta">${_sourceLabel(wp)}</div>
+      </div>`;
+  }).join('');
+}
+
+function updateWegPanelActive(dateStr) {
+  const currentYM = dateStr ? dateStr.slice(0, 7) : '';
+  const personTabActive = document.getElementById('tab-person').classList.contains('active');
+  wegList.querySelectorAll('.weg-item').forEach(el => {
+    const active = el.dataset.ym === currentYM;
+    el.classList.toggle('active', active);
+    if (active && personTabActive) {
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  });
+}
+
+// Panel nach Laden neu aufbauen, bei Slider nur aktiven Punkt aktualisieren
+const _origLoadBiografie = loadBiografie;
+loadBiografie = async function(personId) {
+  await _origLoadBiografie(personId);
+  buildWegPanel(dates[+slider.value]);
+};
+
+slider.addEventListener('input', () => updateWegPanelActive(dates[+slider.value]));
+
+// ── Rechtes Panel: Tabs + Collapse ────────────────────────────────────────
+const panelBody        = document.getElementById('panel-body');
+const panelCollapseBtn = document.getElementById('panel-collapse-btn');
+const rightPanel       = document.getElementById('right-panel');
+const tabBtns          = document.querySelectorAll('#right-panel .tab-btn');
+const tabContents      = document.querySelectorAll('#right-panel .tab-content');
+
+function setTab(name) {
+  tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  tabContents.forEach(t => t.classList.toggle('active', t.id === 'tab-' + name));
+}
+
+// Person-Tab wenn URL-Parameter gesetzt, sonst Karte
+if (new URLSearchParams(window.location.search).has('person_id')) {
+  setTab('person');
+}
+
+tabBtns.forEach(btn => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
+
+let panelOpen = true;
+panelCollapseBtn.addEventListener('click', () => {
+  panelOpen = !panelOpen;
+  panelBody.style.display = panelOpen ? '' : 'none';
+  panelCollapseBtn.textContent = panelOpen ? '◀' : '▶';
+  rightPanel.classList.toggle('collapsed', !panelOpen);
+});
+
+// ── Upload-Modal ────────────────────────────────────────────────────────────
+
+(function () {
+  const modal       = document.getElementById('upload-modal');
+  const box         = document.getElementById('upload-box');
+  const closeBtn    = document.getElementById('upload-close');
+  const dropZone    = document.getElementById('upload-drop');
+  const fileInput   = document.getElementById('upload-file-input');
+  const fileList    = document.getElementById('upload-file-list');
+  const submitBtn   = document.getElementById('upload-submit');
+  const dropView    = document.getElementById('upload-drop-view');
+  const statusView  = document.getElementById('upload-status-view');
+  const errorMsg    = document.getElementById('upload-error-msg');
+  const retryBtn    = document.getElementById('upload-retry');
+  const uploadBtn   = document.getElementById('upload-btn');
+
+  // Step-Labels die der Server schickt → Step-Index (0,1,2)
+  const STEP_MAP = {
+    'Dokumente werden gelesen':     0,
+    'WASt-Karte wird ausgelesen':   1,
+    'Einheiten werden zugeordnet':  1,
+    'Fertig':                       2,
+  };
+
+  let selectedFiles = [];
+  let pollTimer = null;
+
+  // ── Öffnen / Schließen ────────────────────────────────────────────────────
+
+  function openModal() {
+    showDropView();
+    modal.classList.add('open');
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  }
+
+  uploadBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  // ── Drop-Zone ─────────────────────────────────────────────────────────────
+
+  dropZone.addEventListener('click', () => fileInput.click());
+
+  dropZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    dropZone.classList.add('drag-over');
+  });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    addFiles([...e.dataTransfer.files]);
+  });
+
+  fileInput.addEventListener('change', () => {
+    addFiles([...fileInput.files]);
+    fileInput.value = '';
+  });
+
+  function addFiles(newFiles) {
+    newFiles.forEach(f => {
+      if (f.type === 'application/pdf' && !selectedFiles.some(x => x.name === f.name))
+        selectedFiles.push(f);
+    });
+    renderFileList();
+  }
+
+  function renderFileList() {
+    fileList.innerHTML = '';
+    selectedFiles.forEach((f, i) => {
+      const row = document.createElement('div');
+      row.className = 'upload-file-row';
+      row.innerHTML = `
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="color:#fc8181;opacity:.7">
+          <path d="M4 0h8l4 4v12H0V0h4zm0 1v3H1v11h14V5h-3V1H4zm1 6h6v1H5V7zm0 2h6v1H5V9zm0 2h4v1H5v-1z"/>
+        </svg>
+        <span class="upload-file-name">${f.name}</span>
+        <button class="upload-file-remove" data-i="${i}" title="Entfernen">✕</button>`;
+      fileList.appendChild(row);
+    });
+    fileList.querySelectorAll('.upload-file-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedFiles.splice(+btn.dataset.i, 1);
+        renderFileList();
+      });
+    });
+    submitBtn.disabled = selectedFiles.length === 0;
+  }
+
+  // ── Ansichten umschalten ──────────────────────────────────────────────────
+
+  function showDropView() {
+    selectedFiles = [];
+    renderFileList();
+    dropView.style.display = '';
+    statusView.classList.remove('active');
+    errorMsg.style.display = 'none';
+    retryBtn.style.display = 'none';
+    resetSteps();
+  }
+
+  function showStatusView() {
+    dropView.style.display = 'none';
+    statusView.classList.add('active');
+  }
+
+  // ── Schritte rendern ──────────────────────────────────────────────────────
+
+  function resetSteps() {
+    [0, 1, 2].forEach(i => {
+      const el = document.getElementById(`step-${i}`);
+      el.className = 'upload-step';
+      el.querySelector('.step-icon').innerHTML = '<span class="upload-step-dots">···</span>';
+      if (i === 1) el.querySelector('.step-label').textContent = 'Wird verarbeitet …';
+    });
+  }
+
+  function updateSteps(step) {
+    const current = STEP_MAP[step] ?? 1;
+    [0, 1, 2].forEach(i => {
+      const el = document.getElementById(`step-${i}`);
+      const icon = el.querySelector('.step-icon');
+      const label = el.querySelector('.step-label');
+      if (i < current) {
+        el.className = 'upload-step done';
+        icon.innerHTML = '✓';
+      } else if (i === current) {
+        el.className = 'upload-step current';
+        icon.innerHTML = '<span class="step-spinner"></span>';
+        // Mittleres Label dynamisch anpassen
+        if (i === 1 && step !== 'Dokumente werden gelesen' && step !== 'Fertig')
+          label.textContent = step;
+      } else {
+        el.className = 'upload-step';
+        icon.innerHTML = '<span class="upload-step-dots">···</span>';
+      }
+    });
+  }
+
+  function markDone() {
+    [0, 1, 2].forEach(i => {
+      const el = document.getElementById(`step-${i}`);
+      el.className = 'upload-step done';
+      el.querySelector('.step-icon').innerHTML = '✓';
+    });
+  }
+
+  // ── Hochladen ─────────────────────────────────────────────────────────────
+
+  submitBtn.addEventListener('click', async () => {
+    if (selectedFiles.length === 0) return;
+    showStatusView();
+    updateSteps('Dokumente werden gelesen');
+
+    const fd = new FormData();
+    selectedFiles.forEach(f => fd.append('files[]', f));
+
+    let jobId;
+    try {
+      const r = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await r.json();
+      if (data.error) throw new Error(data.error);
+      jobId = data.job_id;
+    } catch (e) {
+      showError(e.message);
+      return;
+    }
+
+    pollTimer = setInterval(() => pollStatus(jobId), 5000);
+  });
+
+  async function pollStatus(jobId) {
+    try {
+      const r = await fetch(`/api/upload/${jobId}/status`);
+      const data = await r.json();
+
+      if (data.status === 'running') {
+        updateSteps(data.step);
+      } else if (data.status === 'done') {
+        clearInterval(pollTimer); pollTimer = null;
+        markDone();
+        setTimeout(() => {
+          closeModal();
+          const firstId = data.persons && data.persons.length ? data.persons[0].person_id : null;
+          reloadPersons(firstId);
+        }, 1500);
+      } else if (data.status === 'error') {
+        clearInterval(pollTimer); pollTimer = null;
+        showError(data.message || 'Unbekannter Fehler');
+      }
+    } catch (e) {
+      clearInterval(pollTimer); pollTimer = null;
+      showError('Verbindungsfehler beim Statusabruf');
+    }
+  }
+
+  function showError(msg) {
+    errorMsg.textContent = msg;
+    errorMsg.style.display = 'block';
+    retryBtn.style.display = 'block';
+    [0, 1, 2].forEach(i => {
+      const el = document.getElementById(`step-${i}`);
+      if (el.classList.contains('current')) {
+        el.className = 'upload-step';
+        el.querySelector('.step-icon').innerHTML = '✕';
+        el.style.color = '#fc8181';
+      }
+    });
+  }
+
+  retryBtn.addEventListener('click', showDropView);
+
+  // ── Personen-Dropdown neu laden ───────────────────────────────────────────
+
+  async function reloadPersons(newPersonId) {
+    const sel = document.getElementById('person-select');
+    try {
+      const r = await fetch('/api/persons');
+      const persons = await r.json();
+      sel.innerHTML = '';
+      persons.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.name;
+        sel.appendChild(opt);
+      });
+      if (newPersonId) {
+        sel.value = newPersonId;
+        setTab('person');
+      }
+      await loadBiografie(sel.value);
+    } catch (e) {
+      console.error('Personen-Dropdown reload:', e);
+    }
+  }
+})();
+</script>
+</body>
+</html>

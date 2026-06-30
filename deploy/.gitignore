@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+gazeteer_cache.json
+nicht_aufgeloest.json
+error_queue.json
