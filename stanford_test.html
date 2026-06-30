@@ -19,14 +19,47 @@
     transform: translateX(-50%);
     background: rgba(20,20,40,0.92);
     border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 10px;
-    padding: 14px 20px;
-    min-width: 340px;
+    border-radius: 24px;
     z-index: 10;
     backdrop-filter: blur(6px);
+    white-space: nowrap;
+    overflow: hidden;
+    transition: border-radius 0.18s;
   }
-  #ui h2 { font-size: 14px; font-weight: 600; letter-spacing: 0.05em; color: #a0aec0; margin-bottom: 10px; text-align: center; }
-  #date-display { font-size: 22px; font-weight: 700; text-align: center; color: #fff; margin-bottom: 10px; letter-spacing: 0.08em; }
+  /* ── Eingeklappt: Pill ─────────────────────────────────────────────────── */
+  #ui-pill {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 14px 7px 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  #ui-pill:hover { background: rgba(255,255,255,0.04); }
+  #pill-play-btn {
+    background: none; border: none; color: #4299e1;
+    font-size: 14px; cursor: pointer; padding: 2px 4px; line-height: 1;
+    flex-shrink: 0;
+  }
+  #pill-play-btn:hover { color: #63b3ed; }
+  #pill-date {
+    font-size: 15px; font-weight: 700; color: #fff; letter-spacing: 0.06em;
+    flex: 1; text-align: center;
+  }
+  #pill-chevron {
+    font-size: 10px; color: #718096; flex-shrink: 0;
+    transition: transform 0.18s;
+  }
+  /* ── Ausgeklappt ────────────────────────────────────────────────────────── */
+  #ui-body {
+    display: none;
+    padding: 0 20px 14px;
+    min-width: 320px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  #ui.open { border-radius: 10px; }
+  #ui.open #ui-body { display: block; }
+  #ui.open #pill-chevron { transform: rotate(180deg); }
+  #ui h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; color: #a0aec0; margin: 10px 0 8px; text-align: center; }
+  #date-display { font-size: 20px; font-weight: 700; text-align: center; color: #fff; margin-bottom: 10px; letter-spacing: 0.08em; }
   #slider { width: 100%; accent-color: #4299e1; cursor: pointer; }
   #play-btn {
     display: block; width: 100%; margin-top: 10px; padding: 6px;
@@ -231,10 +264,19 @@
 
 <!-- Datum / Slider (oben mittig) -->
 <div id="ui">
-  <h2>EUROPÄISCHE GRENZEN 1939–1945</h2>
-  <div id="date-display">1939-01</div>
-  <input type="range" id="slider" min="0" max="72" value="0" step="1">
-  <button id="play-btn">▶ Abspielen</button>
+  <!-- Eingeklappt: Pill -->
+  <div id="ui-pill">
+    <button id="pill-play-btn" title="Play/Pause">▶</button>
+    <span id="pill-date">1939-09</span>
+    <span id="pill-chevron">▼</span>
+  </div>
+  <!-- Ausgeklappt -->
+  <div id="ui-body">
+    <h2>EUROPÄISCHE GRENZEN 1939–1945</h2>
+    <div id="date-display">1939-09</div>
+    <input type="range" id="slider" min="0" max="72" value="0" step="1">
+    <button id="play-btn">▶ Abspielen</button>
+  </div>
 </div>
 
 <!-- Rechtes Panel (oben rechts) -->
@@ -748,6 +790,7 @@ function applyDateFilter(d) {
 function setDate(idx) {
   const d = dates[idx];
   dateDisplay.textContent = d;
+  document.getElementById('pill-date').textContent = d;
   applyDateFilter(d);
   updateBiografieLayer(d);
 }
@@ -761,9 +804,14 @@ if (startIdx >= 0) { slider.value = startIdx; setDate(startIdx); }
 let playing = false, timer = null;
 const playBtn = document.getElementById('play-btn');
 
+function _syncPlayIcons() {
+  playBtn.textContent = playing ? '⏸ Pause' : '▶ Abspielen';
+  document.getElementById('pill-play-btn').textContent = playing ? '⏸' : '▶';
+}
+
 playBtn.addEventListener('click', () => {
   playing = !playing;
-  playBtn.textContent = playing ? '⏸ Pause' : '▶ Abspielen';
+  _syncPlayIcons();
   if (playing) {
     timer = setInterval(() => {
       let v = +slider.value + 1;
@@ -774,6 +822,7 @@ playBtn.addEventListener('click', () => {
   } else {
     clearInterval(timer);
   }
+  _syncPlayIcons();
 });
 
 // ── Layer-Toggles ──────────────────────────────────────────────────────────
@@ -899,6 +948,34 @@ panelCollapseBtn.addEventListener('click', () => {
   panelBody.style.display = panelOpen ? '' : 'none';
   panelCollapseBtn.textContent = panelOpen ? '◀' : '▶';
   rightPanel.classList.toggle('collapsed', !panelOpen);
+});
+
+// ── Slider-Pill: Toggle + pill-play-btn ───────────────────────────────────
+const uiEl    = document.getElementById('ui');
+const uiPill  = document.getElementById('ui-pill');
+const pillBtn = document.getElementById('pill-play-btn');
+
+// Pill-Klick (außer auf den Play-Button) klappt auf/zu
+uiPill.addEventListener('click', e => {
+  if (e.target === pillBtn || pillBtn.contains(e.target)) return;
+  uiEl.classList.toggle('open');
+});
+
+// pill-play-btn: Play/Pause direkt steuern, ohne aufzuklappen
+pillBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  playing = !playing;
+  _syncPlayIcons();
+  if (playing) {
+    timer = setInterval(() => {
+      let v = +slider.value + 1;
+      if (v >= dates.length) { v = dates.indexOf('1939-09') || 0; }
+      slider.value = v;
+      setDate(v);
+    }, 600);
+  } else {
+    clearInterval(timer);
+  }
 });
 </script>
 </body>
