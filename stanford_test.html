@@ -614,6 +614,8 @@ map.on('load', async () => {
             number_of_victims: s.number_of_victims || '',
             period_of_occupation: s.period_of_occupation || '',
             portal_url:        (s.source && s.source.reference) ? s.source.reference : '',
+            occ_begin:         s.occ_begin || '',
+            occ_end:           s.occ_end   || '',
             _layer:            'yahad',
           }
         }))
@@ -799,6 +801,11 @@ function applyDateFilter(d) {
   map.setFilter('schlachten-circle', ['all',
     ['<=', ['get', 'datum_von'], end],
     ['>=', ['get', 'datum_bis'], start],
+  ]);
+
+  map.setFilter('yahad-circle', ['all',
+    ['any', ['==', ['get', 'occ_begin'], ''], ['<=', ['get', 'occ_begin'], end]],
+    ['any', ['==', ['get', 'occ_end'],   ''], ['>=', ['get', 'occ_end'],   start]],
   ]);
 }
 
