@@ -227,6 +227,112 @@
   }
   .legend-swatch { width: 13px; height: 13px; border-radius: 2px; flex-shrink: 0; opacity: 0.85; }
   .legend-dot    { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; opacity: 0.9; }
+
+  /* ── Upload-Button ──────────────────────────────────────────────────────── */
+  #upload-btn {
+    display: flex; align-items: center; gap: 5px;
+    margin-top: 8px; width: 100%;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 4px; color: #a0aec0; font-size: 11px; font-family: inherit;
+    padding: 5px 8px; cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  #upload-btn:hover { background: rgba(255,255,255,0.13); color: #e2e8f0; }
+  #upload-btn svg { flex-shrink: 0; }
+
+  /* ── Upload-Modal ───────────────────────────────────────────────────────── */
+  #upload-modal {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(3px);
+    align-items: center; justify-content: center;
+  }
+  #upload-modal.open { display: flex; }
+
+  #upload-box {
+    background: #1a1a2e; border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px; width: 420px; max-width: 94vw;
+    padding: 22px 22px 18px; position: relative; color: #e2e8f0;
+  }
+  #upload-box h3 {
+    margin: 0 0 16px; font-size: 14px; font-weight: 600;
+    color: #e2e8f0; letter-spacing: 0.02em;
+  }
+  #upload-close {
+    position: absolute; top: 14px; right: 14px;
+    background: none; border: none; color: #718096; font-size: 16px;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px;
+    line-height: 1; font-family: inherit;
+  }
+  #upload-close:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
+
+  #upload-drop {
+    border: 2px dashed rgba(255,255,255,0.25); border-radius: 7px;
+    padding: 28px 16px; text-align: center; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    color: #718096; font-size: 12px; line-height: 1.6;
+  }
+  #upload-drop.drag-over { border-color: #4299e1; background: rgba(66,153,225,0.07); color: #90cdf4; }
+  #upload-drop svg { display: block; margin: 0 auto 8px; opacity: 0.5; }
+  #upload-file-input { display: none; }
+
+  #upload-file-list { margin-top: 10px; }
+  .upload-file-row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px; color: #a0aec0;
+  }
+  .upload-file-row:last-child { border-bottom: none; }
+  .upload-file-row svg { flex-shrink: 0; color: #fc8181; }
+  .upload-file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-file-remove {
+    background: none; border: none; color: #718096; cursor: pointer;
+    font-size: 14px; padding: 0 3px; line-height: 1; font-family: inherit;
+  }
+  .upload-file-remove:hover { color: #fc8181; }
+
+  #upload-submit {
+    margin-top: 14px; width: 100%;
+    background: #2b4c7e; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 5px; color: #e2e8f0; font-size: 12px; font-family: inherit;
+    padding: 8px 12px; cursor: pointer; transition: background 0.15s;
+  }
+  #upload-submit:hover:not(:disabled) { background: #3a6198; }
+  #upload-submit:disabled { opacity: 0.4; cursor: default; }
+
+  /* ── Status-Ansicht ─────────────────────────────────────────────────────── */
+  #upload-status-view { display: none; }
+  #upload-status-view.active { display: block; }
+
+  .upload-step {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; font-size: 12px; color: #718096;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .upload-step:last-child { border-bottom: none; }
+  .upload-step.done { color: #68d391; }
+  .upload-step.current { color: #e2e8f0; }
+  .step-icon { width: 18px; text-align: center; flex-shrink: 0; font-size: 13px; }
+
+  @keyframes _spin { to { transform: rotate(360deg); } }
+  .step-spinner {
+    display: inline-block; width: 13px; height: 13px;
+    border: 2px solid rgba(255,255,255,0.15); border-top-color: #4299e1;
+    border-radius: 50%; animation: _spin 0.7s linear infinite;
+    vertical-align: middle;
+  }
+  .upload-step-dots { letter-spacing: 3px; color: rgba(255,255,255,0.2); }
+
+  #upload-error-msg {
+    margin-top: 12px; padding: 10px 12px;
+    background: rgba(252,129,74,0.1); border: 1px solid rgba(252,129,74,0.3);
+    border-radius: 5px; color: #fc8d62; font-size: 11px; line-height: 1.5; display: none;
+  }
+  #upload-retry {
+    margin-top: 12px; width: 100%;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 5px; color: #a0aec0; font-size: 12px; font-family: inherit;
+    padding: 7px 12px; cursor: pointer; display: none;
+  }
+  #upload-retry:hover { background: rgba(255,255,255,0.13); color: #e2e8f0; }
 </style>
 </head>
 <body>
@@ -255,6 +361,12 @@
         <div class="panel-section-label">Person auswählen</div>
         <select id="person-select"><option value="">— Laden …</option></select>
         <div id="person-status"></div>
+        <button id="upload-btn" title="Dokumente hochladen">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 11V3M4 6l4-4 4 4"/><rect x="2" y="12" width="12" height="2" rx="1"/>
+          </svg>
+          Dateien hochladen
+        </button>
       </div>
       <div id="weg-header"><span id="weg-count">0</span> Wegpunkte</div>
       <div id="weg-list"></div>
@@ -328,6 +440,48 @@
     </div><!-- /tab-karte -->
   </div><!-- /panel-body -->
 </div><!-- /right-panel -->
+
+<!-- ── Upload-Modal ──────────────────────────────────────────────────────── -->
+<div id="upload-modal">
+  <div id="upload-box">
+    <button id="upload-close" title="Schließen">✕</button>
+    <h3>Dokumente hochladen</h3>
+
+    <!-- Drop-Zone-Ansicht -->
+    <div id="upload-drop-view">
+      <div id="upload-drop">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        Dateien hier ablegen oder klicken zum Auswählen<br>
+        <span style="font-size:10px;opacity:0.6">WASt-Karteikarten und Bundesarchiv-Schreiben (PDF)</span>
+        <input id="upload-file-input" type="file" multiple accept="application/pdf">
+      </div>
+      <div id="upload-file-list"></div>
+      <button id="upload-submit" disabled>Hochladen und verarbeiten</button>
+    </div>
+
+    <!-- Status-Ansicht -->
+    <div id="upload-status-view">
+      <div class="upload-step" id="step-0">
+        <span class="step-icon upload-step-dots">···</span>
+        <span class="step-label">Dokumente werden gelesen</span>
+      </div>
+      <div class="upload-step" id="step-1">
+        <span class="step-icon upload-step-dots">···</span>
+        <span class="step-label">Wird verarbeitet …</span>
+      </div>
+      <div class="upload-step" id="step-2">
+        <span class="step-icon upload-step-dots">···</span>
+        <span class="step-label">Fertig</span>
+      </div>
+      <div id="upload-error-msg"></div>
+      <button id="upload-retry">↩ Erneut versuchen</button>
+    </div>
+  </div>
+</div>
 
 <div id="popup"></div>
 <div id="status">Lade Daten …</div>
@@ -970,6 +1124,246 @@ panelCollapseBtn.addEventListener('click', () => {
   panelCollapseBtn.textContent = panelOpen ? '◀' : '▶';
   rightPanel.classList.toggle('collapsed', !panelOpen);
 });
+
+// ── Upload-Modal ────────────────────────────────────────────────────────────
+
+(function () {
+  const modal       = document.getElementById('upload-modal');
+  const box         = document.getElementById('upload-box');
+  const closeBtn    = document.getElementById('upload-close');
+  const dropZone    = document.getElementById('upload-drop');
+  const fileInput   = document.getElementById('upload-file-input');
+  const fileList    = document.getElementById('upload-file-list');
+  const submitBtn   = document.getElementById('upload-submit');
+  const dropView    = document.getElementById('upload-drop-view');
+  const statusView  = document.getElementById('upload-status-view');
+  const errorMsg    = document.getElementById('upload-error-msg');
+  const retryBtn    = document.getElementById('upload-retry');
+  const uploadBtn   = document.getElementById('upload-btn');
+
+  // Step-Labels die der Server schickt → Step-Index (0,1,2)
+  const STEP_MAP = {
+    'Dokumente werden gelesen':     0,
+    'WASt-Karte wird ausgelesen':   1,
+    'Einheiten werden zugeordnet':  1,
+    'Fertig':                       2,
+  };
+
+  let selectedFiles = [];
+  let pollTimer = null;
+
+  // ── Öffnen / Schließen ────────────────────────────────────────────────────
+
+  function openModal() {
+    showDropView();
+    modal.classList.add('open');
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  }
+
+  uploadBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  // ── Drop-Zone ─────────────────────────────────────────────────────────────
+
+  dropZone.addEventListener('click', () => fileInput.click());
+
+  dropZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    dropZone.classList.add('drag-over');
+  });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    addFiles([...e.dataTransfer.files]);
+  });
+
+  fileInput.addEventListener('change', () => {
+    addFiles([...fileInput.files]);
+    fileInput.value = '';
+  });
+
+  function addFiles(newFiles) {
+    newFiles.forEach(f => {
+      if (f.type === 'application/pdf' && !selectedFiles.some(x => x.name === f.name))
+        selectedFiles.push(f);
+    });
+    renderFileList();
+  }
+
+  function renderFileList() {
+    fileList.innerHTML = '';
+    selectedFiles.forEach((f, i) => {
+      const row = document.createElement('div');
+      row.className = 'upload-file-row';
+      row.innerHTML = `
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="color:#fc8181;opacity:.7">
+          <path d="M4 0h8l4 4v12H0V0h4zm0 1v3H1v11h14V5h-3V1H4zm1 6h6v1H5V7zm0 2h6v1H5V9zm0 2h4v1H5v-1z"/>
+        </svg>
+        <span class="upload-file-name">${f.name}</span>
+        <button class="upload-file-remove" data-i="${i}" title="Entfernen">✕</button>`;
+      fileList.appendChild(row);
+    });
+    fileList.querySelectorAll('.upload-file-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedFiles.splice(+btn.dataset.i, 1);
+        renderFileList();
+      });
+    });
+    submitBtn.disabled = selectedFiles.length === 0;
+  }
+
+  // ── Ansichten umschalten ──────────────────────────────────────────────────
+
+  function showDropView() {
+    selectedFiles = [];
+    renderFileList();
+    dropView.style.display = '';
+    statusView.classList.remove('active');
+    errorMsg.style.display = 'none';
+    retryBtn.style.display = 'none';
+    resetSteps();
+  }
+
+  function showStatusView() {
+    dropView.style.display = 'none';
+    statusView.classList.add('active');
+  }
+
+  // ── Schritte rendern ──────────────────────────────────────────────────────
+
+  function resetSteps() {
+    [0, 1, 2].forEach(i => {
+      const el = document.getElementById(`step-${i}`);
+      el.className = 'upload-step';
+      el.querySelector('.step-icon').innerHTML = '<span class="upload-step-dots">···</span>';
+      if (i === 1) el.querySelector('.step-label').textContent = 'Wird verarbeitet …';
+    });
+  }
+
+  function updateSteps(step) {
+    const current = STEP_MAP[step] ?? 1;
+    [0, 1, 2].forEach(i => {
+      const el = document.getElementById(`step-${i}`);
+      const icon = el.querySelector('.step-icon');
+      const label = el.querySelector('.step-label');
+      if (i < current) {
+        el.className = 'upload-step done';
+        icon.innerHTML = '✓';
+      } else if (i === current) {
+        el.className = 'upload-step current';
+        icon.innerHTML = '<span class="step-spinner"></span>';
+        // Mittleres Label dynamisch anpassen
+        if (i === 1 && step !== 'Dokumente werden gelesen' && step !== 'Fertig')
+          label.textContent = step;
+      } else {
+        el.className = 'upload-step';
+        icon.innerHTML = '<span class="upload-step-dots">···</span>';
+      }
+    });
+  }
+
+  function markDone() {
+    [0, 1, 2].forEach(i => {
+      const el = document.getElementById(`step-${i}`);
+      el.className = 'upload-step done';
+      el.querySelector('.step-icon').innerHTML = '✓';
+    });
+  }
+
+  // ── Hochladen ─────────────────────────────────────────────────────────────
+
+  submitBtn.addEventListener('click', async () => {
+    if (selectedFiles.length === 0) return;
+    showStatusView();
+    updateSteps('Dokumente werden gelesen');
+
+    const fd = new FormData();
+    selectedFiles.forEach(f => fd.append('files[]', f));
+
+    let jobId;
+    try {
+      const r = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await r.json();
+      if (data.error) throw new Error(data.error);
+      jobId = data.job_id;
+    } catch (e) {
+      showError(e.message);
+      return;
+    }
+
+    pollTimer = setInterval(() => pollStatus(jobId), 5000);
+  });
+
+  async function pollStatus(jobId) {
+    try {
+      const r = await fetch(`/api/upload/${jobId}/status`);
+      const data = await r.json();
+
+      if (data.status === 'running') {
+        updateSteps(data.step);
+      } else if (data.status === 'done') {
+        clearInterval(pollTimer); pollTimer = null;
+        markDone();
+        setTimeout(() => {
+          closeModal();
+          reloadPersons(data.person_id);
+        }, 1500);
+      } else if (data.status === 'error') {
+        clearInterval(pollTimer); pollTimer = null;
+        showError(data.message || 'Unbekannter Fehler');
+      }
+    } catch (e) {
+      clearInterval(pollTimer); pollTimer = null;
+      showError('Verbindungsfehler beim Statusabruf');
+    }
+  }
+
+  function showError(msg) {
+    errorMsg.textContent = msg;
+    errorMsg.style.display = 'block';
+    retryBtn.style.display = 'block';
+    [0, 1, 2].forEach(i => {
+      const el = document.getElementById(`step-${i}`);
+      if (el.classList.contains('current')) {
+        el.className = 'upload-step';
+        el.querySelector('.step-icon').innerHTML = '✕';
+        el.style.color = '#fc8181';
+      }
+    });
+  }
+
+  retryBtn.addEventListener('click', showDropView);
+
+  // ── Personen-Dropdown neu laden ───────────────────────────────────────────
+
+  async function reloadPersons(newPersonId) {
+    const sel = document.getElementById('person-select');
+    try {
+      const r = await fetch('/api/persons');
+      const persons = await r.json();
+      sel.innerHTML = '';
+      persons.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.name;
+        sel.appendChild(opt);
+      });
+      if (newPersonId) {
+        sel.value = newPersonId;
+        setTab('person');
+      }
+      await loadBiografie(sel.value);
+    } catch (e) {
+      console.error('Personen-Dropdown reload:', e);
+    }
+  }
+})();
 </script>
 </body>
 </html>
