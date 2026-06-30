@@ -3,21 +3,158 @@
 server.py — Minimaler Flask-API-Server für familiengeschichte.db.
 
 Endpoints:
-  GET /api/persons
-  GET /api/person/<person_id>/weg
-  GET /api/person/<person_id>/biografie    ← _DATA_BIOGRAFIE-kompatibles Format
+  GET  /api/persons
+  GET  /api/person/<person_id>/weg
+  GET  /api/person/<person_id>/biografie
+  POST /api/upload
+  GET  /api/upload/<job_id>/status
 """
 
 import json
 import calendar
+import shutil
+import tempfile
+import threading
+import uuid
 from pathlib import Path
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 
 import db
+from pipeline_b import classify_pdf, ingest_bundesarchiv, ingest_wast
 
 ROOT = Path(__file__).parent
 
 app = Flask(__name__)
+
+# ── Upload-Job-Verwaltung ──────────────────────────────────────────────────────
+
+_JOBS: dict[str, dict] = {}
+_JOBS_LOCK = threading.Lock()
+
+
+def _set_job(job_id: str, **kw) -> None:
+    with _JOBS_LOCK:
+        _JOBS[job_id].update(kw)
+
+
+def _merge_actor(secondary_id: str, primary_id: str) -> None:
+    """Hängt alle Participations von secondary auf primary um, löscht secondary."""
+    with db._get_conn() as conn:
+        rows = conn.execute(
+            "SELECT event_id, relation, role, data FROM participations WHERE actor_id=?",
+            (secondary_id,),
+        ).fetchall()
+        for r in rows:
+            payload = json.loads(r["data"])
+            payload["actor_id"] = primary_id
+            conn.execute(
+                "INSERT OR REPLACE INTO participations "
+                "(event_id, actor_id, relation, role, data) VALUES (?,?,?,?,?)",
+                (r["event_id"], primary_id, r["relation"], r["role"],
+                 json.dumps(payload, ensure_ascii=False)),
+            )
+        conn.execute("DELETE FROM participations WHERE actor_id=?", (secondary_id,))
+        conn.execute("DELETE FROM actors WHERE id=?", (secondary_id,))
+        conn.commit()
+
+
+def _run_job(job_id: str, file_paths: list[Path], tmpdir: Path) -> None:
+    try:
+        _set_job(job_id, step="Dokumente werden gelesen")
+
+        all_actor_ids: list[str] = []
+
+        for path in file_paths:
+            typ, _conf = classify_pdf(path)
+
+            if typ == "unbekannt":
+                _set_job(job_id, status="error",
+                         message=f"Unbekannter Dokumenttyp: {path.name}")
+                return
+
+            if typ == "wast_karteikarte":
+                _set_job(job_id, step="WASt-Karte wird ausgelesen")
+                ids = ingest_wast(path)
+            else:  # bundesarchiv_auskunft
+                _set_job(job_id, step="Einheiten werden zugeordnet")
+                ids = ingest_bundesarchiv(path)
+                if len(ids) > 1:
+                    _set_job(job_id, status="error",
+                             message=(
+                                 "Bundesarchiv-Schreiben enthält mehrere Personen — "
+                                 "bitte einzeln hochladen"
+                             ))
+                    return
+
+            all_actor_ids.extend(ids)
+
+        unique_ids = list(dict.fromkeys(i for i in all_actor_ids if i))
+
+        if not unique_ids:
+            _set_job(job_id, status="error",
+                     message="Aus den hochgeladenen Dokumenten konnte keine Person "
+                             "extrahiert werden")
+            return
+
+        primary = unique_ids[0]
+        for secondary in unique_ids[1:]:
+            _merge_actor(secondary, primary)
+
+        with db._get_conn() as conn:
+            row = conn.execute(
+                "SELECT pref_label FROM actors WHERE id=?", (primary,)
+            ).fetchone()
+        name = row["pref_label"] if row else primary
+
+        _set_job(job_id, status="done", step="Fertig",
+                 person_id=primary, name=name)
+
+    except Exception as exc:
+        _set_job(job_id, status="error", message=str(exc))
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
+# ── POST /api/upload ──────────────────────────────────────────────────────────
+
+@app.route('/api/upload', methods=['POST'])
+def upload():
+    files = request.files.getlist('files[]')
+    if not files or all(f.filename == '' for f in files):
+        return jsonify({'error': 'Keine Dateien übermittelt'}), 400
+
+    tmpdir = Path(tempfile.mkdtemp())
+    paths: list[Path] = []
+    for f in files:
+        dest = tmpdir / f.filename
+        f.save(str(dest))
+        paths.append(dest)
+
+    job_id = uuid.uuid4().hex[:8]
+    with _JOBS_LOCK:
+        _JOBS[job_id] = {
+            'status':    'running',
+            'step':      'Dokumente werden gelesen',
+            'person_id': None,
+            'name':      None,
+            'message':   None,
+        }
+
+    t = threading.Thread(target=_run_job, args=(job_id, paths, tmpdir), daemon=True)
+    t.start()
+
+    return jsonify({'job_id': job_id})
+
+
+# ── GET /api/upload/<job_id>/status ───────────────────────────────────────────
+
+@app.route('/api/upload/<job_id>/status')
+def upload_status(job_id):
+    with _JOBS_LOCK:
+        job = _JOBS.get(job_id)
+    if job is None:
+        return jsonify({'error': 'Job nicht gefunden'}), 404
+    return jsonify(job)
 
 
 @app.route('/')
