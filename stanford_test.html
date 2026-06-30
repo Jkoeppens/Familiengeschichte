@@ -1312,7 +1312,8 @@ panelCollapseBtn.addEventListener('click', () => {
         markDone();
         setTimeout(() => {
           closeModal();
-          reloadPersons(data.person_id);
+          const firstId = data.persons && data.persons.length ? data.persons[0].person_id : null;
+          reloadPersons(firstId);
         }, 1500);
       } else if (data.status === 'error') {
         clearInterval(pollTimer); pollTimer = null;

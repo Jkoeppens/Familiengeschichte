@@ -78,13 +78,6 @@ def _run_job(job_id: str, file_paths: list[Path], tmpdir: Path) -> None:
             else:  # bundesarchiv_auskunft
                 _set_job(job_id, step="Einheiten werden zugeordnet")
                 ids = ingest_bundesarchiv(path)
-                if len(ids) > 1:
-                    _set_job(job_id, status="error",
-                             message=(
-                                 "Bundesarchiv-Schreiben enthält mehrere Personen — "
-                                 "bitte einzeln hochladen"
-                             ))
-                    return
 
             all_actor_ids.extend(ids)
 
@@ -96,18 +89,18 @@ def _run_job(job_id: str, file_paths: list[Path], tmpdir: Path) -> None:
                              "extrahiert werden")
             return
 
-        primary = unique_ids[0]
-        for secondary in unique_ids[1:]:
-            _merge_actor(secondary, primary)
-
         with db._get_conn() as conn:
-            row = conn.execute(
-                "SELECT pref_label FROM actors WHERE id=?", (primary,)
-            ).fetchone()
-        name = row["pref_label"] if row else primary
+            persons = []
+            for actor_id in unique_ids:
+                row = conn.execute(
+                    "SELECT pref_label FROM actors WHERE id=?", (actor_id,)
+                ).fetchone()
+                persons.append({
+                    "person_id": actor_id,
+                    "name": row["pref_label"] if row else actor_id,
+                })
 
-        _set_job(job_id, status="done", step="Fertig",
-                 person_id=primary, name=name)
+        _set_job(job_id, status="done", step="Fertig", persons=persons)
 
     except Exception as exc:
         _set_job(job_id, status="error", message=str(exc))
@@ -133,11 +126,10 @@ def upload():
     job_id = uuid.uuid4().hex[:8]
     with _JOBS_LOCK:
         _JOBS[job_id] = {
-            'status':    'running',
-            'step':      'Dokumente werden gelesen',
-            'person_id': None,
-            'name':      None,
-            'message':   None,
+            'status':  'running',
+            'step':    'Dokumente werden gelesen',
+            'persons': [],
+            'message': None,
         }
 
     t = threading.Thread(target=_run_job, args=(job_id, paths, tmpdir), daemon=True)
