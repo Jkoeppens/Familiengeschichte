@@ -271,10 +271,10 @@
           KZ &amp; Lager
         </label>
         <div class="layer-legend-sub">
-          <div class="legend-row"><div class="legend-dot" style="background:#7f1d1d"></div>Vernichtungslager / Sterbelager</div>
-          <div class="legend-row"><div class="legend-dot" style="background:#b91c1c"></div>KZ / Hauptlager</div>
           <div class="legend-row"><div class="legend-dot" style="background:#ef4444"></div>KZ / Außenlager</div>
-          <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>Durchgangslager</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#b91c1c"></div>Frühes KZ</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>SS-Baubrigade</div>
+          <div class="legend-row"><div class="legend-dot" style="background:#7f1d1d"></div>Sterbelager</div>
           <div class="legend-row"><div class="legend-dot" style="background:#f59e0b"></div>Jugendlager</div>
         </div>
       </div>
@@ -553,13 +553,11 @@ map.on('load', async () => {
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 2.5, 7, 5],
         'circle-color': [
           'match', ['get', 'typ'],
-          'Vernichtungslager',  '#7f1d1d',
-          'Sterbelager',        '#7f1d1d',
-          'KZ / Hauptlager',    '#b91c1c',
-          'KZ / Außenlager',    '#ef4444',
-          'Ghetto',             '#a855f7',
-          'Durchgangslager',    '#f97316',
-          'Jugendlager',        '#f59e0b',
+          'KZ / Außenlager', '#ef4444',
+          'Frühes KZ',       '#b91c1c',  // Errichtungsphase 1933–1937 — historisch zu prüfen
+          'SS-Baubrigade',   '#f97316',  // Mobile Bautrupps der SS im Krieg — historisch zu prüfen
+          'Sterbelager',     '#7f1d1d',
+          'Jugendlager',     '#f59e0b',
           '#ef4444'
         ],
         'circle-opacity': 0.85,
