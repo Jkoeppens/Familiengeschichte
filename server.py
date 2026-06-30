@@ -12,12 +12,13 @@ Endpoints:
 
 import json
 import calendar
+import os
 import shutil
 import tempfile
 import threading
 import uuid
 from pathlib import Path
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, redirect, request, send_from_directory, session, url_for
 
 import db
 from pipeline_b import classify_pdf, ingest_bundesarchiv, ingest_wast
@@ -25,6 +26,66 @@ from pipeline_b import classify_pdf, ingest_bundesarchiv, ingest_wast
 ROOT = Path(__file__).parent
 
 app = Flask(__name__)
+
+# ── Sicherheits-Konfiguration ─────────────────────────────────────────────────
+# WICHTIG: debug=False muss bei jedem öffentlichen Zugriff (ngrok o.ä.) gesetzt
+# bleiben. debug=True würde den interaktiven Werkzeug-Debugger freigeben, der
+# beliebige Python-Code-Ausführung im Browser erlaubt.
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB gesamt pro Request
+
+_APP_PASSWORD   = os.getenv('APP_PASSWORD')      # optional; wenn leer → kein Login
+_SECRET_KEY     = os.getenv('FLASK_SECRET_KEY', 'dev-only-insecure-key')
+app.secret_key  = _SECRET_KEY
+
+ALLOWED_EXTENSIONS = {'.html', '.json', '.geojson', '.pmtiles', '.js', '.css'}
+
+# ── Passwortschutz (nur aktiv wenn APP_PASSWORD gesetzt) ──────────────────────
+
+_LOGIN_HTML = """\
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8">
+<title>Login</title>
+<style>
+  body { margin: 0; display: flex; align-items: center; justify-content: center;
+         min-height: 100vh; background: #0f0f1a; font-family: system-ui, sans-serif; }
+  form { background: #1a1a2e; border: 1px solid rgba(255,255,255,.15); border-radius: 10px;
+         padding: 32px 28px; width: 280px; }
+  h2   { margin: 0 0 20px; color: #e2e8f0; font-size: 15px; font-weight: 600; }
+  input[type=password] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,.08);
+         border: 1px solid rgba(255,255,255,.2); border-radius: 4px; color: #fff;
+         padding: 7px 9px; font-size: 13px; margin-bottom: 12px; }
+  button { width: 100%; background: #2b4c7e; border: none; border-radius: 5px;
+           color: #e2e8f0; font-size: 13px; padding: 8px; cursor: pointer; }
+  button:hover { background: #3a6198; }
+  .err { color: #fc8181; font-size: 11px; margin-bottom: 10px; }
+</style></head><body>
+<form method="post">
+  <h2>Familiengeschichte</h2>
+  {error}
+  <input type="password" name="password" placeholder="Passwort" autofocus>
+  <button type="submit">Anmelden</button>
+</form></body></html>"""
+
+
+@app.route('/_login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        if request.form.get('password') == _APP_PASSWORD:
+            session['auth'] = True
+            return redirect(request.args.get('next') or '/')
+        error = '<p class="err">Falsches Passwort.</p>'
+    else:
+        error = ''
+    return _LOGIN_HTML.format(error=error), 200
+
+
+@app.before_request
+def require_auth():
+    if not _APP_PASSWORD:
+        return  # Passwortschutz deaktiviert
+    if request.endpoint == 'login':
+        return  # Login-Seite selbst immer erreichbar
+    if not session.get('auth'):
+        return redirect(url_for('login', next=request.path))
 
 # ── Upload-Job-Verwaltung ──────────────────────────────────────────────────────
 
@@ -115,6 +176,8 @@ def upload():
     files = request.files.getlist('files[]')
     if not files or all(f.filename == '' for f in files):
         return jsonify({'error': 'Keine Dateien übermittelt'}), 400
+    if len(files) > 10:
+        return jsonify({'error': 'Maximal 10 Dateien pro Upload erlaubt'}), 400
 
     tmpdir = Path(tempfile.mkdtemp())
     paths: list[Path] = []
@@ -152,7 +215,14 @@ def upload_status(job_id):
 @app.route('/')
 @app.route('/<path:filename>')
 def static_files(filename='person_karte.html'):
-    """Serviert HTML/CSS/JS aus dem Projektverzeichnis."""
+    """Serviert statische Dateien — nur erlaubte Endungen, kein Path-Traversal."""
+    suffix = Path(filename).suffix.lower()
+    if suffix not in ALLOWED_EXTENSIONS:
+        return '', 404
+    # Path-Traversal-Schutz: aufgelöster Pfad muss unter ROOT liegen
+    target = (ROOT / filename).resolve()
+    if not str(target).startswith(str(ROOT.resolve())):
+        return '', 404
     return send_from_directory(ROOT, filename)
 
 
@@ -404,4 +474,6 @@ def get_biografie(person_id):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
-    app.run(port=5050, debug=True, use_reloader=False)
+    # debug=False ist Pflicht bei öffentlichem Zugriff (ngrok o.ä.) —
+    # debug=True gibt den Werkzeug-Debugger frei, der beliebigen Code ausführt.
+    app.run(port=5050, debug=False, use_reloader=False)
