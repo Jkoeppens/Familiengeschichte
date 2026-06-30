@@ -370,6 +370,63 @@ def load_ghettos() -> tuple[int, int]:
     return ev_count, 0
 
 
+def load_yahad_sites() -> tuple[int, int]:
+    with open(BASE / "yahad_killing_sites_new.json", encoding="utf-8") as f:
+        sites = json.load(f)
+
+    ev_count = 0
+    for s in sites:
+        lat = s.get("lat")
+        lon = s.get("lon")
+        if lat is None or lon is None:
+            continue
+
+        event_id = f"event_yahad_{s['id']}"
+        name     = s.get("execution_title") or s["name"]
+
+        victims_raw = s.get("number_of_victims")
+
+        event = {
+            "id":      event_id,
+            "type":    "MassExecution",
+            "label":   name,
+            "subtype": "Holocaust-Massenerschießung",
+            "time_span": _time_span(None, None),  # Yahad-Daten haben kein präzises Datum pro Marker
+            "place": {
+                "name":      s["name"],
+                "lat":       lat,
+                "lon":       lon,
+                "precision": "lokalisiert",
+                "radius_km": 2,
+            },
+            "description": s.get("holocaust_by_bullets") or s.get("historical_note"),
+            "atrocity_details": {
+                "victims_count":  victims_raw,
+                "victim_groups":  ["Jüdische Bevölkerung"],
+                "method":         "Erschießung",
+                "kind_of_place":  s.get("kind_of_place"),
+                "memorials":      s.get("memorials"),
+                "period_of_occupation": s.get("period_of_occupation"),
+                "witness_interview": s.get("witness_interview"),
+            },
+            "source": {
+                "type":         "yahad",
+                "certainty":    4,
+                "generated_by": "yahad_in_unum",
+                "reference":    (s.get("source") or {}).get("reference"),
+                "pending":      s.get("pending", False),
+                "marker_type":  s.get("marker_type"),
+                "village_id":   s.get("village_id"),
+                "country":      s.get("country"),
+            },
+            "created_at": TODAY,
+        }
+        insert_event(event)
+        ev_count += 1
+
+    return ev_count, 0
+
+
 # ─── A4.2 — Automatische Einheits-Verlinkung ─────────────────────────────────
 
 def link_units_to_event(event: dict, radius_km: float = RADIUS_KM) -> list[dict]:
@@ -482,8 +539,12 @@ if __name__ == "__main__":
     gh_ev, gh_part = load_ghettos()
     print(f"      {gh_ev} Events, {gh_part} Participations")
 
-    total_ev   = op_ev + vb_ev + kz_ev + gh_ev
-    total_part = op_part + vb_part + kz_part + gh_part
+    print("[5/5] Yahad-In Unum Massenerschießungsorte …")
+    ya_ev, ya_part = load_yahad_sites()
+    print(f"      {ya_ev} Events, {ya_part} Participations")
+
+    total_ev   = op_ev + vb_ev + kz_ev + gh_ev + ya_ev
+    total_part = op_part + vb_part + kz_part + gh_part + ya_part
     print(f"\n  → {total_ev} Events gesamt geladen")
     print(f"  → {total_part} explizite Participations (Koppermann)")
 
