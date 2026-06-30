@@ -380,6 +380,8 @@ def load_yahad_sites() -> tuple[int, int]:
         lon = s.get("lon")
         if lat is None or lon is None:
             continue
+        if not (-90 <= lat <= 90) or not (-180 <= lon <= 180):
+            continue
 
         event_id = f"event_yahad_{s['id']}"
         name     = s.get("execution_title") or s["name"]
@@ -405,7 +407,7 @@ def load_yahad_sites() -> tuple[int, int]:
                 "victim_groups":  ["Jüdische Bevölkerung"],
                 "method":         "Erschießung",
                 "kind_of_place":  s.get("kind_of_place"),
-                "memorials":      s.get("memorials"),
+                "memorials":      "Yes" if s.get("memorials") is True else ("No" if s.get("memorials") is False else None),
                 "period_of_occupation": s.get("period_of_occupation"),
                 "witness_interview": s.get("witness_interview"),
             },
@@ -414,10 +416,6 @@ def load_yahad_sites() -> tuple[int, int]:
                 "certainty":    4,
                 "generated_by": "yahad_in_unum",
                 "reference":    (s.get("source") or {}).get("reference"),
-                "pending":      s.get("pending", False),
-                "marker_type":  s.get("marker_type"),
-                "village_id":   s.get("village_id"),
-                "country":      s.get("country"),
             },
             "created_at": TODAY,
         }
