@@ -50,14 +50,9 @@ _REQUIRED_DATA = {
     'operationen_wk2_new.json',
     'yahad_killing_sites_new.json',
 }
-_missing = [f for f in _REQUIRED_DATA if not (DATA_DIR / f).exists()]
-if _missing:
-    import sys
-    print(f"FEHLER: Folgende Datendateien fehlen in DATA_DIR={DATA_DIR}:", file=sys.stderr)
-    for f in sorted(_missing):
-        print(f"  - {f}", file=sys.stderr)
-    print("Tipp: DATA_DIR korrekt setzen oder Dateien ins Verzeichnis kopieren.", file=sys.stderr)
-    sys.exit(1)
+_missing_files = sorted(f for f in _REQUIRED_DATA if not (DATA_DIR / f).exists())
+if _missing_files:
+    print(f"WARNUNG: Datendateien fehlen in DATA_DIR={DATA_DIR}: {_missing_files}", flush=True)
 
 # ── Sicherheits-Konfiguration ─────────────────────────────────────────────────
 # WICHTIG: debug=False muss bei jedem öffentlichen Zugriff (ngrok o.ä.) gesetzt
@@ -110,12 +105,32 @@ def login():
     return _LOGIN_HTML.format(error=error), 200
 
 
+@app.route('/health')
+def health():
+    if _missing_files:
+        return jsonify({'status': 'degraded', 'missing': _missing_files}), 200
+    return jsonify({'status': 'ok'}), 200
+
+
+@app.before_request
+def check_data_files():
+    """503 auf allen Endpoints solange Pflicht-Datendateien fehlen — außer / und /health."""
+    if not _missing_files:
+        return
+    if request.endpoint in ('health', 'static_files'):
+        return
+    return jsonify({
+        'error': 'Datendateien fehlen im Volume. Bitte /data befüllen.',
+        'missing': _missing_files,
+    }), 503
+
+
 @app.before_request
 def require_auth():
     if not _APP_PASSWORD:
         return  # Passwortschutz deaktiviert
-    if request.endpoint == 'login':
-        return  # Login-Seite selbst immer erreichbar
+    if request.endpoint in ('login', 'health'):
+        return  # Login-Seite und Healthcheck immer erreichbar
     if not session.get('auth'):
         return redirect(url_for('login', next=request.path))
 
