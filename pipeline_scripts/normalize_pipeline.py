@@ -673,17 +673,20 @@ def main():
 
     # ── Schritt 3: Gold-Standard-Check ───────────────────────────────────────
     gold = next((r for r in results
-                 if 'Infanterie-Division (mot.)' in r.get('einheit','')
-                 and r.get('nummer') == '20'), None)
-    gold_ok = False
-    if gold and gold.get('unterstellungen'):
-        first = gold['unterstellungen'][0]
-        # Erwartung: Sept. 1939, XIX Korps, 4. Armee, Nord, Osten, Polen
-        gold_ok = (
-            first.get('korps', '').startswith('XIX')
-            and '1939' in str(first.get('jahr', ''))
-        )
-    stats['goldstandard_20_pgd'] = 'OK' if gold_ok else 'FEHLER'
+                 if r.get('nummer') == '20'
+                 and 'Division' in r.get('einheit', '')
+                 and ('mot.' in r.get('einheit', '') or 'motorisiert' in r.get('einheit', '')
+                      or 'Panzergrenadier' in r.get('einheit', ''))), None)
+    if gold is not None:
+        gold_ok = False
+        if gold.get('unterstellungen'):
+            first = gold['unterstellungen'][0]
+            # Erwartung: Sept. 1939, XIX Korps (nur in Bd. 4)
+            gold_ok = (
+                first.get('korps', '').startswith('XIX')
+                and '1939' in str(first.get('jahr', ''))
+            )
+        stats['goldstandard_20_pgd'] = 'OK' if gold_ok else 'FEHLER'
 
     # ── Ausgabe ───────────────────────────────────────────────────────────────
     output_path.write_text(json.dumps(results, ensure_ascii=False, indent=2))

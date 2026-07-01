@@ -20,6 +20,22 @@ import db
 
 CREATED = "2026-06-11"
 
+_OFFSETS_PATH = Path(__file__).parent / "tessin_band_offsets.json"
+_BAND_OFFSETS: dict[str, int] = {}
+if _OFFSETS_PATH.exists():
+    _raw_offsets = json.loads(_OFFSETS_PATH.read_text(encoding="utf-8"))
+    _BAND_OFFSETS = {k: v["offset"] for k, v in _raw_offsets.items()}
+
+
+def _buchseite(band: int | str, pdf_seite: int | None) -> int | None:
+    if pdf_seite is None:
+        return None
+    offset = _BAND_OFFSETS.get(str(band))
+    if offset is None:
+        return None
+    result = pdf_seite - offset
+    return result if result > 0 else None
+
 # Garbage-Labels die niemals als Actor in die DB kommen sollen
 _GARBAGE_LABELS = {
     'unterstellung', 'i', 'ii', 'iii', 'iv', 'v',
@@ -417,13 +433,39 @@ def _expand_unit_name(s: str) -> str:
     return s
 
 
-def make_alt_labels(nummer: str, einheit: str) -> list[str]:
+UMBENENNUNG_RE = re.compile(r'\n([A-ZÄÖÜ][^\n]+?\d+)\s*seit\s*\d')
+
+
+def extract_umbenennungen(raw_text: str) -> list[str]:
+    """Extrahiert spätere Bezeichnungen aus Tessin-Fließtext.
+
+    Muster: 'NeuerName seit Datum' — Name steht nach Zeilenumbruch,
+    Datum direkt nach 'seit' (kein Leerzeichen nötig).
+    Komposita wie 'Ers.bzw.Ausb.' werden auf den ersten Typ reduziert.
+    """
+    names = []
+    for name in UMBENENNUNG_RE.findall(raw_text):
+        name = re.sub(r'\s*bzw\.\s*\w+\.', '', name)
+        name = re.sub(r'\s*und\s*\w+\.', '', name)
+        name = re.sub(r'\s{2,}', ' ', name).strip()
+        expanded = _expand_unit_name(name)
+        expanded = re.sub(r'([a-zäöüß)])(\d)', r'\1 \2', expanded)
+        if len(expanded) >= 4:
+            names.append(expanded)
+        ohne_klammer = re.sub(r'\s*\([^)]+\)', '', expanded).strip()
+        if ohne_klammer != expanded and len(ohne_klammer) >= 4:
+            names.append(ohne_klammer)
+    return names
+
+
+def make_alt_labels(nummer: str, einheit: str, raw_text: str = '') -> list[str]:
     """Erzeugt alle Schreibvarianten für entity_linking."""
     # Führende Nummer aus einheit strippen (Pattern A: "20.Infanterie-Division")
     prefix = re.match(r'^\d+\.\s*', einheit)
     body = einheit[prefix.end():] if prefix else einheit
 
     expanded = _expand_unit_name(body)
+    expanded = re.sub(r'([a-zäöüß])(\d)', r'\1 \2', expanded)
     pref = make_pref_label(nummer, einheit)
 
     labels: set[str] = set()
@@ -435,6 +477,9 @@ def make_alt_labels(nummer: str, einheit: str) -> list[str]:
     else:
         labels.add(body)
         labels.add(expanded)
+
+    for umb in extract_umbenennungen(raw_text):
+        labels.add(umb)
 
     labels.discard(pref)            # pref_label nicht doppelt speichern
     labels.discard("")
@@ -458,7 +503,8 @@ def actor_exists(actor_id: str) -> bool:
 
 
 def make_actor(actor_id: str, nummer: str, einheit: str,
-               wehrkreis: str, heimatgarnison: str, band: int) -> dict:
+               wehrkreis: str, heimatgarnison: str, band: int,
+               raw_text: str = '', pdf_seite: int | None = None) -> dict:
     if actor_id in KNOWN_ACTOR_IDS.values():
         with db._get_conn() as conn:
             row = conn.execute("SELECT data FROM actors WHERE id = ?", (actor_id,)).fetchone()
@@ -472,7 +518,7 @@ def make_actor(actor_id: str, nummer: str, einheit: str,
         "id": actor_id,
         "type": "MilitaryUnit",
         "pref_label": label,
-        "alt_labels": make_alt_labels(nummer, einheit),
+        "alt_labels": make_alt_labels(nummer, einheit, raw_text),
         "abbr": None,
         "branch": derive_branch(einheit),
         "unit_type": derive_unit_type(einheit),
@@ -480,7 +526,8 @@ def make_actor(actor_id: str, nummer: str, einheit: str,
         "wehrkreis": wk,
         "parent_unit_id": None,
         "tessin_band": band,
-        "tessin_seite": None,
+        "tessin_seite": _buchseite(band, pdf_seite),
+        "_raw_text": raw_text or None,
         "family_name": None,
         "given_name": None,
         "birth_date": None,
@@ -761,12 +808,15 @@ def load_band(path: Path, band: int) -> dict:
         if not is_valid_actor(label):
             continue
         actor_id = make_actor_id(nummer, einheit)
+        actor = make_actor(actor_id, nummer, einheit,
+                           entry.get('wehrkreis', ''),
+                           entry.get('heimatgarnison', ''), band,
+                           entry.get('_raw_text', ''),
+                           entry.get('_pdf_seite'))
         if actor_exists(actor_id):
+            db.update_actor_alt_labels(actor_id, actor['alt_labels'])
             stats['actors_existing'] += 1
         else:
-            actor = make_actor(actor_id, nummer, einheit,
-                               entry.get('wehrkreis', ''),
-                               entry.get('heimatgarnison', ''), band)
             try:
                 db.insert_actor(actor)
                 stats['actors_new'] += 1
@@ -877,11 +927,15 @@ def load_band(path: Path, band: int) -> dict:
         naming_pairs = extract_naming_events(entry, actor_id, actor_label,
                                               band, naming_id_counter)
         for event, participation in naming_pairs:
-            # Actor ggf. anlegen (für Einträge ohne Unterstellungen)
-            if not actor_exists(actor_id):
-                actor = make_actor(actor_id, nummer, einheit,
-                                   entry.get('wehrkreis', ''),
-                                   entry.get('heimatgarnison', ''), band)
+            # Actor ggf. anlegen oder alt_labels aktualisieren
+            actor = make_actor(actor_id, nummer, einheit,
+                               entry.get('wehrkreis', ''),
+                               entry.get('heimatgarnison', ''), band,
+                               entry.get('_raw_text', ''),
+                               entry.get('_pdf_seite'))
+            if actor_exists(actor_id):
+                db.update_actor_alt_labels(actor_id, actor['alt_labels'])
+            else:
                 try:
                     db.insert_actor(actor)
                     stats['actors_new'] += 1

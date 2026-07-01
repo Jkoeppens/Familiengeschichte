@@ -224,14 +224,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 'use strict';
 
 // ═══════════════════════════════════════════════════════════
-//  EINGEBETTETE DATEN  (kein fetch() nötig)
+//  DATEN  (Biografie per fetch(), Rest eingebettet)
 // ═══════════════════════════════════════════════════════════
 // personId aus URL-Parameter (?person_id=...) oder Fallback Koppermann
 const personId = new URLSearchParams(window.location.search).get('person_id')
               || 'person_koppermann_hj_1917';
 
 let _DATA_BIOGRAFIE = null;  // wird per fetch() geladen
-const _DATA_TESSINconst _DATA_TESSIN = {
+const _DATA_TESSIN = {
   "quelle": "Tessin, Georg: Verbände und Truppen der deutschen Wehrmacht und Waffen-SS 1939–1945, Bd. 4, S. 133–146",
   "einheit": "20. Infanterie-Division (mot.) / 20. Panzergrenadier-Division (ab 23.06.1943)",
   "anmerkung": "Diese Tabelle beschreibt Einheitsstandorte, nicht individuelle Standorte Koppermanns. Koordinaten sind Zentroide des jeweiligen Operationsgebiets.",

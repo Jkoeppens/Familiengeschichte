@@ -105,6 +105,10 @@
     "tessin_seite": {
       "type": ["integer", "null"],
       "description": "Seitennummer in Tessin"
+    },
+    "_raw_text": {
+      "type": ["string", "null"],
+      "description": "Rohtext des Tessin-Eintrags für diese Einheit"
     }
   },
 

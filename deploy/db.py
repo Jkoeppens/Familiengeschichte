@@ -3,6 +3,7 @@
 db.py — Datenbankzugriff für Familiengeschichte-Datenbank (SQLite)
 """
 
+import os
 import sqlite3
 import json
 import math
@@ -15,8 +16,10 @@ try:
 except ImportError:
     raise ImportError("jsonschema nicht installiert: pip install jsonschema")
 
-DB_PATH = Path(__file__).parent / "familiengeschichte.db"
-SCHEMA_DIR = Path(__file__).parent / "schema"
+_CODE_DIR  = Path(__file__).parent
+DATA_DIR   = Path(os.environ.get('DATA_DIR', _CODE_DIR))
+DB_PATH    = DATA_DIR / "familiengeschichte.db"
+SCHEMA_DIR = _CODE_DIR / "schema"  # Schemas sind Quellcode, nie im Volume
 
 # ─── DDL ──────────────────────────────────────────────────────────────────────
 
