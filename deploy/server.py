@@ -261,7 +261,7 @@ def upload_status(job_id):
 
 @app.route('/')
 @app.route('/<path:filename>')
-def static_files(filename='person_karte.html'):
+def static_files(filename='stanford_test.html'):
     """Serviert statische Dateien — nur erlaubte Endungen, kein Path-Traversal."""
     suffix = Path(filename).suffix.lower()
     if suffix not in ALLOWED_EXTENSIONS:
