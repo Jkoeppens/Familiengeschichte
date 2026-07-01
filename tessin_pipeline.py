@@ -1,22 +1,23 @@
 """
-Tessin Bd. 4 PDF → JSON pipeline.
-Extracts all unit entries from Bd_4_ocr.pdf and outputs tessin_bd4.json.
+Tessin PDF → JSON pipeline (band-agnostisch).
 
 Steps:
   1. Extract text page-by-page, strip running headers
-  2. Detect unit-entry boundaries → chunks_debug.json
+  2. Detect unit-entry boundaries → chunks_<band>_debug.json
   3. Parse each chunk → structured record
-  4. QC + output → tessin_bd4.json
+  4. QC + output → tessin_<band>.json
+
+Verwendung:
+    python3 tessin_pipeline.py                         # Standard: Bd_4_ocr.pdf
+    python3 tessin_pipeline.py --input Bd_1_ocr.pdf
+    python3 tessin_pipeline.py --input Bd_16-1_ocr.pdf
 """
 
 import pdfplumber
 import json
 import re
+import sys
 from pathlib import Path
-
-PDF_PATH = Path('Bd_4_ocr.pdf')
-DEBUG_PATH = Path('chunks_debug.json')
-OUTPUT_PATH = Path('tessin_bd4.json')
 
 # ── 1. text extraction ────────────────────────────────────────────────────────
 
@@ -74,7 +75,7 @@ RE_STAR_DATE = re.compile(
 )
 
 # Fallback for major divisions that have (WK...) but OCR dropped the *
-RE_WK_HEADER = re.compile(r'\(WK\s+[IVX]', re.IGNORECASE)
+RE_WK_HEADER = re.compile(r'\(?WK\s*[IVX]', re.IGNORECASE)
 
 # Section/chapter lines to skip when looking backwards for a unit name
 RE_SECTION = re.compile(
@@ -82,6 +83,9 @@ RE_SECTION = re.compile(
     r'Kraftfahr|Sanität|Feldjäger|Sicherungs|Luftwaffe|Waffen|Verbündete)',
     re.IGNORECASE,
 )
+
+
+_FIELD_LINE = re.compile(r'^[UEGKug]\s*:')
 
 
 def _line_offsets(lines: list[str]) -> list[int]:
@@ -110,7 +114,8 @@ def find_chunks(full_text: str) -> list[dict]:
         return (not s
                 or s.startswith('(')
                 or RE_SECTION.match(s)
-                or re.match(r'^[A-Z]\.\s+\w', s))   # "A. Kommandobehörden"
+                or re.match(r'^[A-Z]\.\s+\w', s)
+                or _FIELD_LINE.match(s))   # U:, E:, G:, K: field lines
 
     chunk_starts: set[int] = set()   # set of char offsets
 
@@ -143,9 +148,22 @@ def find_chunks(full_text: str) -> list[dict]:
 
     # ── fallback pass: (WK...) headers without * ────────────────────────────
     for i, line in enumerate(lines):
-        if not RE_WK_HEADER.search(line):
+        wk_m = RE_WK_HEADER.search(line)
+        if not wk_m:
             continue
-        # The unit name is the preceding non-skip line
+        # Inline case: "UnitName 15.10.1935 FStO Hamburg-Wandsbek, WKX."
+        before_wk = line[:wk_m.start()].strip()
+        if (before_wk
+                and re.match(r'[A-ZÄÖÜ]', before_wk)
+                and re.search(r'\d', before_wk)
+                and not _FIELD_LINE.match(before_wk)
+                and not line.strip().startswith('(')):
+            chunk_starts.add(loff[i])
+            continue
+        # WK in E:/U:/G:-Feldzeilen ist kein Einheits-Signal
+        if _FIELD_LINE.match(line.strip()):
+            continue
+        # Line-start case: WK on its own line — name is on a preceding line
         for back in range(1, 4):
             if i - back < 0:
                 break
@@ -178,6 +196,10 @@ RE_AUFGESTELLT = re.compile(r'\*\s*(.+?)(?=\n[A-Z]|\nG:|\nU:|\nE:|\nUnterstellun
 
 # Unterstellung table line:  year  months  korps  armee  hgr  theater  ort
 RE_USTERZ_YEAR = re.compile(r'^(\d{4})\s')
+MONAT_RE = re.compile(
+    r'^(Jan|Febr?|Mär|Apr|Mai|Juni?|Juli?|Aug|Sept?|Okt|Nov|Dez|Früh|Herb)',
+    re.IGNORECASE,
+)
 RE_USTERZ_ROW = re.compile(
     r'^(\d{4})?\s+'               # optional year
     r'(\w+(?:\./\w+)?)\s+'        # month(s), e.g. "Jan." or "Jan./Febr."
@@ -188,10 +210,47 @@ RE_G = re.compile(r'\bG:\s*(.+?)(?=\nU:|\nE:|\nUnterstellung|\Z)', re.DOTALL)
 RE_U = re.compile(r'\bU:\s*(.+?)(?=\nG:|\nE:|\nUnterstellung|\Z)', re.DOTALL)
 RE_E = re.compile(r'\bE:\s*(.+?)(?=\nG:|\nU:|\nUnterstellung|\Z)', re.DOTALL)
 
+# Parent-Unit-Extraktion: U:, Ug:, einzeilige Unterstellung:
+PARENT_PATTERNS = [
+    r'\bUg?:\s*([^\n;,]+)',
+    r'\bUnterstellung:\s*([^\n;,]+)',
+]
+
+
+def extract_parent_unit(text: str) -> str | None:
+    for pattern in PARENT_PATTERNS:
+        m = re.search(pattern, text)
+        if m:
+            val = m.group(1).strip()
+            if val:
+                return val
+    return None
+
 RE_USTERZ_BLOCK = re.compile(
     r'Unterstellung\s*:\s*\n(.*?)(?=\n[A-Z][a-z]+ersatz|\nFeldersatz|\Z)',
     re.DOTALL,
 )
+
+_RE_INLINE_DATE = re.compile(r'\b(\d{1,2}\.\d{1,2}\.\d{4})\b')
+_RE_INLINE_FSTO = re.compile(r'FStO\s+([^,;]+?)(?=\s*(?:[,;]|WK|$))')
+_RE_INLINE_WK   = re.compile(r'\(?WK\s*([IVX]+)\)?\.?')
+
+
+def clean_einheit(raw: str) -> tuple[str, str, str, str]:
+    """Split inline-date entries: 'UnitName 15.10.1935 FStO Hamburg, WKX.' → (name, date, fsto, wk)."""
+    if 'FStO' not in raw:
+        return raw, '', '', ''
+    m_date = _RE_INLINE_DATE.search(raw)
+    if not m_date:
+        return raw, '', '', ''
+    name = raw[:m_date.start()].strip().rstrip(',.').strip()
+    rest = raw[m_date.start():]
+    aufgestellt    = m_date.group(1)
+    m_fsto         = _RE_INLINE_FSTO.search(rest)
+    m_wk           = _RE_INLINE_WK.search(rest)
+    heimatgarnison = m_fsto.group(1).strip() if m_fsto else ''
+    wehrkreis      = m_wk.group(1).strip()   if m_wk   else ''
+    return name, aufgestellt, heimatgarnison, wehrkreis
 
 
 def parse_unterstellung_table(block: str) -> list[dict]:
@@ -222,13 +281,15 @@ def parse_unterstellung_table(block: str) -> list[dict]:
         if tidx >= len(tokens):
             continue
 
-        # Month token: starts with a German month abbreviation
+        # Month token: prefix-match, OCR-Verschmelzungen (z.B. "Novemberwiederdurchdie") abschneiden
         month_tok = tokens[tidx]
-        if not re.match(r'^(Jan|Febr?|Mär|Apr|Mai|Juni?|Juli?|Aug|Sept?|Okt|Nov|Dez|Früh|Herb)', month_tok, re.IGNORECASE):
+        m = MONAT_RE.match(month_tok)
+        if not m:
             continue
+        monat = m.group(1) if len(month_tok) > 15 else month_tok
 
         rest = ' '.join(tokens[tidx + 1:])
-        rows.append({'jahr': year, 'monat': month_tok, 'detail': rest})
+        rows.append({'jahr': year, 'monat': monat, 'detail': rest})
 
     return rows
 
@@ -245,13 +306,26 @@ def parse_chunk(chunk: dict) -> dict:
     m_hdr = re.match(r'^(\d{1,3})\.\s*(.+)', name_line)
     if m_hdr:
         nummer = m_hdr.group(1)
-        name_raw = m_hdr.group(2).strip()   # strip leading "20." prefix
+        name_raw = name_line   # vollständigen Namen behalten inkl. führender Nummer
     else:
         # Pattern B: "Feldersatz-Btl.20" — number at end
         # Extract the last number in range 15-30 as the unit number
         name_raw = name_line
         nums = re.findall(r'\b(\d{1,3})\b', name_line)
         nummer = next((n for n in reversed(nums) if 15 <= int(n) <= 30), '')
+
+    # Inline date/FStO/WK cleanup (e.g. "Nachrichten-Abt.20 15.10.1935 FStO Hamburg, WKX.")
+    inline_aufgestellt = inline_heimatgarnison = inline_wehrkreis = ''
+    if _RE_INLINE_DATE.search(name_raw):
+        name_raw, inline_aufgestellt, inline_heimatgarnison, inline_wehrkreis = clean_einheit(name_raw)
+        if not m_hdr:
+            nums = re.findall(r'\b(\d{1,3})\b', name_raw)
+            nummer = next((n for n in reversed(nums) if 15 <= int(n) <= 30), nummer)
+
+    # Pattern B: trailing Nummer aus name_raw entfernen — wird separat in 'nummer' gespeichert
+    # Nur Whitespace vor Nummer strippen, nicht Punkte (die Teil der Abkürzung sind: "Abt.20" → "Abt.")
+    if not m_hdr and nummer:
+        name_raw = re.sub(r'\s*\b' + re.escape(nummer) + r'\s*$', '', name_raw).rstrip()
 
     # WK + FStO from (WK ...) line
     wehrkreis = ''
@@ -260,17 +334,28 @@ def parse_chunk(chunk: dict) -> dict:
     if m_wk:
         wehrkreis = m_wk.group(1).strip() if m_wk.group(1) else ''
         heimatgarnison = m_wk.group(2).strip() if m_wk.group(2) else ''
+    if not wehrkreis and inline_wehrkreis:
+        wehrkreis = inline_wehrkreis
+    if not heimatgarnison and inline_heimatgarnison:
+        heimatgarnison = inline_heimatgarnison
+    # WK-Fallback: wenn WKX. auf einer Folgezeile steht
+    if not wehrkreis:
+        m_wk2 = _RE_INLINE_WK.search(raw)
+        if m_wk2:
+            wehrkreis = m_wk2.group(1).strip()
 
     # Formation info: either "* <date/text>..." or (no star) a date line after (WK...)
     aufgestellt = ''
     m_auf = RE_AUFGESTELLT.search(raw)
     if m_auf:
-        aufgestellt = re.sub(r'\s+', ' ', m_auf.group(1)).strip()[:500]
+        aufgestellt = re.sub(r'\s+', ' ', m_auf.group(1)).strip()
+    elif inline_aufgestellt:
+        aufgestellt = inline_aufgestellt
     else:
         # No *, look for a date line after the (WK...) header line
         after_wk = re.search(r'\(WK[^\)]+\)\s*\n(.+)', raw)
         if after_wk:
-            aufgestellt = re.sub(r'\s+', ' ', after_wk.group(1)).strip()[:300]
+            aufgestellt = re.sub(r'\s+', ' ', after_wk.group(1)).strip()
 
     # Gliederung
     gliederung_raw = ''
@@ -304,74 +389,97 @@ def parse_chunk(chunk: dict) -> dict:
         'aufgestellt': aufgestellt,
         'gliederung': gliederung_raw,
         'ueberstellung_kurz': ueberstellung_kurz,
+        'ueberstellung_parent_name': extract_parent_unit(raw),
         'ersatz': ersatz,
         'unterstellungen': unterstellungen,
-        '_raw_len': len(raw),
+        '_raw_text': raw,
     }
 
 
-# ── 4. main ───────────────────────────────────────────────────────────────────
+# ── 4. QC filter + merge ──────────────────────────────────────────────────────
+
+def is_valid_einheit(einheit: str) -> bool:
+    if not einheit or len(einheit.strip()) < 5:
+        return False
+    e = einheit.strip()
+    # Erlaubt: Großbuchstabe oder führende Zahl (z.B. "20.Infanterie-Division")
+    if not e[0].isupper() and not e[0].isdigit():
+        return False
+    if ' ' not in e and '-' not in e and '.' not in e:
+        return False
+    # Ein einzelnes Wort das auf Punkt endet = Ortsname oder Fragment
+    stripped = e.rstrip('.')
+    if ' ' not in e and '-' not in e and '/' not in e and stripped.isalpha():
+        return False
+    # Zu lang = Fließtext-Fragment
+    if len(e) > 60:
+        return False
+    # Enthält Satzzeichen die in Einheitsnamen nicht vorkommen
+    if ':' in e or '=' in e:
+        return False
+    # Wehrkreis-Fragmente aus U:/E:-Zeilen
+    if re.fullmatch(r'WK\s+[IVXLC]+\.?', e.strip()):
+        return False
+    return True
+
+
+def merge_invalid_chunks(records: list[dict]) -> tuple[list[dict], int]:
+    """Ungültige Chunks an den _raw_text des Vorgängers anhängen statt verwerfen.
+
+    Gibt (merged_records, anzahl_angehängt) zurück.
+    """
+    merged: list[dict] = []
+    appended = 0
+    for rec in records:
+        if not is_valid_einheit(rec.get('einheit', '')):
+            if merged:
+                merged[-1]['_raw_text'] += '\n' + rec.get('_raw_text', rec.get('raw', ''))
+                appended += 1
+            # kein Vorgänger → wirklich verwerfen
+        else:
+            merged.append(rec)
+    return merged, appended
+
+
+# ── 5. main ───────────────────────────────────────────────────────────────────
 
 def main():
+    # Pfade band-agnostisch aus --input ableiten
+    _raw = Path(sys.argv[sys.argv.index('--input') + 1]) if '--input' in sys.argv else Path('Bd_4_ocr.pdf')
+    _band = re.sub(r'_ocr$', '', _raw.stem, flags=re.IGNORECASE).lower().replace('bd_', 'bd')
+    pdf_path    = _raw
+    debug_path  = _raw.parent / f'chunks_{_band}_debug.json'
+    output_path = _raw.parent / f'tessin_{_band}.json'
+
+    print(f"Band: {_band}  ({pdf_path})")
     print("Schritt 1: Textextraktion …")
-    pages = extract_pages(PDF_PATH)
-    full_text = '\f'.join(pages)  # form-feed between pages
+    pages = extract_pages(pdf_path)
+    full_text = '\f'.join(pages)
     print(f"  {len(pages)} Seiten, {len(full_text):,} Zeichen")
 
     print("Schritt 2: Chunk-Erkennung …")
     chunks = find_chunks(full_text)
     print(f"  {len(chunks)} Einträge erkannt")
 
-    # Save debug chunks (raw text only, truncated for readability)
     debug = [{'offset': c['offset'], 'preview': c['raw'][:300]} for c in chunks]
-    DEBUG_PATH.write_text(json.dumps(debug, ensure_ascii=False, indent=2))
-    print(f"  → {DEBUG_PATH} geschrieben ({DEBUG_PATH.stat().st_size // 1024} KB)")
+    debug_path.write_text(json.dumps(debug, ensure_ascii=False, indent=2))
+    print(f"  → {debug_path} geschrieben ({debug_path.stat().st_size // 1024} KB)")
 
     print("Schritt 3: Strukturierte Extraktion …")
     records = [parse_chunk(c) for c in chunks]
 
-    # QC
-    with_table = sum(1 for r in records if r['unterstellungen'])
-    without_table = len(records) - with_table
+    filtered, appended = merge_invalid_chunks(records)
+    removed = len(records) - len(filtered) - appended
+
+    with_table = sum(1 for r in filtered if r['unterstellungen'])
     print(f"\n── QC ──────────────────────────────")
     print(f"  Einträge gesamt:        {len(records)}")
+    print(f"  Gültig (nach Filter):   {len(filtered)}  ({removed} verworfen, {appended} angehängt)")
     print(f"  Mit Unterstellungstab.: {with_table}")
-    print(f"  Ohne:                   {without_table}")
-
-    # Gold standard check: 20. Inf.Div. (mot.) / 20. Pz.Gren.Div.
-    gold = [r for r in records if '20' in r['nummer'] and
-            ('Infanterie' in r['einheit'] or 'Panzergrenadier' in r['einheit'])]
-    if gold:
-        print(f"\n  Gold-Standard-Check — 20. Inf.Div.(mot.) / 20.Pz.Gren.Div.:")
-        for g in gold:
-            print(f"    {g['nummer']}. {g['einheit']}")
-            print(f"      WK: {g['wehrkreis']}, Garnison: {g['heimatgarnison']}")
-            print(f"      Unterstellung-Einträge: {len(g['unterstellungen'])}")
-            if g['unterstellungen']:
-                for row in g['unterstellungen'][:3]:
-                    print(f"        {row}")
-    else:
-        print("  WARNUNG: Kein Gold-Standard-Eintrag gefunden!")
-
-    # Remove obvious false positives
-    def is_valid_entry(r: dict) -> bool:
-        # Bd. 4 covers units 15–30; numbers outside range are OCR artifacts
-        try:
-            n = int(r['nummer'])
-            if not (15 <= n <= 30):
-                return False
-        except ValueError:
-            return False
-        return True
-
-    filtered = [r for r in records if is_valid_entry(r)]
-    removed = len(records) - len(filtered)
-    if removed:
-        print(f"  {removed} Außerhalb-Bereich-Einträge entfernt")
 
     print("Schritt 4: Ausgabe …")
-    OUTPUT_PATH.write_text(json.dumps(filtered, ensure_ascii=False, indent=2))
-    print(f"  → {OUTPUT_PATH} geschrieben ({OUTPUT_PATH.stat().st_size // 1024} KB)")
+    output_path.write_text(json.dumps(filtered, ensure_ascii=False, indent=2))
+    print(f"  → {output_path} ({output_path.stat().st_size // 1024} KB)")
     print("Fertig.")
 
 

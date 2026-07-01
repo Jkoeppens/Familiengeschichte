@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Simplifizierungs-Vergleich — June 1941</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@3/dist/pmtiles.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #111; color: #eee; display: flex; flex-direction: column; height: 100vh; }
+  #header { padding: 10px 16px; background: #1a1a2e; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+  #header h1 { font-size: 14px; font-weight: 600; color: #a0aec0; }
+  .btn-group { display: flex; gap: 4px; }
+  .btn { padding: 5px 14px; border: 1px solid #444; border-radius: 5px; background: #2d2d2d; color: #ccc; cursor: pointer; font-size: 12px; }
+  .btn.active { background: #2b6cb0; border-color: #2b6cb0; color: #fff; font-weight: 600; }
+  #stats { font-size: 12px; color: #718096; margin-left: auto; }
+  #maps { display: flex; flex: 1; gap: 2px; }
+  .map-wrap { flex: 1; position: relative; }
+  .map-wrap > div { width: 100%; height: 100%; }
+  .label { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; z-index: 5; pointer-events: none; }
+  #tooltip { position: fixed; background: rgba(0,0,0,0.85); color: #fff; padding: 5px 9px; border-radius: 5px; font-size: 11px; pointer-events: none; display: none; z-index: 100; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>Simplifizierungs-Vergleich — Juni 1941 (Barbarossa-Beginn)</h1>
+  <div class="btn-group">
+    <button class="btn active" onclick="setZoom(4)">Zoom 4 (Europa)</button>
+    <button class="btn" onclick="setZoom(6)">Zoom 6 (Mitteleuropa)</button>
+    <button class="btn" onclick="setZoom(8)">Zoom 8 (Detail)</button>
+  </div>
+  <div id="stats">
+    tol=0.01: 3.7 MB PMTiles, ~2 232 Vertices DE, ~19 462 Vertices NO &nbsp;|&nbsp;
+    tol=0.02: 3.2 MB PMTiles, ~1 377 Vertices DE, ~14 763 Vertices NO
+  </div>
+</div>
+
+<div id="maps">
+  <div class="map-wrap">
+    <div class="label">simplify(0.01) — 3.7 MB</div>
+    <div id="map1"></div>
+  </div>
+  <div class="map-wrap">
+    <div class="label">simplify(0.02) — 3.2 MB</div>
+    <div id="map2"></div>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+const protocol = new pmtiles.Protocol();
+maplibregl.addProtocol("pmtiles", protocol.tile);
+
+const COLOR_EXPR = [
+  "case",
+  ["all", ["==", ["get", "name"], "Soviet Union"], ["<", ["get", "date"], "1941-06"]], "#4a235a",
+  ["==", ["get", "name"], "Soviet Union"],          "#5D6D7E",
+  ["==", ["get", "foreign_po"], "Axis"],            "#8B0000",
+  ["==", ["get", "foreign_po"], "Belligerent"],     "#8B0000",
+  ["==", ["get", "foreign_po"], "German-occupied"], "#c0392b",
+  ["==", ["get", "foreign_po"], "German Protectorate"], "#c0392b",
+  ["==", ["get", "foreign_po"], "German,Soviet-occupied"], "#c0392b",
+  ["==", ["get", "foreign_po"], "Italian Protectorate"],   "#c0731a",
+  ["==", ["get", "foreign_po"], "Italian-occupied"],       "#c0731a",
+  ["==", ["get", "foreign_po"], "Allies"],          "#1a5276",
+  ["==", ["get", "foreign_po"], "Allied-occupied"], "#1a5276",
+  ["==", ["get", "foreign_po"], "Soviet-occupied"], "#5D6D7E",
+  ["==", ["get", "foreign_po"], "Neutral"],         "#7f8c8d",
+  "#bdc3c7"
+];
+
+function makeStyle(pmtilesFile) {
+  return {
+    version: 8,
+    glyphs: "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+    sources: {
+      'osm': { type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize: 256, maxzoom: 19 },
+      'borders': { type: 'vector', url: `pmtiles://${pmtilesFile}` }
+    },
+    layers: [
+      { id: 'osm', type: 'raster', source: 'osm', paint: { 'raster-opacity': 0.25 } },
+      { id: 'fill', type: 'fill', source: 'borders', 'source-layer': 'test_tol001',
+        paint: { 'fill-color': COLOR_EXPR, 'fill-opacity': 0.6 } },
+      { id: 'line', type: 'line', source: 'borders', 'source-layer': 'test_tol001',
+        paint: { 'line-color': '#fff', 'line-width': 0.7, 'line-opacity': 0.5 } },
+    ]
+  };
+}
+
+// Beide Karten mit synchronisierter Ansicht
+const CENTER = [20, 52];
+const ZOOM = 4;
+let syncing = false;
+
+const maps = ['map1', 'map2'].map((id, i) => {
+  const pmFile = i === 0 ? 'test_tol001.pmtiles' : 'test_tol002.pmtiles';
+  const style = makeStyle(pmFile);
+  // Quell-Layer-Name anpassen für map2
+  if (i === 1) {
+    style.layers[1]['source-layer'] = 'test_tol002';
+    style.layers[2]['source-layer'] = 'test_tol002';
+  }
+  const m = new maplibregl.Map({ container: id, style, center: CENTER, zoom: ZOOM });
+  m.addControl(new maplibregl.NavigationControl(), 'bottom-left');
+  return m;
+});
+
+// Synchronisierung
+maps.forEach((m, i) => {
+  m.on('move', () => {
+    if (syncing) return;
+    syncing = true;
+    const other = maps[1 - i];
+    other.setCenter(m.getCenter());
+    other.setZoom(m.getZoom());
+    other.setBearing(m.getBearing());
+    other.setPitch(m.getPitch());
+    syncing = false;
+  });
+});
+
+function setZoom(z) {
+  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  maps[0].setZoom(z);
+}
+
+// Tooltip auf beiden Karten
+const tooltip = document.getElementById('tooltip');
+maps.forEach(m => {
+  m.on('mousemove', 'fill', e => {
+    const p = e.features[0].properties;
+    tooltip.style.display = 'block';
+    tooltip.style.left = (e.originalEvent.clientX + 12) + 'px';
+    tooltip.style.top  = (e.originalEvent.clientY + 8)  + 'px';
+    tooltip.innerHTML  = `<b>${p.name}</b> — ${p.foreign_po}`;
+  });
+  m.on('mouseleave', 'fill', () => { tooltip.style.display = 'none'; });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+"""
+test_pipeline.py — Tests für pipeline_b.py
+
+Führe aus mit:
+    pytest test_pipeline.py -v
+
+Testdaten (im Projektverzeichnis, nicht im Git):
+  - "Koppermann, Hans-Jürgen_B 563-1 KARTEI_K_1458_033.pdf"     (WASt-Karteikarte, nur Bilder)
+  - "2021-G-12837, Koppermann, Hans-Jürgen 02.09.1917 u.A. Kopfbogen neu 2020.pdf"
+    (Bundesarchiv-Auskunftsschreiben, Maschinentext)
+
+Umgebungsvariablen:
+  ANTHROPIC_API_KEY — für B3-Tests (WASt Vision). Ohne Key werden B3-Tests übersprungen.
+"""
+
+import os
+import subprocess
+from pathlib import Path
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+import pytest
+
+import json
+
+from pipeline_b import (
+    classify_pdf,
+    extract_bundesarchiv,
+    ingest_bundesarchiv,
+    extract_wast,
+    ingest_wast,
+)
+from abbreviations import resolve_abbreviations, add_user_abbreviation, ABBREV_FILE
+from entity_linking import link_unit, link_person, link_all, resolve_location, get_current_unit
+from pipeline_b import _validate_and_commit
+
+# Echte Dateinamen (Leerzeichen + Sonderzeichen wie im Dateisystem)
+WAST_PDF = Path("Koppermann, Hans-Jürgen_B 563-1 KARTEI_K_1458_033.pdf")
+AUSKUNFT_PDF = Path("2021-G-12837, Koppermann, Hans-Jürgen 02.09.1917 u.A. Kopfbogen neu 2020.pdf")
+
+
+@pytest.fixture(autouse=True)
+def require_pdfs():
+    """Überspringt Tests wenn die PDFs nicht vorhanden sind."""
+    missing = [p for p in [WAST_PDF, AUSKUNFT_PDF] if not p.exists()]
+    if missing:
+        pytest.skip(f"PDF nicht gefunden: {[str(p) for p in missing]}")
+
+
+@pytest.fixture
+def require_api_key():
+    """Überspringt Tests wenn ANTHROPIC_API_KEY nicht gesetzt ist."""
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        pytest.skip("ANTHROPIC_API_KEY nicht gesetzt — B3-Tests übersprungen")
+
+
+# ─── Klassifizierung ─────────────────────────────────────────────────────────
+
+def test_classify_wast():
+    typ, conf = classify_pdf(WAST_PDF)
+    assert typ == "wast_karteikarte"
+    assert conf > 0.9
+
+
+def test_classify_auskunft():
+    typ, conf = classify_pdf(AUSKUNFT_PDF)
+    assert typ == "bundesarchiv_auskunft"
+    assert conf > 0.9
+
+
+# ─── Extraktion ──────────────────────────────────────────────────────────────
+
+def test_extract_personen():
+    result = extract_bundesarchiv(AUSKUNFT_PDF)
+
+    assert len(result["persons"]) == 2
+
+    p0 = result["persons"][0]
+    assert p0["name"] == "Koppermann, Hans-Jürgen"
+    assert p0["birth_date"] == "1917-09-02"
+    assert p0["actor_id"] == "person_koppermann_hj_1917"
+    assert len(p0["einheitsmeldungen"]) == 8
+
+    # Stichprobe: erste und letzte Meldung
+    em_first = p0["einheitsmeldungen"][0]
+    assert em_first["einheit"] == "1. Kompanie Nachrichten-Abteilung 20"
+    assert em_first["jahr"] == 1939
+    assert em_first["signatur"] == "B 563/40425"
+
+    em_last = p0["einheitsmeldungen"][-1]
+    assert "Grenadier-Ersatz-Bataillon" in em_last["einheit"]
+    assert em_last["jahr"] == 1943
+
+    p1 = result["persons"][1]
+    assert p1["name"] == "Heinrich, Martin Ludwig Franz"
+    assert p1["birth_date"] == "1920-11-17"
+    assert p1["actor_id"] == "person_heinrich_mlf_1920"
+
+
+def test_extract_source():
+    result = extract_bundesarchiv(AUSKUNFT_PDF)
+    src = result["source"]
+    assert src["type"] == "bundesarchiv"
+    assert src["certainty"] == 4
+    assert src["generated_by"] == "direkt"
+    assert "PA 2 2021/G-12837" in src["reference"]
+
+
+# ─── Ingest ──────────────────────────────────────────────────────────────────
+
+def test_ingest_in_db():
+    ids = ingest_bundesarchiv(AUSKUNFT_PDF)
+    assert "person_koppermann_hj_1917" in ids
+    assert "person_heinrich_mlf_1920" in ids
+
+
+# ─── Gesamtvalidierung ───────────────────────────────────────────────────────
+
+def test_validate():
+    result = subprocess.run(
+        ["python3", "validate.py"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, (
+        f"validate.py fehlgeschlagen:\n{result.stdout}\n{result.stderr}"
+    )
+
+
+# ─── B3 WASt Vision ──────────────────────────────────────────────────────────
+
+def test_extract_wast(require_api_key):
+    result = extract_wast(WAST_PDF)
+
+    assert len(result["pages"]) >= 3
+
+    vorderseite = result["pages"][0]
+    assert vorderseite["familienname"] == "Koppermann"
+    assert vorderseite["vorname"] == "Hans-Jürgen"
+    assert vorderseite["geboren_am"] == "1917-09-02"
+    assert len(vorderseite["meldungen"]) >= 1
+
+    src = result["source"]
+    assert src["type"] == "wast"
+    assert src["certainty"] == 5
+
+
+def test_ingest_wast(require_api_key):
+    ingest_wast(WAST_PDF)
+
+    from db import verorte
+    events = verorte("person_koppermann_hj_1917", "1943-08-28")
+    assert any(e["type"] == "Wounding" for e in events)
+
+
+# ─── B5 Entity-Linking ───────────────────────────────────────────────────────
+
+def test_link_unit_exact():
+    result = link_unit("Nachrichten-Abteilung 20", 1939)
+    assert result["actor_id"] == "unit_na20"
+    assert result["match_type"] == "exact"
+    assert result["confidence"] == 1.0
+
+
+def test_link_unit_fuzzy():
+    result = link_unit("Nachr.-Abt. 20", 1939)
+    assert result["actor_id"] == "unit_na20"
+    assert result["confidence"] >= 0.85
+
+
+def test_link_unit_mit_tessin():
+    result = link_unit("Infanterie-Regiment 90", 1943)
+    assert result["actor_id"] is not None
+    assert result["tessin_standort"] is not None
+
+
+def test_link_unit_unbekannt():
+    result = link_unit("Unbekannte Einheit 999", 1943)
+    assert result["match_type"] == "none"
+    assert result["actor_id"] is None
+
+
+def test_link_all_koppermann():
+    extracted = extract_bundesarchiv(AUSKUNFT_PDF)
+    linked = link_all(extracted)
+
+    koppermann = linked["persons"][0]
+    matched = [e for e in koppermann["einheitsmeldungen"] if e.get("actor_id")]
+    # 5× NA/NEA (exact nach Sub-Einheits-Strip) + 1× IR90→unit_pzgrenrgt90 (alt_label)
+    # G.Ers.Btl.76 und G.Ers.Btl.(mot.)90 nicht im Tessin-DB → bleiben ungemappt
+    assert len(matched) >= 6
+
+
+# ─── B4 Abkürzungsauflösung ──────────────────────────────────────────────────
+
+def test_abbreviations_basic():
+    result = resolve_abbreviations("Gr.Spli.Verl. Hals + re. Ohr")
+    assert "Gr.Spli.Verl." in result["found"]
+    assert result["found"]["Gr.Spli.Verl."] == "Granatsplitter-Verwundung"
+
+
+def test_abbreviations_unresolved():
+    result = resolve_abbreviations("Xyz. unbekannte Abk.")
+    assert "Xyz." in result["unresolved"]
+
+
+def test_add_user_abbreviation():
+    add_user_abbreviation("Test.Abk.", "Test-Auflösung")
+    try:
+        result = resolve_abbreviations("Test.Abk. im Text")
+        assert "Test.Abk." in result["found"]
+        assert result["found"]["Test.Abk."] == "Test-Auflösung"
+    finally:
+        data = json.loads(ABBREV_FILE.read_text(encoding="utf-8"))
+        data["benutzerdefiniert"].pop("Test.Abk.", None)
+        ABBREV_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+# ─── B3 WASt Vision ──────────────────────────────────────────────────────────
+
+def test_wast_quality_vs_goldstandard(require_api_key):
+    result = extract_wast(WAST_PDF)
+
+    checks = {
+        "familienname": result["pages"][0].get("familienname") == "Koppermann",
+        "vorname": result["pages"][0].get("vorname") == "Hans-Jürgen",
+        "geboren_am": result["pages"][0].get("geboren_am") == "1917-09-02",
+        "geburtsort": result["pages"][0].get("geburtsort") == "Hannover",
+        "truppenteil_enthaelt_90": "90" in str(result["pages"][0].get("truppenteil", "")),
+        "anzahl_meldungen_mindestens_8": len([
+            m for p in result["pages"][:2]
+            for m in p.get("meldungen", [])
+        ]) >= 8,
+        "verwundung_datum_1943_08_28": any(
+            "1943-08-28" in str(m.get("ereignis_datum", ""))
+            for p in result["pages"] for m in p.get("meldungen", [])
+        ),
+        "radom_erwaehnt": any(
+            "Radom" in str(m.get("inhalt_original", ""))
+            for p in result["pages"] for m in p.get("meldungen", [])
+        ),
+        "marburg_erwaehnt": any(
+            "Marburg" in str(m.get("inhalt_original", ""))
+            for p in result["pages"] for m in p.get("meldungen", [])
+        ),
+        "vermisst_1945": any(
+            "1945" in str(m.get("ereignis_datum", "")) or
+            "45" in str(m.get("inhalt_original", ""))
+            for p in result["pages"] for m in p.get("meldungen", [])
+        ),
+    }
+
+    score = sum(checks.values()) / len(checks)
+    print(f"\nQualität B3: {sum(checks.values())}/{len(checks)} = {score:.0%}")
+    for check, ok in checks.items():
+        print(f"  {'✓' if ok else '✗'} {check}")
+
+    assert score >= 0.8, f"Qualität unter 80%: {score:.0%}"
+
+
+# ─── B6 Verortung ─────────────────────────────────────────────────────────────
+
+def test_resolve_location_belegt():
+    """Stufe 1: WASt-Verwundungseintrag liefert direkt belegten Standort."""
+    result = resolve_location("person_koppermann_hj_1917", "1943-08-28")
+    assert result["sicherheit"] == "belegt"
+    assert result["certainty"] >= 4
+    assert result["lat"] is not None
+    assert result["lon"] is not None
+
+
+@pytest.mark.skip(reason="Phase C ausstehend — Koppermann nicht in DB ohne manuellen Ingest")
+def test_resolve_location_einheit():
+    """Stufe 2: Kein Direktbeleg → Einheitsstandort aus Tessin über PersonJoining."""
+    result = resolve_location("person_koppermann_hj_1917", "1941-07")
+    assert result["sicherheit"] in ("belegt", "einheit")
+    assert result["lat"] is not None
+    assert result["lon"] is not None
+
+
+def test_resolve_location_unbekannt():
+    """Stufe 3: Weder Direktbeleg noch Tessin-Standort → unbekannt."""
+    result = resolve_location("person_koppermann_hj_1917", "1940-03")
+    assert result["sicherheit"] == "unbekannt"
+    assert result["lat"] is None
+    assert result["certainty"] == 0
+
+
+# ─── B6 Validierung ───────────────────────────────────────────────────────────
+
+def test_b6_validation_error_goes_to_queue():
+    """Ein invalides Event darf nicht in die DB — landet stattdessen in error_queue.json."""
+    invalid_event = {
+        "id": "event_test_invalid",
+        "type": "InvalidType",  # nicht im Schema
+        "label": "Test",
+        "time_span": {"begin": "1943-08", "end": "1943-08", "precision": "month"},
+        "source": {"type": "wast", "certainty": 5, "generated_by": "direkt"},
+        "created_at": "2026-06-11",
+    }
+
+    result = _validate_and_commit([invalid_event], [], "test_document.pdf")
+    assert result is False
+
+    queue = json.loads(Path("error_queue.json").read_text(encoding="utf-8"))
+    assert any(e["source_file"] == "test_document.pdf" for e in queue)
+
+
+def test_b6_valid_goes_to_db():
+    """Leere Listen sind valide — gibt True zurück."""
+    result = _validate_and_commit([], [], "empty_test.pdf")
+    assert result is True

@@ -1,0 +1,96 @@
+[
+  {
+    "timestamp": "2026-06-11T22:45:57.093321",
+    "source_file": "test_document.pdf",
+    "error_count": 1,
+    "errors": [
+      {
+        "file": "test_document.pdf",
+        "object_id": "event_test_invalid",
+        "error": "'InvalidType' is not one of ['Birth', 'Death', 'Missing', 'Promotion', 'Wounding', 'Hospitalization', 'Discharge', 'Capture', 'PersonJoining', 'UnitFormation', 'UnitDissolution', 'UnitNaming', 'UnitJoining', 'TroopMovement', 'Battle', 'Encirclement', 'Siege', 'Retreat', 'Surrender', 'Atrocity', 'MassExecution', 'Deportation', 'GhettoOperation', 'ForcedLabor', 'DocumentCreation', 'Unknown']",
+        "path": [
+          "type"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-11T23:03:36.458162",
+    "source_file": "test_document.pdf",
+    "error_count": 1,
+    "errors": [
+      {
+        "file": "test_document.pdf",
+        "object_id": "event_test_invalid",
+        "error": "'InvalidType' is not one of ['Birth', 'Death', 'Missing', 'Promotion', 'Wounding', 'Hospitalization', 'Discharge', 'Capture', 'PersonJoining', 'UnitFormation', 'UnitDissolution', 'UnitNaming', 'UnitJoining', 'TroopMovement', 'Battle', 'Encirclement', 'Siege', 'Retreat', 'Surrender', 'Atrocity', 'MassExecution', 'Deportation', 'GhettoOperation', 'ForcedLabor', 'DocumentCreation', 'Unknown']",
+        "path": [
+          "type"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-24T23:18:35.837451",
+    "source_file": "test_document.pdf",
+    "error_count": 1,
+    "errors": [
+      {
+        "file": "test_document.pdf",
+        "object_id": "event_test_invalid",
+        "error": "'InvalidType' is not one of ['Birth', 'Death', 'Missing', 'Promotion', 'Wounding', 'Hospitalization', 'Discharge', 'Capture', 'PersonJoining', 'UnitFormation', 'UnitDissolution', 'UnitNaming', 'UnitJoining', 'TroopMovement', 'Battle', 'Encirclement', 'Siege', 'Retreat', 'Surrender', 'Atrocity', 'MassExecution', 'Deportation', 'GhettoOperation', 'ForcedLabor', 'DocumentCreation', 'Unknown']",
+        "path": [
+          "type"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-25T11:32:33.372470",
+    "source_file": "test_document.pdf",
+    "error_count": 1,
+    "errors": [
+      {
+        "file": "test_document.pdf",
+        "object_id": "event_test_invalid",
+        "error": "'InvalidType' is not one of ['Birth', 'Death', 'Missing', 'Promotion', 'Wounding', 'Hospitalization', 'Discharge', 'Capture', 'PersonJoining', 'UnitFormation', 'UnitDissolution', 'UnitNaming', 'UnitJoining', 'TroopMovement', 'Battle', 'Encirclement', 'Siege', 'Retreat', 'Surrender', 'Atrocity', 'MassExecution', 'Deportation', 'GhettoOperation', 'ForcedLabor', 'DocumentCreation', 'Unknown']",
+        "path": [
+          "type"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-25T12:12:01.211398",
+    "source_file": "test_document.pdf",
+    "error_count": 1,
+    "errors": [
+      {
+        "file": "test_document.pdf",
+        "object_id": "event_test_invalid",
+        "error": "'InvalidType' is not one of ['Birth', 'Death', 'Missing', 'Promotion', 'Wounding', 'Hospitalization', 'Discharge', 'Capture', 'PersonJoining', 'UnitFormation', 'UnitDissolution', 'UnitNaming', 'UnitJoining', 'TroopMovement', 'Battle', 'Encirclement', 'Siege', 'Retreat', 'Surrender', 'Atrocity', 'MassExecution', 'Deportation', 'GhettoOperation', 'ForcedLabor', 'DocumentCreation', 'Unknown']",
+        "path": [
+          "type"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-25T12:51:38.729358",
+    "source_file": "dummy.pdf",
+    "error_count": 2,
+    "errors": [
+      {
+        "file": "dummy.pdf",
+        "object_id": "event_wast_testmann_k_1920_wounding_1941_07_15",
+        "error": "Additional properties are not allowed ('einheit_original' was unexpected)",
+        "path": []
+      },
+      {
+        "file": "dummy.pdf",
+        "object_id": "event_wast_testmann_k_1920_hospitalization_1941_08_22",
+        "error": "Additional properties are not allowed ('einheit_original' was unexpected)",
+        "path": []
+      }
+    ]
+  }
+]

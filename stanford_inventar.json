@@ -1,0 +1,2042 @@
+[
+  {
+    "datei": "stanford_1939-01.geojson",
+    "datum_ym": "1939-01",
+    "features": 38,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "<Null>"
+    ],
+    "geom_typen": [
+      "Polygon",
+      "MultiPolygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-02.geojson",
+    "datum_ym": "1939-02",
+    "features": 38,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "<Null>"
+    ],
+    "geom_typen": [
+      "Polygon",
+      "MultiPolygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-03.geojson",
+    "datum_ym": "1939-03",
+    "features": 40,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "<Null>"
+    ],
+    "geom_typen": [
+      "Polygon",
+      "MultiPolygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-04.geojson",
+    "datum_ym": "1939-04",
+    "features": 39,
+    "groesse_kb": 1640.0,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "<Null>",
+      "Belligerent",
+      "Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-05.geojson",
+    "datum_ym": "1939-05",
+    "features": 39,
+    "groesse_kb": 1640.0,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "<Null>",
+      "Belligerent",
+      "Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-06.geojson",
+    "datum_ym": "1939-06",
+    "features": 39,
+    "groesse_kb": 1640.0,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "<Null>",
+      "Belligerent",
+      "Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-07.geojson",
+    "datum_ym": "1939-07",
+    "features": 39,
+    "groesse_kb": 1640.0,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "<Null>",
+      "Belligerent",
+      "Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-08.geojson",
+    "datum_ym": "1939-08",
+    "features": 39,
+    "groesse_kb": 1640.0,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "<Null>",
+      "Belligerent",
+      "Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-09.geojson",
+    "datum_ym": "1939-09",
+    "features": 38,
+    "groesse_kb": 1640.0,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German,Soviet-occupied",
+      "Belligerent",
+      "Neutral",
+      "Allies",
+      "Italian-occupied",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "Polygon",
+      "MultiPolygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-10.geojson",
+    "datum_ym": "1939-10",
+    "features": 38,
+    "groesse_kb": 1638.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Belligerent",
+      "Neutral",
+      "Allies",
+      "Italian-occupied",
+      "German Protectorate",
+      "German-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-11.geojson",
+    "datum_ym": "1939-11",
+    "features": 38,
+    "groesse_kb": 1638.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Belligerent",
+      "Neutral",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "War with Soviet Union",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1939-12.geojson",
+    "datum_ym": "1939-12",
+    "features": 38,
+    "groesse_kb": 1638.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Belligerent",
+      "Neutral",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "War with Soviet Union",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-01.geojson",
+    "datum_ym": "1940-01",
+    "features": 38,
+    "groesse_kb": 1638.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Belligerent",
+      "Neutral",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "War with Soviet Union",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-02.geojson",
+    "datum_ym": "1940-02",
+    "features": 38,
+    "groesse_kb": 1638.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Belligerent",
+      "Neutral",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "War with Soviet Union",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-03.geojson",
+    "datum_ym": "1940-03",
+    "features": 38,
+    "groesse_kb": 1646.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Allies",
+      "Belligerent",
+      "Italian-occupied",
+      "German Protectorate",
+      "German-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-04.geojson",
+    "datum_ym": "1940-04",
+    "features": 38,
+    "groesse_kb": 1646.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Allies",
+      "Belligerent",
+      "German-occupied",
+      "Italian-occupied",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-05.geojson",
+    "datum_ym": "1940-05",
+    "features": 38,
+    "groesse_kb": 1645.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "Neutral",
+      "Belligerent",
+      "Allies",
+      "Italian-occupied",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-06.geojson",
+    "datum_ym": "1940-06",
+    "features": 35,
+    "groesse_kb": 1645.9,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian-occupied",
+      "Neutral",
+      "German-occupied",
+      "Belligerent",
+      "Allies",
+      "Italian Protectorate",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-07.geojson",
+    "datum_ym": "1940-07",
+    "features": 36,
+    "groesse_kb": 1647.7,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Belligerent",
+      "German-occupied",
+      "Allies",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-08.geojson",
+    "datum_ym": "1940-08",
+    "features": 36,
+    "groesse_kb": 1648.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Belligerent",
+      "Neutral",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-09.geojson",
+    "datum_ym": "1940-09",
+    "features": 36,
+    "groesse_kb": 1647.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Axis",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-10.geojson",
+    "datum_ym": "1940-10",
+    "features": 36,
+    "groesse_kb": 1647.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Axis",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-11.geojson",
+    "datum_ym": "1940-11",
+    "features": 36,
+    "groesse_kb": 1647.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Axis",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1940-12.geojson",
+    "datum_ym": "1940-12",
+    "features": 36,
+    "groesse_kb": 1647.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Axis",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-01.geojson",
+    "datum_ym": "1941-01",
+    "features": 36,
+    "groesse_kb": 1647.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Axis",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-02.geojson",
+    "datum_ym": "1941-02",
+    "features": 36,
+    "groesse_kb": 1647.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Axis",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-03.geojson",
+    "datum_ym": "1941-03",
+    "features": 36,
+    "groesse_kb": 1647.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Neutral",
+      "Axis",
+      "German-occupied",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-04.geojson",
+    "datum_ym": "1941-04",
+    "features": 38,
+    "groesse_kb": 1646.9,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "Italian Protectorate",
+      "German, Italian-occupied",
+      "German, Italian, Bulgarian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-05.geojson",
+    "datum_ym": "1941-05",
+    "features": 38,
+    "groesse_kb": 1644.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Axis",
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian-occupied",
+      "Belligerent",
+      "German Protectorate",
+      "Italian Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-06.geojson",
+    "datum_ym": "1941-06",
+    "features": 38,
+    "groesse_kb": 1644.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Axis",
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian-occupied",
+      "Axis-aligned",
+      "German Protectorate",
+      "Italian Protectorate",
+      "German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-07.geojson",
+    "datum_ym": "1941-07",
+    "features": 38,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Axis-aligned",
+      "Allies",
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Axis",
+      "Italian Protectorate",
+      "German Protectorate",
+      "Axis and German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-08.geojson",
+    "datum_ym": "1941-08",
+    "features": 39,
+    "groesse_kb": 1640.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Axis",
+      "German-occupied",
+      "Romanian-occupied",
+      "Axis-aligned",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "German Protectorate",
+      "Axis and German, Italian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-09.geojson",
+    "datum_ym": "1941-09",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-10.geojson",
+    "datum_ym": "1941-10",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-11.geojson",
+    "datum_ym": "1941-11",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1941-12.geojson",
+    "datum_ym": "1941-12",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-01.geojson",
+    "datum_ym": "1942-01",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-02.geojson",
+    "datum_ym": "1942-02",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-03.geojson",
+    "datum_ym": "1942-03",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-04.geojson",
+    "datum_ym": "1942-04",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian-occupied",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-05.geojson",
+    "datum_ym": "1942-05",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian-occupied",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-06.geojson",
+    "datum_ym": "1942-06",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-07.geojson",
+    "datum_ym": "1942-07",
+    "features": 41,
+    "groesse_kb": 1640.5,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Italian, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-08.geojson",
+    "datum_ym": "1942-08",
+    "features": 40,
+    "groesse_kb": 1640.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Italian-occupied",
+      "Axis",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-09.geojson",
+    "datum_ym": "1942-09",
+    "features": 40,
+    "groesse_kb": 1640.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Axis",
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Allies",
+      "Italian-occupied",
+      "Axis-aligned",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-10.geojson",
+    "datum_ym": "1942-10",
+    "features": 40,
+    "groesse_kb": 1640.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Italian-occupied",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-11.geojson",
+    "datum_ym": "1942-11",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "German Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1942-12.geojson",
+    "datum_ym": "1942-12",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian-occupied",
+      "Axis-aligned",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-01.geojson",
+    "datum_ym": "1943-01",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian-occupied",
+      "Axis-aligned",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-02.geojson",
+    "datum_ym": "1943-02",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian-occupied",
+      "Axis-aligned",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-03.geojson",
+    "datum_ym": "1943-03",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian-occupied",
+      "Axis-aligned",
+      "German Protectorate",
+      "Italian Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-04.geojson",
+    "datum_ym": "1943-04",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "German Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-05.geojson",
+    "datum_ym": "1943-05",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "German Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-06.geojson",
+    "datum_ym": "1943-06",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "German Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-07.geojson",
+    "datum_ym": "1943-07",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "German Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-08.geojson",
+    "datum_ym": "1943-08",
+    "features": 39,
+    "groesse_kb": 1639.8,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "German, Italian, Bulgarian-occupied",
+      "Neutral",
+      "Axis",
+      "Allies",
+      "Italian Protectorate",
+      "Axis-aligned",
+      "German Protectorate",
+      "Axis, German, Italian-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-09.geojson",
+    "datum_ym": "1943-09",
+    "features": 40,
+    "groesse_kb": 1642.2,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Allied",
+      "Axis and German-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-10.geojson",
+    "datum_ym": "1943-10",
+    "features": 40,
+    "groesse_kb": 1642.2,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Allied",
+      "Axis and German-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-11.geojson",
+    "datum_ym": "1943-11",
+    "features": 40,
+    "groesse_kb": 1642.2,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Allied",
+      "Axis and German-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1943-12.geojson",
+    "datum_ym": "1943-12",
+    "features": 40,
+    "groesse_kb": 1642.2,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Allied",
+      "Axis and German-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-01.geojson",
+    "datum_ym": "1944-01",
+    "features": 40,
+    "groesse_kb": 1642.2,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Allied",
+      "Axis and German-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-02.geojson",
+    "datum_ym": "1944-02",
+    "features": 40,
+    "groesse_kb": 1642.2,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Allied",
+      "Axis and German-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-03.geojson",
+    "datum_ym": "1944-03",
+    "features": 40,
+    "groesse_kb": 1642.2,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Allies",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Allied",
+      "Axis and German-occupied",
+      "Romanian-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-04.geojson",
+    "datum_ym": "1944-04",
+    "features": 38,
+    "groesse_kb": 1637.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Allies",
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-05.geojson",
+    "datum_ym": "1944-05",
+    "features": 38,
+    "groesse_kb": 1637.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Allies",
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-06.geojson",
+    "datum_ym": "1944-06",
+    "features": 38,
+    "groesse_kb": 1637.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Allies",
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-07.geojson",
+    "datum_ym": "1944-07",
+    "features": 38,
+    "groesse_kb": 1637.3,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Allies",
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-08.geojson",
+    "datum_ym": "1944-08",
+    "features": 38,
+    "groesse_kb": 1638.4,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "Allies",
+      "German, Bulgarian-occupied",
+      "German-occupied",
+      "Neutral",
+      "Axis-aligned",
+      "Axis",
+      "German Protectorate",
+      "Axis and German-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-09.geojson",
+    "datum_ym": "1944-09",
+    "features": 38,
+    "groesse_kb": 1648.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "Allies",
+      "Neutral",
+      "Axis",
+      "German Protectorate",
+      "Axis and German-occupied"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-10.geojson",
+    "datum_ym": "1944-10",
+    "features": 38,
+    "groesse_kb": 1648.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "Allies",
+      "Neutral",
+      "Axis and German-occupied",
+      "Axis",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-11.geojson",
+    "datum_ym": "1944-11",
+    "features": 38,
+    "groesse_kb": 1648.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "Allies",
+      "Neutral",
+      "Axis and German-occupied",
+      "Axis",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1944-12.geojson",
+    "datum_ym": "1944-12",
+    "features": 38,
+    "groesse_kb": 1648.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "Allies",
+      "Neutral",
+      "Axis and German-occupied",
+      "Axis",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  },
+  {
+    "datei": "stanford_1945-01.geojson",
+    "datum_ym": "1945-01",
+    "features": 38,
+    "groesse_kb": 1648.1,
+    "spalten": [
+      "id",
+      "name",
+      "foreign_po",
+      "date",
+      "ym"
+    ],
+    "foreign_po": [
+      "German-occupied",
+      "Allies",
+      "Neutral",
+      "Axis and German-occupied",
+      "Axis",
+      "German Protectorate"
+    ],
+    "geom_typen": [
+      "MultiPolygon",
+      "Polygon"
+    ],
+    "crs": "EPSG:4326"
+  }
+]
