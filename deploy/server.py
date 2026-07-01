@@ -102,7 +102,7 @@ def login():
         error = '<p class="err">Falsches Passwort.</p>'
     else:
         error = ''
-    return _LOGIN_HTML.format(error=error), 200
+    return _LOGIN_HTML.replace('{error}', error), 200
 
 
 @app.route('/health')
