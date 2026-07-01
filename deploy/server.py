@@ -214,7 +214,7 @@ def upload():
     tmpdir = Path(tempfile.mkdtemp())
     paths: list[Path] = []
     for f in files:
-        dest = tmpdir / f.filename
+        dest = tmpdir / f"{uuid.uuid4().hex}.pdf"
         f.save(str(dest))
         paths.append(dest)
 
