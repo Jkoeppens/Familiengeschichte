@@ -24,8 +24,9 @@ stanford_monthly/
 # Persönliche Dokumente (Bundesarchiv, privat)
 *.pdf
 
-# Datenbank (persönlich + 23 MB Binary)
+# Datenbank (persönlich + Binary) — außer deploy/-Kopie fürs Railway-Image
 familiengeschichte.db
+!deploy/familiengeschichte.db
 
 # Generierte GeoJSON-Zwischendateien (zu groß: >100 MB)
 stanford_combined.geojson
