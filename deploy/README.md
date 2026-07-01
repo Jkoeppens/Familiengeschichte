@@ -21,6 +21,15 @@ deploy/          ← Code-Image (in Git, wird gebaut)
 
 ## Setup-Reihenfolge (einmalig)
 
+### 0. Root Directory im Dashboard setzen
+
+**Wichtig:** Im Railway-Dashboard unter Service → Settings → Source → Root Directory
+den Wert `deploy` eintragen, bevor der erste Deploy gestartet wird.
+Railway liest dann `deploy/railway.toml` automatisch.
+
+(`rootDirectory` ist kein gültiger `railway.toml`-Schlüssel — es ist ausschließlich
+eine Dashboard-Einstellung.)
+
 ### 1. Volume anlegen und mounten
 
 Im Railway-Dashboard:
